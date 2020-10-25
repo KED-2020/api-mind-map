@@ -1,16 +1,6 @@
 # frozen_string_literal: false
 
-require 'minitest/autorun'
-require 'minitest/rg'
-require 'yaml'
-require_relative '../lib/github_api'
-
-CORRECT = YAML.safe_load(File.read("#{__dir__}/../spec/fixtures/github_results.yml"))
-ACCESS_TOKEN = YAML.safe_load(File.read("#{__dir__}/../config/secrets.yml"))['GITHUB_TOKEN']
-
-TOPICS = %w[tensorflow natural-language-processing].freeze
-SEARCH_QUERY = 'pytorch-transformers in:readme'.freeze
-INVALID_SEARCH_QUERY = 10.times.map { ('a'..'z').to_a }.join
+require_relative 'spec_helper'
 
 describe 'Resource Information' do
   it 'Ensures that the correct parameters are returned' do
