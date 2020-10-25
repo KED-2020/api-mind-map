@@ -1,0 +1,6 @@
+---
+detectors:
+  UtilityFunction:
+    exclude:
+      - 'call_github'
+      - 'topics_to_query'

@@ -31,9 +31,9 @@ module MindMap
       end
 
       def search(query, topics)
-        q = "#{query}#{Topic.topics_to_query_string(topics)}"
+        query_str = "#{query}#{Topic.topics_to_query_string(topics)}"
 
-        get(@resource_root, { q: q })
+        get(@resource_root, { q: query_str })
       end
 
       def get(url, params = {})
@@ -51,8 +51,13 @@ module MindMap
     # Decorates HTTP responses from Github with success/error.
     # Extends Response class found here: https://github.com/ISS-SOA/soa2020-demo-project
     class Response < SimpleDelegator
+      # The Dummy class is responsible for ...
       Unauthorized = Class.new(StandardError)
+
+      # The Dummy class is responsible for ...
       NotFound = Class.new(StandardError)
+
+      # The Dummy class is responsible for ...
       UnprocessableEntity = Class.new(StandardError)
 
       HTTP_ERROR = {

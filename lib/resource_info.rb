@@ -66,7 +66,7 @@ gh_results['url'] = selected_resource['html_url']
 # Should be https://github.com/huggingface/transformers
 
 gh_results['description'] = selected_resource['description']
-# Should be 🤗 Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0.
+# Should be \U0001F917Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0.
 
 gh_results['language'] = selected_resource['language']
 # Should be Python
