@@ -29,9 +29,11 @@ module MindMap
     end
 
     def topics
-      return [] if @resource['topics'].length.zero?
+      topics = @resource['topics']
 
-      @resource['topics'].map { |topic| MindMap::Topic.new(topic) }
+      return [] if topics.length.zero?
+
+      topics.map { |topic| MindMap::Topic.new(topic) }
     end
   end
 end
