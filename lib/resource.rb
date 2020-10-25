@@ -28,6 +28,7 @@ module MindMap
       @resource['language']
     end
 
+    # :reek:FeatureEnvy
     def topics
       topics = @resource['topics']
 
