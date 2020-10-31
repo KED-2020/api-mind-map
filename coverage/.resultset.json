@@ -1,11 +1,9 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/init.rb": {
+      "/Users/derrickbol/dev/mind-map/init.rb": {
         "lines": [
           null,
-          null,
-          1,
           null,
           1,
           null,
@@ -13,7 +11,17 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/init.rb": {
+      "/Users/derrickbol/dev/mind-map/app/init.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          2,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/mind-map/app/models/init.rb": {
         "lines": [
           null,
           null,
@@ -23,7 +31,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/entities/init.rb": {
+      "/Users/derrickbol/dev/mind-map/app/models/entities/init.rb": {
         "lines": [
           null,
           null,
@@ -35,7 +43,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/entities/resource.rb": {
+      "/Users/derrickbol/dev/mind-map/app/models/entities/resource.rb": {
         "lines": [
           null,
           null,
@@ -56,7 +64,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/gateways/init.rb": {
+      "/Users/derrickbol/dev/mind-map/app/models/gateways/init.rb": {
         "lines": [
           null,
           null,
@@ -65,7 +73,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/gateways/github_api.rb": {
+      "/Users/derrickbol/dev/mind-map/app/models/gateways/github_api.rb": {
         "lines": [
           null,
           null,
@@ -148,7 +156,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/mappers/init.rb": {
+      "/Users/derrickbol/dev/mind-map/app/models/mappers/init.rb": {
         "lines": [
           null,
           null,
@@ -157,7 +165,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map-datamapper/lib/mappers/resource_mapper.rb": {
+      "/Users/derrickbol/dev/mind-map/app/models/mappers/resource_mapper.rb": {
         "lines": [
           null,
           null,
@@ -235,8 +243,59 @@
           null,
           null
         ]
+      },
+      "/Users/derrickbol/dev/mind-map/app/controllers/init.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          2,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/mind-map/app/controllers/app.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          0,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
       }
     },
-    "timestamp": 1604160798
+    "timestamp": 1604165287
   }
 }
