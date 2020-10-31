@@ -48,7 +48,7 @@ module MindMap
         end
 
         def github_url
-          @data['items'][0]['github_url']
+          @data['items'][0]['html_url']
         end
 
         def homepage
