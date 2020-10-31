@@ -9,19 +9,16 @@ We will gather useful information for researchers from `MediaWiki Action API, Ne
 ## Resources
 
 * Search Engine of GitHub
-* Repositories of GitHub
 
 
 ## Elements
 
 * Searches
-* Repositories
 
 
 ## Entities
 
 * Resource
-* Topic
 
 
 ## Get Started
