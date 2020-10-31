@@ -18,18 +18,33 @@ module MindMap
         view 'home'
       end
 
+      # Resource
       routing.on 'resource' do
         routing.is do
-          # GET /resource/
+          routing.get do
+            search_term = routing.params['search']
+            tags_term = routing.params['tags']
+
+            routing.halt 400 unless search_term.length.positive?
+
+            tags = tags_term&.length&.positive? ? tags_term.split(',') : []
+
+            resource = Github::ResourceMapper
+                       .new(GH_TOKEN)
+                       .search(search_term, tags)
+
+            routing.halt 404 unless resource
+
+            view 'resource', locals: { resource: resource }
+          end
+
           routing.post do
-            gh_url = routing.params['github_url'].downcase
+            search_term = routing.params['search'].downcase
+            tags_term = routing.params['tags']
 
-            routing.halt 400 unless (gh_url.include? 'github.com') &&
-                                    (gh_url.split('/').count >= 3)
+            routing.halt 400 unless search_term.length.positive?
 
-            owner, project = gh_url.split('/')[-2..-1]
-
-            routing.redirect "resource/#{owner}/#{project}"
+            routing.redirect "resource?search=#{search_term}&tags=#{tags_term}"
           end
         end
       end
