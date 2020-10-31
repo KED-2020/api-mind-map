@@ -24,7 +24,6 @@ module MindMap
         end
 
         def search(query, topics)
-          # topics_to_query_string = MindMap::Topic.topics_to_query_string(topics)
           topics_to_query_string = 
             topics.length.zero? ? 
               '' : topics.reduce(''){|query, topic| "#{query} topic:#{topic}"}

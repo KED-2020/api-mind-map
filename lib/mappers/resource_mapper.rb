@@ -31,10 +31,14 @@ module MindMap
             description: description,
             github_url: github_url,
             homepage: homepage,
-            language: language
+            language: language,
+            topics: topics
           )
         end
 
+        # To keep things a bit simple, we take the first result from
+        # the search results. We will extend this later on to allow
+        # the user to select which resource they want to select.
         def name
           @data['items'][0]['name']
         end
@@ -55,6 +59,12 @@ module MindMap
           @data['items'][0]['language']
         end
 
+        def topics
+          topics = @data['items'][0]['topics']
+
+          topics.length.zero? ? 
+            [] : topics.map { |topic| topic }
+        end
       end
     end
   end

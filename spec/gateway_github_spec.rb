@@ -58,23 +58,14 @@ describe 'Tests Github API library' do
     end
 
     it 'Ensures topics are formatted correct' do
-      skip ("topic format")
-
       @resource.topics.each do |topic|
-        _(topic).must_be_kind_of(MindMap::Topic)
+        _(topic).must_be_kind_of(String)
       end
     end
 
     it 'Ensure that the topic names are correct' do
-      skip "topic names"
-
-      topics = @resource.topics
-
       _(@resource.topics.count).must_equal CORRECT['topics'].count
-
-      usernames = topics.map(&:name)
-      correct_usernames = CORRECT['topics'].map { |topic| topic }
-      _(usernames).must_equal correct_usernames
+      _(@resource.topics).must_equal CORRECT['topics']      
     end
   end
 end
