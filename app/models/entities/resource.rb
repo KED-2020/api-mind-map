@@ -9,9 +9,9 @@ module MindMap
       attribute :name,        Strict::String
       attribute :description, Strict::String
       attribute :github_url,  Coercible::String
-      attribute :homepage,    Strict::String
+      attribute :homepage,    Strict::String.optional
       attribute :language,    Strict::String
-      attribute :topics,      Strict::Array.of(String)
+      attribute :topics,      Strict::Array.of(String).optional
     end
   end
 end
