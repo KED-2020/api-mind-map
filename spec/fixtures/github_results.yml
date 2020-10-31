@@ -8,6 +8,7 @@ language: Python
 topics:
 - bert
 - gpt
+- hacktoberfest-accepted
 - language-model
 - language-models
 - natural-language-generation

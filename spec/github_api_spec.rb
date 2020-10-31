@@ -1,6 +1,7 @@
 # frozen_string_literal: false
 
 require_relative 'spec_helper'
+
 describe 'Tests Github API library' do
   VCR.configure do |c|
     c.cassette_library_dir = CASSETTES_FOLDER

@@ -32,7 +32,7 @@ We will gather useful information for researchers from `MediaWiki Action API, Ne
 * API Authentication
   * Put your GITHUB_TOKEN into `config/secrets.yml`
 * Generate testfile (`spec/fixtures/github_results.yml`)
-  * `$ bundle exec ruby lib/resouce_info.rb`
+  * `$ bundle exec ruby spec/fixtures/resource_info.rb`
 * Test the Functions & the Code Quality (based on RakeFile)
   * `$ rake spec`
   * `$ rake quality:all`
