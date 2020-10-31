@@ -6,7 +6,6 @@ module MindMap
   module Github
     # Library for Github Web API
     class Api
-
       def initialize(token)
         @token = token
       end
@@ -16,20 +15,24 @@ module MindMap
       end
 
       # Sends out HTTP requests to Github
+      # :reek:FeatureEnvy
       class Request
-        SEARCH_REPO_PATH = 'https://api.github.com/search/repositories'.freeze
+        SEARCH_REPO_PATH = 'https://api.github.com/search/repositories'
 
         def initialize(token)
           @token = token
         end
 
         def search(query, topics)
-          topics_to_query_string = 
-            topics.length.zero? ? 
-              '' : topics.reduce(''){|query, topic| "#{query} topic:#{topic}"}
+          topics_to_query_string =
+            if topics.length.zero?
+              ''
+            else
+              topics.reduce('') { |reduced_query, reduced_topic| "#{reduced_query} topic:#{reduced_topic}" }
+            end
 
           query_str = "#{query}#{topics_to_query_string}"
-          
+
           get(SEARCH_REPO_PATH, { q: query_str })
         end
 

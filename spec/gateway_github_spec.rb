@@ -23,10 +23,10 @@ describe 'Tests Github API library' do
 
   describe 'Search Query' do
     it 'Ensures that the correct parameters are returned' do
-      resource = 
+      resource =
         MindMap::Github::ResourceMapper
-          .new(ACCESS_TOKEN)
-          .search(SEARCH_QUERY, TOPICS)
+        .new(ACCESS_TOKEN)
+        .search(SEARCH_QUERY, TOPICS)
       _(resource.name).must_equal CORRECT['name']
       _(resource.homepage).must_equal CORRECT['homepage']
       _(resource.description).must_equal CORRECT['description']
@@ -53,8 +53,8 @@ describe 'Tests Github API library' do
   describe 'Topic Information' do
     before do
       @resource = MindMap::Github::ResourceMapper
-        .new(ACCESS_TOKEN)
-        .search(SEARCH_QUERY, TOPICS)
+                  .new(ACCESS_TOKEN)
+                  .search(SEARCH_QUERY, TOPICS)
     end
 
     it 'Ensures topics are formatted correct' do
@@ -65,7 +65,7 @@ describe 'Tests Github API library' do
 
     it 'Ensure that the topic names are correct' do
       _(@resource.topics.count).must_equal CORRECT['topics'].count
-      _(@resource.topics).must_equal CORRECT['topics']      
+      _(@resource.topics).must_equal CORRECT['topics']
     end
   end
 end

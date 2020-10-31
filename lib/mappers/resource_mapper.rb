@@ -21,7 +21,7 @@ module MindMap
 
       # Extracts entity specific elements from data structure
       class DataMapper
-        def initialize(data, token, gateway_class)
+        def initialize(data, _token, _gateway_class)
           @data = data
         end
 
@@ -59,11 +59,15 @@ module MindMap
           @data['items'][0]['language']
         end
 
+        # :reek:FeatureEnvy
         def topics
           topics = @data['items'][0]['topics']
 
-          topics.length.zero? ? 
-            [] : topics.map { |topic| topic }
+          if topics.length.zero?
+            []
+          else
+            topics.map { |topic| topic }
+          end
         end
       end
     end
