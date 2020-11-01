@@ -1,21 +1,35 @@
+
 .container
-  h1 class="title" Hi, Welcome to our project
-
-  form role="form" action="/resource" method="POST" id="search-resource-form"
-    input {
-      type="text" name="search"
-      id="github resource name"
-      placeholder="Enter a search term"
-    }
-
-    input {
-      type="text" name="tags"
-      id="github resource tags"
-      placeholder="Tags should be comma separated"
-    }
-
-    button {
-      type="submit"
-      id="search-resource-form-submit"
-      value="Submit"
-    }
+  form role="form" action="/resource" method='POST' id='search-resource-form'
+    .row.vertical-align.query-bar
+      .col-md-2.col-sm-2
+        .text-right Search
+      .col-md-8.col-sm-6
+        input { 
+          type='text' name='search'
+          id='github resource name' class="form-control"
+          placeholder="e.g. pytorch-transformers in:readme"
+          help="Short helpful message"
+        }
+        
+    .row
+    .row.vertical-align.query-bar
+      .col-md-2.col-sm-2
+        .text-right Topics (Optional)
+      .col-md-8.col-sm-6
+        input { 
+          type='text' name='Topics (Optional)'
+          id='github_url_input' class="form-control"
+          placeholder="e.g.tensorflow, natural language processing"
+        }
+      .col-md-8.col-sm-6
+        small class="form-text text-muted" Topics should be comma-separated. i.e. transformers, nlp
+    .row
+    .row.vertical-align.query-bar
+      .col-md-12.col-sm-2
+        button { 
+          type='submit' id='repo-form-submit' class='submit' 
+          value='submit' class="btn btn-success" 
+        } Submit
+    .row
+      .col-md-12.blank-row
