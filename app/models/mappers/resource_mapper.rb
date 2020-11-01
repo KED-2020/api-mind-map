@@ -26,6 +26,8 @@ module MindMap
         end
 
         def build_entity
+          return nil unless @data['items'][0]
+
           MindMap::Entity::Resource.new(
             name: name,
             description: description,

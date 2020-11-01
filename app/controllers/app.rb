@@ -10,12 +10,19 @@ module MindMap
     plugin :assets, css: 'style.css', path: 'app/views/assets'
     plugin :halt
 
+    # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # Load CSS
 
       # GET /
       routing.root do
         view 'home'
+      end
+
+      routing.on '404' do
+        routing.get do
+          view '404'
+        end
       end
 
       # Resource
@@ -33,7 +40,7 @@ module MindMap
                        .new(GH_TOKEN)
                        .search(search_term, tags)
 
-            routing.halt 404 unless resource
+            routing.redirect '/404' unless resource
 
             view 'resource', locals: { resource: resource }
           end
@@ -49,5 +56,6 @@ module MindMap
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end
