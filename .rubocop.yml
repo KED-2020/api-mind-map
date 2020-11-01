@@ -1,2 +1,11 @@
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Include:
+    - 'Gemfile'
+    - 'Rakefile'
+  Exclude:
+    - _snippets/*
+
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
