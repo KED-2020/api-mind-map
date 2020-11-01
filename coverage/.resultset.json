@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map/lib/github_api.rb": {
+      "/Users/qs.chou/rubyDev/mindmap/mind-map/lib/github_api.rb": {
         "lines": [
           null,
           null,
@@ -83,7 +83,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map/lib/resource.rb": {
+      "/Users/qs.chou/rubyDev/mindmap/mind-map/lib/resource.rb": {
         "lines": [
           null,
           null,
@@ -127,7 +127,7 @@
           null
         ]
       },
-      "/Users/kyeg_logos_mac/GitHub_Box/mind-map/lib/topic.rb": {
+      "/Users/qs.chou/rubyDev/mindmap/mind-map/lib/topic.rb": {
         "lines": [
           null,
           null,
@@ -153,6 +153,6 @@
         ]
       }
     },
-    "timestamp": 1603643943
+    "timestamp": 1603669524
   }
 }
