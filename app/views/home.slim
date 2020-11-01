@@ -1,0 +1,21 @@
+.container
+  h1 class="title" Hi, Welcome to our project
+
+  form role="form" action="/resource" method="POST" id="search-resource-form"
+    input {
+      type="text" name="search"
+      id="github resource name"
+      placeholder="Enter a search term"
+    }
+
+    input {
+      type="text" name="tags"
+      id="github resource tags"
+      placeholder="Tags should be comma separated"
+    }
+
+    button {
+      type="submit"
+      id="search-resource-form-submit"
+      value="Submit"
+    }
