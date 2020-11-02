@@ -1,2 +1,54 @@
-h1
-  = resource.name
+.container
+  .row
+    h3
+      span.research.area
+        = "Search Area: #{resource.name}"
+    .row
+      .col-md-12.blank-row
+
+  .container
+    .row
+      .col-md-2.col-sm-2
+        .text-right Description:
+      .col-md-8.col-sm-6
+        span.resource.attribute
+          = resource.description
+    .row
+      .col-md-12.blank-row
+      
+    .row
+      .col-md-2.col-sm-2
+        .text-right Github url:
+      .col-md-8.col-sm-6
+        span.resource.attribute
+          = resource.github_url
+    .row
+      .col-md-12.blank-row
+
+    .row
+      .col-md-2.col-sm-2
+        .text-right HomePage:
+      .col-md-8.col-sm-6
+        span.resource.attribute
+          = resource.homepage
+    .row
+      .col-md-12.blank-row
+
+    .row
+      .col-md-2.col-sm-2
+        .text-right Language:
+      .col-md-8.col-sm-6
+        span.resource.attribute
+          = resource.language
+    .row
+      .col-md-12.blank-row
+      
+    .row.vertical-align
+      .col-md-2.col-sm-2
+        .text-right Topics:
+      .col-lg-11.col-md-10.col-sm-6
+          - resource.topics.each do |topic|
+            .row.vertical-align.query-bar
+              .col-md-8.col-sm-6
+                span.resource.attribute
+                  = topic
