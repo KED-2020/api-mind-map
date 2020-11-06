@@ -12,7 +12,9 @@ require 'webmock'
 
 require_relative '../init'
 
-ACCESS_TOKEN = YAML.safe_load(File.read("#{__dir__}/../config/secrets.yml"))['GITHUB_TOKEN']
+ENV['RACK_ENV'] = 'test'
+
+GITHUB_TOKEN = MindMap::App.config.GITHUB_TOKEN
 
 CORRECT = YAML.safe_load(File.read("#{__dir__}/fixtures/github_results.yml"))
 
