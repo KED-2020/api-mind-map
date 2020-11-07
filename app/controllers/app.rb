@@ -37,7 +37,7 @@ module MindMap
             tags = tags_term&.length&.positive? ? tags_term.split(',') : []
 
             resource = Github::ResourceMapper
-                       .new(GH_TOKEN)
+                       .new(MindMap::App.config.GITHUB_TOKEN)
                        .search(search_term, tags)
 
             routing.redirect '/404' unless resource
