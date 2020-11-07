@@ -44,3 +44,4 @@ The domain resources we save to our database are the following:
 
 ### Entity-relationship Diagram
 
+![](entity-relationship.png)
