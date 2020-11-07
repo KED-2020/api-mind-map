@@ -34,3 +34,13 @@ We will gather useful information for researchers from `MediaWiki Action API, Ne
   * `$ rake spec`
   * `$ rake quality:all`
 
+## Database
+
+We use SQLite as our database for both development and test environments.
+
+The domain resources we save to our database are the following:
+* Resource: A GitHub project's details.
+* Tags: Tags that provide additional details about something.
+
+### Entity-relationship Diagram
+

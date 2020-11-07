@@ -17,7 +17,7 @@
           null,
           1,
           1,
-          2,
+          3,
           null
         ]
       },
@@ -246,6 +246,16 @@
           null
         ]
       },
+      "/Users/derrickbol/dev/mind-map/app/infrastructure/init.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          0,
+          null
+        ]
+      },
       "/Users/derrickbol/dev/mind-map/app/controllers/init.rb": {
         "lines": [
           null,
@@ -345,8 +355,46 @@
           null,
           null
         ]
+      },
+      "/Users/derrickbol/dev/mind-map/spec/helpers/vcr_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          1,
+          5,
+          5,
+          5,
+          null,
+          null,
+          5,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          5,
+          null,
+          null
+        ]
       }
     },
-    "timestamp": 1604686717
+    "timestamp": 1604724304
   }
 }
