@@ -12,7 +12,8 @@ gem 'roda', '~> 3.8'
 gem 'slim', '~> 3.0'
 
 # Database
-gem 'hirb'
+gem 'hirb', '~> 0.7'
+gem 'hirb-unicode'
 gem 'sequel', '~> 5.38.0'
 
 group :development, :test do

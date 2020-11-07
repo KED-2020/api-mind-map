@@ -5,3 +5,4 @@ coverage/*
 
 *.db
 _snippets/
+.irb_history
