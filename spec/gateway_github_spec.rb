@@ -1,31 +1,22 @@
 # frozen_string_literal: false
 
 require_relative 'spec_helper'
+require_relative 'helpers/vcr_helper'
 
 describe 'Tests Github API library' do
-  VCR.configure do |c|
-    c.cassette_library_dir = CASSETTES_FOLDER
-    c.hook_into :webmock
-
-    c.filter_sensitive_data('<GITHUB_TOKEN>') { ACCESS_TOKEN }
-    c.filter_sensitive_data('<GITHUB_TOKEN_ESC>') { CGI.escape(ACCESS_TOKEN) }
-  end
-
   before do
-    VCR.insert_cassette CASSETTE_FILE,
-                        record: :new_episodes,
-                        match_requests_on: %i[method uri headers]
+    VcrHelper.configure_vcr_for_github
   end
 
   after do
-    VCR.eject_cassette
+    VcrHelper.eject_vcr
   end
 
   describe 'Search Query' do
     it 'Ensures that the correct parameters are returned' do
       resource =
         MindMap::Github::ResourceMapper
-        .new(ACCESS_TOKEN)
+        .new(GITHUB_TOKEN)
         .search(SEARCH_QUERY, TOPICS)
       _(resource.name).must_equal CORRECT['name']
       _(resource.homepage).must_equal CORRECT['homepage']
@@ -36,7 +27,7 @@ describe 'Tests Github API library' do
     it 'Ensures that an exception is raised when the query is too long' do
       _(proc do
         MindMap::Github::ResourceMapper
-          .new(ACCESS_TOKEN)
+          .new(GITHUB_TOKEN)
           .search(INVALID_SEARCH_QUERY, TOPICS)
       end).must_raise MindMap::Github::Api::Response::UnprocessableEntity
     end
@@ -53,7 +44,7 @@ describe 'Tests Github API library' do
   describe 'Topic Information' do
     before do
       @resource = MindMap::Github::ResourceMapper
-                  .new(ACCESS_TOKEN)
+                  .new(GITHUB_TOKEN)
                   .search(SEARCH_QUERY, TOPICS)
     end
 

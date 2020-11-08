@@ -6,7 +6,7 @@ require 'yaml'
 ####################################
 ## Configuration
 ####################################
-ACCESS_TOKEN = YAML.safe_load(File.read('config/secrets.yml'))['GITHUB_TOKEN']
+GITHUB_TOKEN = YAML.safe_load(File.read('config/secrets.yml'))['GITHUB_TOKEN']
 
 gh_response = {}
 gh_results = {}
@@ -22,7 +22,7 @@ def call_github(url, params = {})
   HTTP
     .headers(
       'Accept' => 'application/vnd.github.mercy-preview+json',
-      'Authorization' => "token #{ACCESS_TOKEN}"
+      'Authorization' => "token #{GITHUB_TOKEN}"
     ).get(url, params: params)
 end
 

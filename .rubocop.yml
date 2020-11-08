@@ -7,5 +7,10 @@ AllCops:
   Exclude:
     - _snippets/*
 
+# ignore block length in test code only
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context']
+  Enabled: true
+  Exclude:
+    - spec/**/*
+    - Rakefile
+
