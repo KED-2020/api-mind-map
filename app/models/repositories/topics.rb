@@ -8,8 +8,8 @@ module MindMap
         rebuild_entity Database::TopicOrm.first(id: id)
       end
 
-      def self.find_username(topicname)
-        rebuild_entity Database::TopicOrm.first(name: topicname)
+      def self.find_username(topic_name)
+        rebuild_entity Database::TopicOrm.first(name: topic_name)
       end
 
       private
@@ -18,6 +18,7 @@ module MindMap
         return nil unless db_record
 
         Entity::Topic.new(
+          id: db_record.id,
           name:        db_record.name,
           description: db_record.description
         )

@@ -37,13 +37,12 @@ module MindMap
 
         Entity::Resource.new(
           db_record.to_hash.merge(
-            owner: Topic.rebuild_entity(db_record.owner),
-            contributors: Topic.rebuild_many(db_record.contributors)
+            topics: Topics.rebuild_many(db_record.topics)
           )
         )
       end
 
-      # Helper class to persist resource and its members to database
+      # Helper class to persist resource and its topics to the database
       class PersistResource
         def initialize(entity)
           @entity = entity
@@ -54,10 +53,10 @@ module MindMap
         end
 
         def call
-          topics = Topics.db_find_or_create(@entity.name)
-
           create_resource.tap do |db_resource|
-            db_resource.update(topics: topics)
+            @entity.topics.each do |topic|
+              db_resource.add_topic(Topics.db_find_or_create(topic))
+            end
           end
         end
       end

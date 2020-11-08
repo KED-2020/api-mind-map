@@ -1,5 +1,7 @@
 # frozen_string_literal: false
 
+require_relative '../entities/topic'
+
 module MindMap
   module Github
     # Data Mapper: Github search -> Resource entity
@@ -67,14 +69,13 @@ module MindMap
           @data['items'][0]['language']
         end
 
-        # :reek:FeatureEnvy
         def topics
-          topics = @data['items'][0]['topics']
-
-          if topics.length.zero?
-            []
-          else
-            topics.map { |topic| topic }
+          @data['items'][0]['topics']&.map do |topic|
+            MindMap::Entity::Topic.new(
+              id: nil,
+              name: topic,
+              description: nil
+            )
           end
         end
       end
