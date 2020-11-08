@@ -23,9 +23,9 @@ module MindMap
     configure do
       require 'sequel'
 
-      DB = Sequel.connect(ENV['DATABASE_URL'])
+      DB = Sequel.connect(ENV['DATABASE_URL']) # rubocop:disable Lint/ConstantDefinitionInBlock
 
-      def self.DB
+      def self.DB # rubocop:disable Naming/MethodName
         DB
       end
     end
