@@ -9,7 +9,7 @@ module MindMap
       many_to_many :topics,
                    class: :'MindMap::Database::TopicOrm',
                    join_table: :resources_topics,
-                   left_key: :resource_id, right_key: :resource_id
+                   left_key: :resource_id, right_key: :topic_id
 
       plugin :timestamps, update_on_create: true
     end

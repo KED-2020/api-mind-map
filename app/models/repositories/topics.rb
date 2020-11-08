@@ -8,7 +8,7 @@ module MindMap
         rebuild_entity Database::TopicOrm.first(id: id)
       end
 
-      def self.find_username(topic_name)
+      def self.find_topic_name(topic_name)
         rebuild_entity Database::TopicOrm.first(name: topic_name)
       end
 
@@ -26,7 +26,7 @@ module MindMap
 
       def self.rebuild_many(db_records)
         db_records.map do |db_topic|
-          Members.rebuild_entity(db_topic)
+          Topics.rebuild_entity(db_topic)
         end
       end
 

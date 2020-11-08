@@ -29,6 +29,7 @@ module MindMap
         return rebuild_entity(db_resource) if db_resource
 
         db_resource = PersistResource.new(entity).call
+
         rebuild_entity(db_resource)
       end
 
@@ -57,7 +58,13 @@ module MindMap
         def call
           create_resource.tap do |db_resource|
             @entity.topics.each do |topic|
-              db_resource.add_topic(Topics.db_find_or_create(topic))
+              saved_topic = Topics.db_find_or_create(topic)
+
+              puts "Saved topic"
+              pp saved_topic
+
+              # Topics.db_find_or_create does not return an item with an id.
+              db_resource.add_topic(saved_topic) if saved_topic
             end
           end
         end
