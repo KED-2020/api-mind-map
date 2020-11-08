@@ -60,9 +60,6 @@ module MindMap
             @entity.topics.each do |topic|
               saved_topic = Topics.db_find_or_create(topic)
 
-              puts "Saved topic"
-              pp saved_topic
-
               # Topics.db_find_or_create does not return an item with an id.
               db_resource.add_topic(saved_topic) if saved_topic
             end
