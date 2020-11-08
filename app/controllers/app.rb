@@ -10,7 +10,6 @@ module MindMap
     plugin :assets, css: 'style.css', path: 'app/views/assets'
     plugin :halt
 
-    # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # Load CSS
 
@@ -28,7 +27,7 @@ module MindMap
       # Resource
       routing.on 'resource' do
         routing.is do
-          routing.get do
+          routing.post do
             search_term = routing.params['search']
             tags_term = routing.params['tags']
 
@@ -36,27 +35,28 @@ module MindMap
 
             tags = tags_term&.length&.positive? ? tags_term.split(',') : []
 
+            # Get the resource from Github
             resource = Github::ResourceMapper
                        .new(MindMap::App.config.GITHUB_TOKEN)
                        .search(search_term, tags)
-            
-            routing.redirect '/404' unless resource
-            # Add resource to database
-            puts resource
-            #Repository::For.entity(resource).create(resource)
-            view 'resource', locals: { resource: resource }
+
+            # Add the repo to database
+            saved_resource = Repository::For.entity(resource).find_or_create(resource)
+
+            # Redirect viewer to resource details
+            routing.redirect "resource?resource_origin_id=#{saved_resource.origin_id}"
           end
 
-          routing.post do
-            search_term = routing.params['search'].downcase
-            tags_term = routing.params['tags']
+          routing.get do
+            resource_origin_id = routing.params['resource_origin_id']
 
-            routing.halt 400 unless search_term.length.positive?
-            routing.redirect "resource?search=#{search_term}&tags=#{tags_term}"
+            resource = Repository::For.klass(Entity::Resource)
+                       .find_origin_id(resource_origin_id)
+
+            view 'resource', locals: { resource: resource }
           end
         end
       end
     end
-    # rubocop:enable Metrics/BlockLength
   end
 end

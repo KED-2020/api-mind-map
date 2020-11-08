@@ -23,8 +23,10 @@ module MindMap
         rebuild_entity(db_record)
       end
 
-      def self.create(entity)
-        raise 'resource already exists' if find(entity)
+      def self.find_or_create(entity)
+        db_resource = find(entity)
+
+        return rebuild_entity(db_resource) if db_resource
 
         db_resource = PersistResource.new(entity).call
         rebuild_entity(db_resource)
