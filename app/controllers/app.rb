@@ -39,9 +39,11 @@ module MindMap
             resource = Github::ResourceMapper
                        .new(MindMap::App.config.GITHUB_TOKEN)
                        .search(search_term, tags)
-
+            
             routing.redirect '/404' unless resource
-
+            # Add resource to database
+            puts resource
+            #Repository::For.entity(resource).create(resource)
             view 'resource', locals: { resource: resource }
           end
 
@@ -50,7 +52,6 @@ module MindMap
             tags_term = routing.params['tags']
 
             routing.halt 400 unless search_term.length.positive?
-
             routing.redirect "resource?search=#{search_term}&tags=#{tags_term}"
           end
         end

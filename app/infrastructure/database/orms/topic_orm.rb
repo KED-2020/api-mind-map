@@ -12,6 +12,10 @@ module MindMap
                    left_key: :topic_id, right_key: :resource_id
 
       plugin :timestamps, update_on_create: true
+
+      def self.find_or_create(topic_info)
+        first(name: topic_info[:name]) || create(topic_info)
+      end
     end
   end
 end
