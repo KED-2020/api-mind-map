@@ -29,7 +29,9 @@ module MindMap
           return nil unless @data['items'][0]
 
           MindMap::Entity::Resource.new(
+            id: nil,
             name: name,
+            origin_id: origin_id,
             description: description,
             github_url: github_url,
             homepage: homepage,
@@ -43,6 +45,10 @@ module MindMap
         # the user to select which resource they want to select.
         def name
           @data['items'][0]['name']
+        end
+
+        def origin_id
+          @data['items'][0]['id']
         end
 
         def description

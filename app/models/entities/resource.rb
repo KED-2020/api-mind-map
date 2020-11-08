@@ -6,6 +6,8 @@ module MindMap
     class Resource < Dry::Struct
       include Dry.Types
 
+      attribute :id,          Integer.optional
+      attribute :origin_id,   Strict::Integer
       attribute :name,        Strict::String
       attribute :description, Strict::String
       attribute :github_url,  Coercible::String
