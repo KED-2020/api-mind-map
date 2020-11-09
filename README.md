@@ -42,6 +42,9 @@ The domain resources we save to our database are the following:
 * Resource: A GitHub project's details.
 * Tags: Tags that provide additional details about something.
 
+* Test the getting data from github api and write to db
+ * `$ rake db:gwdbint`
+ 
 ### Entity-relationship Diagram
 
 ![](entity-relationship.png)

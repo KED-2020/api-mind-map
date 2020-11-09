@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rake/testtask'
-
+require_relative './config/init.rb'
 CODE = 'lib/'
 
 task :default do
@@ -12,6 +12,9 @@ desc 'run tests'
 task :spec do
   sh 'ruby spec/gateway_github_spec.rb'
 end
+
+
+
 
 # desc 'Keep rerunning tests upon changes'
 # task :respec do
@@ -71,6 +74,11 @@ namespace :db do
   task wipe: :config do
     DatabaseHelper.setup_database_cleaner
     DatabaseHelper.wipe_database
+  end
+
+  desc 'run tests'
+  task gwdbint: :config do
+    sh 'ruby spec/gateway_database_spec.rb'
   end
 
   desc 'Delete dev or test database file'

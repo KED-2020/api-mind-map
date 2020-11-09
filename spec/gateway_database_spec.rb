@@ -21,13 +21,12 @@ describe 'Integration Tests of Github API and Database' do
       DatabaseHelper.wipe_database
     end
 
-    it 'Happy: should be able to save project from Github to database' do
+    it 'Happy: should be able to save resourece & topics from Github to database' do
       resource = MindMap::Github::ResourceMapper
-                 .new(MindMap::App.config.GIRHUB_TOKEN)
-                 .find(SEARCH_QUERY, TOPICS)
+                 .new(MindMap::App.config.GITHUB_TOKEN)
+                 .search(SEARCH_QUERY, TOPICS)
 
       rebuilt = MindMap::Repository::For.entity(resource).find_or_create(resource)
-      _(rebuilt.id).must_equal(resource.id)
       _(rebuilt.origin_id).must_equal(resource.origin_id)
       _(rebuilt.name).must_equal(resource.name)
       _(rebuilt.description).must_equal(resource.description)
