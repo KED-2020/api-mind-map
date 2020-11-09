@@ -2,6 +2,7 @@
 config/secrets.yml
 coverage/*
 !coverage/.resultset.json
+unit_test.rb
 
 *.db
 _snippets/
