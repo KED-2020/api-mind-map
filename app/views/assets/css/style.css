@@ -47,3 +47,10 @@ footer {
   font-size:11px;
   color:rgb(48, 77, 141);
 }
+
+.topic {
+  padding: 0 0 1em 0;
+  margin: 0;
+  text-transform: capitalize;
+  list-style: none;
+}

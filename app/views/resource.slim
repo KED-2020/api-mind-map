@@ -2,7 +2,7 @@
   .row
     h3
       span.research.area
-        = "Search Area: #{resource.name}"
+        = "Search: #{resource.name}"
     .row
       .col-md-12.blank-row
 
@@ -15,7 +15,7 @@
           = resource.description
     .row
       .col-md-12.blank-row
-      
+
     .row
       .col-md-2.col-sm-2
         .text-right Github url:
@@ -42,13 +42,10 @@
           = resource.language
     .row
       .col-md-12.blank-row
-      
-    .row.vertical-align
+
+    .row
       .col-md-2.col-sm-2
         .text-right Topics:
-      .col-lg-11.col-md-10.col-sm-6
-          - resource.topics.each do |topic|
-            .row.vertical-align.query-bar
-              .col-md-8.col-sm-6
-                span.resource.attribute
-                  = topic
+      ul.col-md-8.col-sm-6
+        - resource.topics.each do |topic|
+          li.topic = topic.name

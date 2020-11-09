@@ -18,6 +18,11 @@ end
 #   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
 # end
 
+desc 'Run application console (irb)'
+task :console do
+  sh 'irb -r ./init'
+end
+
 namespace :vcr do
   desc 'delete cassette fixtures'
   task :wipe do

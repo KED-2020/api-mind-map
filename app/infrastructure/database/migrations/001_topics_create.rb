@@ -7,7 +7,7 @@ Sequel.migration do
     create_table(:topics) do
       primary_key :id
 
-      String :name, unique: true
+      String :name, unique: true, null: false
       String :description
 
       DateTime :created_at
