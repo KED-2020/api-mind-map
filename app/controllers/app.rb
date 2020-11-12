@@ -39,7 +39,7 @@ module MindMap
             resource = Github::ResourceMapper
                        .new(MindMap::App.config.GITHUB_TOKEN)
                        .search(search_term, tags)
-            puts "resource:#{resource}"    # Mark Here for handling nil case
+            redirect "/404" unless resource
             # Add the repo to database
             saved_resource = Repository::For.entity(resource).find_or_create(resource)
 
