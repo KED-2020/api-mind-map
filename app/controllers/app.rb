@@ -24,6 +24,10 @@ module MindMap
         end
       end
 
+      routing.on 'resource_nil' do
+        view 'resource_nil'
+      end
+
       # Resource
       routing.on 'resource' do
         routing.is do
@@ -39,7 +43,7 @@ module MindMap
             resource = Github::ResourceMapper
                        .new(MindMap::App.config.GITHUB_TOKEN)
                        .search(search_term, tags)
-            redirect "/404" unless resource
+            routing.redirect 'resource_nil' unless resource
             # Add the repo to database
             saved_resource = Repository::For.entity(resource).find_or_create(resource)
 
