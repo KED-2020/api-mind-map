@@ -12,6 +12,11 @@ module MindMap
                    left_key: :suggestion_id, right_key: :inbox_id
 
       plugin :timestamps, update_on_create: true
+
+      def self.find_or_create(suggestion_info)
+        # First or Create
+        create(suggestion_info)
+      end
     end
   end
 end
