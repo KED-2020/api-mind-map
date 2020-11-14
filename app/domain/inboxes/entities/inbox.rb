@@ -4,6 +4,7 @@ require_relative 'suggestion'
 
 module MindMap
   module Entity
+    # Aggregate root for the inboxes domain
     class Inbox < Dry::Struct
       include Dry.Types
 
@@ -15,6 +16,10 @@ module MindMap
 
       def to_attr_hash
         to_hash.reject { |key, _| [:id].include? key }
+      end
+
+      def empty?
+        suggestions.nil?
       end
     end
   end

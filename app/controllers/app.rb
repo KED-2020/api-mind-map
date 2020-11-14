@@ -28,6 +28,27 @@ module MindMap
         view 'resource_nil'
       end
 
+      # Inbox
+      routing.on 'inbox' do
+        routing.on String do |inbox_id|
+          routing.get do
+            puts inbox_id
+
+            # Find the inbox specified by the url.
+            inbox = Repository::Inbox::For.klass(Entity::Inbox)
+                    .find_url(inbox_id)
+
+            routing.redirect '404' unless inbox
+
+            # Load the suggestions for an inbox.
+            suggestions = Mapper::Inbox.new(inbox).suggestions
+
+            # Show the user their inbox
+            view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+          end
+        end
+      end
+
       # Resource
       routing.on 'resource' do
         routing.is do
