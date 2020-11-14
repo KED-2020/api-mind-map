@@ -4,7 +4,13 @@ module MindMap
   module Repository
     class Inboxes
       def self.find_id(id)
-        db_record = Database::ResourceOrm.first(id: id)
+        db_record = Database::InboxOrm.first(id: id)
+
+        rebuild_entity(db_record)
+      end
+
+      def self.find_url(url)
+        db_record = Database::InboxOrm.first(url: url)
 
         rebuild_entity(db_record)
       end
@@ -14,7 +20,7 @@ module MindMap
 
         return rebuild_entity(db_inbox) if db_inbox
 
-        db_inbox = PersistResource.new(entity).call
+        db_inbox = PersistInbox.new(entity).call
 
         rebuild_entity(db_inbox)
       end
@@ -32,13 +38,13 @@ module MindMap
       end
 
       # Helper class to persist inbox and its suggestions to the database
-      class PersistResource
+      class PersistInbox
         def initialize(entity)
           @entity = entity
         end
 
         def create_resource
-          Database::ResourceOrm.create(@entity.to_attr_hash)
+          Database::InboxOrm.create(@entity.to_attr_hash)
         end
 
         def call
