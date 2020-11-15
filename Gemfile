@@ -8,6 +8,7 @@ ruby File.read('.ruby-version').strip
 gem 'rake'
 
 
+gem 'database_cleaner'
 group :production do
   gem 'pg'
 end
@@ -27,7 +28,6 @@ gem 'hirb-unicode'
 gem 'sequel', '~> 5.38.0'
 
 group :development, :test do
-  gem 'database_cleaner'
   gem 'sqlite3'
 end
 
