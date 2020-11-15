@@ -19,3 +19,7 @@ SEARCH_QUERY = 'pytorch-transformers in:readme'
 TOPICS = %w[tensorflow natural-language-processing].freeze
 
 INVALID_SEARCH_QUERY = 10.times.map { ('a'..'z').to_a }.join
+
+DB_TEST_SEARCH_QUERY = 'bitcoin'
+DB_TEST_TOPICS = %w[python].freeze
+
