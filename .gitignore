@@ -9,3 +9,4 @@ unit_test.rb
 *.db
 _snippets/
 .irb_history
+.bundle/

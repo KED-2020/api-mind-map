@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
+ruby File.read('.ruby-version').strip
+
+
+# Utilities
+gem 'rake'
+
+
+group :production do
+  gem 'pg'
+end
 
 # Networking
 gem 'http', '~> 4.0'
@@ -20,6 +30,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'sqlite3'
 end
+
 
 # Validation
 gem 'dry-struct', '~> 1.3'
@@ -41,5 +52,3 @@ group :development, :test do
   gem 'rubocop'
 end
 
-# Utilities
-gem 'rake'
