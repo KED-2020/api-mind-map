@@ -23,8 +23,8 @@ describe 'Integration Tests of Github API and Database' do
 
     it 'Happy: should be able to save resourece & topics from Github to database' do
       resource = MindMap::Github::ResourceMapper
-                 .new(MindMap::App.config.GITHUB_TOKEN)
-                 .search(SEARCH_QUERY, TOPICS)
+                 .new(GITHUB_TOKEN)
+                 .search(DB_TEST_SEARCH_QUERY, DB_TEST_TOPICS)
 
       rebuilt = MindMap::Repository::For.entity(resource).find_or_create(resource)
       _(rebuilt.origin_id).must_equal(resource.origin_id)
