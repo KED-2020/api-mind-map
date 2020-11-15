@@ -32,6 +32,17 @@ module MindMap
 
       # Inbox
       routing.on 'inbox' do
+        routing.on 'new' do
+          view 'new_inbox'
+        end
+
+        routing.post do
+          inbox_id = routing.params['inbox_id']
+
+          # Redirect to the get request
+          routing.redirect "inbox/#{inbox_id}"
+        end
+
         routing.on String do |inbox_id|
           routing.get do
             # Find the inbox specified by the url.
