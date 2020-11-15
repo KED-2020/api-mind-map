@@ -4,6 +4,10 @@ module MindMap
   module Repository
     # A repository for inboxes
     class Inboxes
+      def self.all
+        Database::InboxOrm.all.map { |db_project| rebuild_entity(db_project) }
+      end
+
       def self.find_id(id)
         db_record = Database::InboxOrm.first(id: id)
 

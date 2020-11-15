@@ -5,19 +5,19 @@
       .col-md-2.col-sm-2
         .text-right Search
       .col-md-8.col-sm-6
-        input { 
+        input {
           type='text' name='search'
           id='github resource name' class="form-control"
           placeholder="e.g. transformers"
           help="Short helpful message"
         }
-        
+
     .row
     .row.vertical-align.query-bar
       .col-md-2.col-sm-2
         .text-right Topics (Optional)
       .col-md-8.col-sm-6
-        input { 
+        input {
           type='text' name='tags'
           id='github_url_input' class="form-control"
           placeholder="e.g. nlp,attention"
@@ -27,9 +27,20 @@
     .row
     .row.vertical-align.query-bar
       .col-md-12.col-sm-2
-        button { 
-          type='submit' id='repo-form-submit' class='submit' 
-          value='submit' class="btn btn-success" 
+        button {
+          type='submit' id='repo-form-submit' class='submit'
+          value='submit' class="btn btn-success"
         } Submit
     .row
       .col-md-12.blank-row
+
+  div.row
+    h3 Inboxes
+  div.row
+    - if inboxes.any?
+      ul.list-group
+        - inboxes.each.with_index do |inbox, index|
+          li.list-group-item.my-md-2
+            a href="inbox/#{inbox.url}" id="inbox[#{index}].link" #{inbox.name}
+    - else
+      h5 No suggestions found

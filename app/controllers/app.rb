@@ -15,7 +15,9 @@ module MindMap
 
       # GET /
       routing.root do
-        view 'home'
+        inboxes = Repository::Inbox::For.klass(Entity::Inbox).all
+
+        view 'home', locals: { inboxes: inboxes }
       end
 
       routing.on '404' do
