@@ -2,6 +2,7 @@
 
 module MindMap
   module Repository
+    # A repository for inboxes
     class Inboxes
       def self.find_id(id)
         db_record = Database::InboxOrm.first(id: id)
@@ -16,11 +17,7 @@ module MindMap
       end
 
       def self.find_or_create(entity)
-        db_inbox = find_id(entity.id)
-
-        return rebuild_entity(db_inbox) if db_inbox
-
-        db_inbox = PersistInbox.new(entity).call
+        db_inbox = find_id(entity.id) || PersistInbox.new(entity).call
 
         rebuild_entity(db_inbox)
       end

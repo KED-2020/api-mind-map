@@ -19,7 +19,7 @@ module MindMap
       end
 
       def empty?
-        suggestions.nil?
+        suggestions.empty?
       end
     end
   end

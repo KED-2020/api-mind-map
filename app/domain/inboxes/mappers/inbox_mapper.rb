@@ -8,7 +8,7 @@ module MindMap
         @inbox = inbox
       end
 
-      def build_entity(inbox)
+      def build_entity
       end
 
       def suggestions
