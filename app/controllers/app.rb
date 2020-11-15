@@ -32,8 +32,6 @@ module MindMap
       routing.on 'inbox' do
         routing.on String do |inbox_id|
           routing.get do
-            puts inbox_id
-
             # Find the inbox specified by the url.
             inbox = Repository::Inbox::For.klass(Entity::Inbox)
                     .find_url(inbox_id)

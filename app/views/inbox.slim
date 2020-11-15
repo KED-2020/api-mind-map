@@ -1,1 +1,21 @@
-h1 This is an inbox.
+div.container.py-md-3
+  div.row
+    h3.inbox__title
+      = inbox.name || 'Untitled Inbox'
+
+  div.row
+  - if suggestions.any?
+    ul.list-group
+      - suggestions.each.with_index do |suggestion, index|
+        li.list-group-item.my-md-2
+          div.d-flex.w-100.justify-content-between
+            h5.mb-1
+              = suggestion.name
+            small
+              = suggestion.suggested_date
+          p.mb-1
+              = suggestion.description
+          small
+            a href=suggestion.source id="project[#{index}].link" #{suggestion.source}
+  - else
+    h5 No suggestions found
