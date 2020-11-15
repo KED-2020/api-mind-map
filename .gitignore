@@ -9,3 +9,4 @@ coverage/*
 
 _snippets/
 .irb_history
+.bundle/
