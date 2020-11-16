@@ -1,35 +1,38 @@
 
 .container
-  form role="form" action="/resource" method='POST' id='search-resource-form'
-    .row.vertical-align.query-bar
-      .col-md-2.col-sm-2
-        .text-right Search
-      .col-md-8.col-sm-6
-        input { 
-          type='text' name='search'
-          id='github resource name' class="form-control"
-          placeholder="e.g. transformers"
-          help="Short helpful message"
-        }
-        
-    .row
-    .row.vertical-align.query-bar
-      .col-md-2.col-sm-2
-        .text-right Topics (Optional)
-      .col-md-8.col-sm-6
-        input { 
-          type='text' name='tags'
-          id='github_url_input' class="form-control"
-          placeholder="e.g. nlp,attention"
-        }
-      .col-md-8.col-sm-6
-        small class="form-text text-muted" Topics should be comma-separated. i.e. nlp,attention
-    .row
-    .row.vertical-align.query-bar
-      .col-md-12.col-sm-2
-        button { 
-          type='submit' id='repo-form-submit' class='submit' 
-          value='submit' class="btn btn-success" 
-        } Submit
-    .row
-      .col-md-12.blank-row
+  div.row.my-md-3.justify-content-center
+    form role="form" action="/inbox" method="post" id="find-inbox"
+      .row.vertical-align.query-bar
+        .col-md-3.col-sm-3
+          .text-right Inbox ID:
+        .col-md-7.col-sm-6
+          input {
+            type="text" name="inbox_id"
+            id="inbox-id" class="form-control"
+            placeholder="e.g 12345"
+          }
+        .col-md-2.col-sm-3
+          button {
+            type="submit" id="inbox-submit"
+            class="btn btn-success submit"
+          } Find Inbox
+      small.form-text.text-muted Once you enter your inbox ID, we'll find your inbox for you.
+
+  div.row.justify-content-center
+    span OR
+
+  div.row.justify-content-center
+    a href="inbox/new" id="new-inbox.link" class="btn btn-link" role="button" Create New Inbox
+
+  hr
+
+  div.row.my-md-3
+    h3 All Inboxes
+  div.row.my-md-3
+    - if inboxes.any?
+      ul.list-group
+        - inboxes.each.with_index do |inbox, index|
+          li.list-group-item.my-md-2
+            a href="inbox/#{inbox.url}" id="inbox[#{index}].link" #{inbox.name}
+    - else
+      h5 No suggestions found

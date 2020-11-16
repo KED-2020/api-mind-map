@@ -15,7 +15,9 @@ module MindMap
 
       # GET /
       routing.root do
-        view 'home'
+        inboxes = Repository::Inbox::For.klass(Entity::Inbox).all
+
+        view 'home', locals: { inboxes: inboxes }
       end
 
       routing.on '404' do
@@ -26,6 +28,36 @@ module MindMap
 
       routing.on 'resource_nil' do
         view 'resource_nil'
+      end
+
+      # Inbox
+      routing.on 'inbox' do
+        routing.on 'new' do
+          view 'new_inbox'
+        end
+
+        routing.post do
+          inbox_id = routing.params['inbox_id']
+
+          # Redirect to the get request
+          routing.redirect "inbox/#{inbox_id}"
+        end
+
+        routing.on String do |inbox_id|
+          routing.get do
+            # Find the inbox specified by the url.
+            inbox = Repository::Inbox::For.klass(Entity::Inbox)
+                    .find_url(inbox_id)
+
+            routing.redirect '404' unless inbox
+
+            # Load the suggestions for an inbox.
+            suggestions = Mapper::Inbox.new(inbox).suggestions
+
+            # Show the user their inbox
+            view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+          end
+        end
       end
 
       # Resource

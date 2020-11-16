@@ -2,7 +2,6 @@
 
 require 'rake/testtask'
 require_relative './config/init.rb'
-CODE = 'lib/'
 
 task :default do
   puts `rake -T`
@@ -12,11 +11,6 @@ desc 'run tests'
 task :spec do
   sh 'ruby spec/gateway_github_spec.rb'
 end
-
-# desc 'Keep rerunning tests upon changes'
-# task :respec do
-#   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
-# end
 
 desc 'Run application console (irb)'
 task :console do
