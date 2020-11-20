@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rake/testtask'
-require_relative './config/init.rb'
+require_relative './config/init'
 
 task :default do
   puts `rake -T`

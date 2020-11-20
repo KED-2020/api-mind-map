@@ -15,7 +15,7 @@ module MindMap
       attribute :suggestions, Strict::Array.of(MindMap::Entity::Suggestion).optional
 
       def to_attr_hash
-        to_hash.reject { |key, _| [:id].include? key }
+        to_hash.reject { |key, _| %i[id suggestions].include? key }
       end
 
       def empty?

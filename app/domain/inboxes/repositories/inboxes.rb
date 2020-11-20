@@ -44,7 +44,7 @@ module MindMap
           @entity = entity
         end
 
-        def create_resource
+        def create_inbox
           Database::InboxOrm.create(@entity.to_attr_hash)
         end
 
