@@ -53,7 +53,7 @@ module MindMap
             routing.redirect '404' unless inbox
 
             # Load the suggestions for an inbox.
-            suggestions = Mapper::Inbox.new(inbox).suggestions
+            suggestions = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
 
             # Show the user their inbox
             view 'inbox', locals: { inbox: inbox, suggestions: suggestions }

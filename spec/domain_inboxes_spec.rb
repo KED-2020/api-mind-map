@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'helpers/pec_helper'
+require_relative 'helpers/spec_helper'
 require_relative 'helpers/vcr_helper'
 require_relative 'helpers/database_helper'
 
@@ -32,22 +32,16 @@ describe 'Test Inboxes Mappers and Repository' do
       name: 'test',
       url: '12345',
       description: 'test',
-      suggestions: [MindMap::Entity::Suggestion.new(
-        id: nil,
-        name: 'test',
-        description: 'test desc',
-        source: 'https://github.com',
-        created_at: Time.new
-      )]
-    )
+      suggestions: [])
     saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox)
                                                  .find_or_create(inbox)
 
-    saved_suggestions = MindMap::Mapper::Inbox.new(saved_inbox).suggestions
+    suggestions = MindMap::Mapper::Inbox.new(GITHUB_TOKEN).suggestions(saved_inbox)
+    MindMap::Repository::Inboxes.add_suggestions(saved_inbox, suggestions)
 
-    _(saved_suggestions.count).must_equal 1
-    _(saved_suggestions[0].name).must_equal 'test'
-    _(saved_suggestions[0].description).must_equal 'test desc'
-    _(saved_suggestions[0].source).must_equal 'https://github.com'
+    _(suggestions.count).must_equal 30
+    _(suggestions[0].name).must_equal 'transformers'
+    _(suggestions[0].description).must_equal "🤗Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0."
+    _(suggestions[0].source).must_equal 'https://github.com/huggingface/transformers'
   end
 end
