@@ -1,38 +1,30 @@
+div.pb-3.text-center
+  h3 Welcome to Mind Map!
+  small.text-muted Better Research for a Better Tomorrow
 
-.container
-  div.row.my-md-3.justify-content-center
-    form role="form" action="/inbox" method="post" id="find-inbox"
-      .row.vertical-align.query-bar
-        .col-md-3.col-sm-3
-          .text-right Inbox ID:
-        .col-md-7.col-sm-6
-          input {
-            type="text" name="inbox_id"
-            id="inbox-id" class="form-control"
-            placeholder="e.g 12345"
-          }
-        .col-md-2.col-sm-3
-          button {
-            type="submit" id="inbox-submit"
-            class="btn btn-success submit"
-          } Find Inbox
-      small.form-text.text-muted Once you enter your inbox ID, we'll find your inbox for you.
+section.border.rounded.homepage
+  h1.h4 Find Inbox
 
-  div.row.justify-content-center
-    span OR
+  form.py-3.inbox-search-form role="form" action="/inbox" method="post"
+    label for="inbox-id" Inbox ID:
 
-  div.row.justify-content-center
-    a href="inbox/new" id="new-inbox.link" class="btn btn-link" role="button" Create New Inbox
+    input {
+      type="text" name="inbox_id"
+      id="inbox-id" class="form-control"
+      placeholder="e.g 12345"
+    }
 
-  hr
+    small.form-text.text-muted.mb-2 We'll find and load your inbox for you once you press enter
 
-  div.row.my-md-3
-    h3 All Inboxes
-  div.row.my-md-3
-    - if inboxes.any?
-      ul.list-group
-        - inboxes.each.with_index do |inbox, index|
-          li.list-group-item.my-md-2
-            a href="inbox/#{inbox.url}" id="inbox[#{index}].link" #{inbox.name}
-    - else
-      h5 No suggestions found
+    button {
+      type="submit" id="inbox-submit"
+      class="btn btn-success"
+    } Find Inbox
+
+  hr.w-100.border-top.my-3
+
+  div.pt-3.homepage-other-options
+    h2.h5.pb-2 Don't have an Inbox ID?
+
+    a href="inbox/new-guest" id="guest-login" class="btn btn-primary btn-block yb-3" role="button" Continue as Guest
+    a href="inbox/new" id="new-inbox" class="btn btn-link btn-block yb-3" role="button" Create New Inbox

@@ -2,6 +2,7 @@
 
 require 'roda'
 require 'slim'
+require 'slim/include'
 
 module MindMap
   # Web app
@@ -9,15 +10,15 @@ module MindMap
     plugin :render, engine: 'slim', views: 'app/views'
     plugin :assets, css: 'style.css', path: 'app/views/assets'
     plugin :halt
+    plugin :partials
 
+    # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # Load CSS
 
       # GET /
       routing.root do
-        inboxes = Repository::Inbox::For.klass(Entity::Inbox).all
-
-        view 'home', locals: { inboxes: inboxes }
+        view 'home'
       end
 
       routing.on '404' do
@@ -47,7 +48,7 @@ module MindMap
           routing.get do
             # Find the inbox specified by the url.
             inbox = Repository::Inbox::For.klass(Entity::Inbox)
-                    .find_url(inbox_id)
+                                          .find_url(inbox_id)
 
             routing.redirect '404' unless inbox
 
@@ -87,12 +88,13 @@ module MindMap
             resource_origin_id = routing.params['resource_origin_id']
 
             resource = Repository::For.klass(Entity::Resource)
-                       .find_origin_id(resource_origin_id)
+                                      .find_origin_id(resource_origin_id)
 
             view 'resource', locals: { resource: resource }
           end
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

@@ -17,6 +17,11 @@ task :console do
   sh 'irb -r ./init'
 end
 
+desc 'Keep restarting web app upon changes'
+task :rerack do
+  sh "rerun -c rackup --ignore 'coverage/*'"
+end
+
 namespace :vcr do
   desc 'delete cassette fixtures'
   task :wipe do
