@@ -5,20 +5,21 @@ require_relative 'helpers/vcr_helper'
 require_relative 'helpers/database_helper'
 
 describe 'Test Inboxes Mappers and Repository' do
+  VcrHelper.setup_vcr
   DatabaseHelper.setup_database_cleaner
 
   before do
-    DatabaseHelper.wipe_database
     VcrHelper.configure_vcr_for_github
+    DatabaseHelper.wipe_database
   end
 
   after do
     VcrHelper.eject_vcr
+    # DatabaseHelper.wipe_database  # Kept for test
   end
 
   it 'HAPPY: should return null when no inbox for the given url exists' do
-    inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox)
-                                           .find_url('invalid_url')
+    inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).find_url('invalid_url')
 
     assert_nil(inbox)
   end

@@ -7,14 +7,39 @@ task :default do
   puts `rake -T`
 end
 
-desc 'run tests'
-task :spec do
+
+desc 'Run all tests'
+Rake::TestTask.new(:spec) do |t|
+  t.pattern = 'spec/*_spec.rb'
+  t.warning = false
+end
+
+desc 'Run github api test'
+task :spec_github_api do
   sh 'ruby spec/gateway_github_spec.rb'
 end
 
-desc 'Run application console (irb)'
-task :console do
-  sh 'irb -r ./init'
+desc 'Run database test'
+task :spec_database do
+  sh 'ruby spec/gateway_database_spec.rb'
+end
+
+desc 'Run inbox domain test'
+task :spec_inbox_domain do
+  sh 'ruby spec/domain_inboxes_spec.rb'
+end
+
+
+namespace :run do
+  desc 'Run Roda app in dev env'
+  task :dev do
+    sh 'rerun -c "rackup -p 9292"'
+  end
+
+  desc 'Run Roda app in test env'
+  task :test do
+    sh 'RACK_ENV=test rackup -p 9000'
+  end
 end
 
 desc 'Keep restarting web app upon changes'
@@ -22,8 +47,14 @@ task :rerack do
   sh "rerun -c rackup --ignore 'coverage/*'"
 end
 
+
+desc 'Run application console (irb)'
+task :console do
+  sh 'irb -r ./init'
+end
+
 namespace :vcr do
-  desc 'delete cassette fixtures'
+  desc 'Delete cassette fixtures'
   task :wipe do
     sh 'rm spec/fixtures/cassettes/*.yml' do |ok, _|
       puts(ok ? 'Cassettes deleted' : 'No cassettes found')
@@ -32,7 +63,7 @@ namespace :vcr do
 end
 
 namespace :quality do
-  desc 'run all quality checks'
+  desc 'Run all quality checks'
   task all: %i[rubocop reek flog]
 
   task :rubocop do
@@ -70,11 +101,6 @@ namespace :db do
   task wipe: :config do
     DatabaseHelper.setup_database_cleaner
     DatabaseHelper.wipe_database
-  end
-
-  desc 'run tests'
-  task gwdbint: :config do
-    sh 'ruby spec/gateway_database_spec.rb'
   end
 
   desc 'Delete dev or test database file'
