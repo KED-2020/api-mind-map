@@ -17,7 +17,7 @@ GEM
     dry-container (0.7.2)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.1, >= 0.1.3)
-    dry-core (0.4.9)
+    dry-core (0.4.10)
       concurrent-ruby (~> 1.0)
     dry-equalizer (0.3.0)
     dry-inflector (0.2.0)
@@ -59,10 +59,13 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    http-parser (1.2.1)
-      ffi-compiler (>= 1.0, < 2.0)
+    http-parser (1.2.2)
+      ffi-compiler
     ice_nine (0.11.2)
     kwalify (0.7.2)
+    listen (3.3.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     minitest (5.14.2)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
@@ -70,7 +73,11 @@ GEM
       ast (~> 2.4.1)
     path_expander (1.1.0)
     pg (1.2.3)
+<<<<<<< HEAD
     powerpack (0.1.2)
+=======
+    powerpack (0.1.3)
+>>>>>>> origin
     psych (3.2.0)
     public_suffix (4.0.6)
     puma (3.12.6)
@@ -78,12 +85,17 @@ GEM
     rainbow (2.2.2)
       rake
     rake (13.0.1)
+    rb-fsevent (0.10.4)
+    rb-inotify (0.10.1)
+      ffi (~> 1.0)
     reek (6.0.2)
       kwalify (~> 0.7.0)
       parser (>= 2.5.0.0, < 2.8, != 2.5.1.1)
       psych (~> 3.1)
       rainbow (>= 2.0, < 4.0)
-    roda (3.37.0)
+    rerun (0.13.0)
+      listen (~> 3.0)
+    roda (3.38.0)
       rack
     rubocop (0.36.0)
       parser (>= 2.3.0.0, < 3.0)
@@ -110,7 +122,7 @@ GEM
     unf_ext (0.0.7.7)
     unicode-display_width (0.1.1)
     vcr (6.0.0)
-    webmock (3.9.4)
+    webmock (3.10.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -119,7 +131,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  database_cleaner
+  database_cleaner (~> 1.8)
   dry-struct (~> 1.3)
   dry-types (~> 1.4)
   econfig (~> 2.1)
@@ -129,16 +141,22 @@ DEPENDENCIES
   http (~> 4.0)
   minitest (~> 5.0)
   minitest-rg (~> 5.0)
+<<<<<<< HEAD
   pg
+=======
+  pg (~> 1.2)
+>>>>>>> origin
   puma (~> 3.11)
-  rake
+  rack (~> 2)
+  rake (~> 13.0)
   reek
+  rerun (~> 0.13)
   roda (~> 3.8)
   rubocop
   sequel (~> 5.38.0)
   simplecov (~> 0)
   slim (~> 3.0)
-  sqlite3
+  sqlite3 (~> 1.4)
   vcr (~> 6.0)
   webmock (~> 3.0)
 

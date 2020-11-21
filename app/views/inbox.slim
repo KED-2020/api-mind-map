@@ -1,0 +1,36 @@
+.inbox
+  h1.h2.pb-1.my-0
+    = inbox.name || 'Untitled Inbox'
+  p.pb-3.mb-0.text-muted
+    = inbox.description || 'No description has been set for this inbox yet.'
+
+  - if suggestions.any?
+    h5 Suggestions
+
+    ul.list-group
+      - suggestions.each.with_index do |suggestion, index|
+          li.list-group-item.border.mb-3.p-3 id="index" title=suggestion.name
+            .suggestion-heading
+              .h5.my-0
+                a href=suggestion.source id="suggestion[#{index}].link"
+                  = suggestion.name
+              small
+                = suggestion.suggested_date
+            .suggestion-body
+              .suggestion-description
+                p.m-0.mb-1
+                  = suggestion.description
+                .suggestion-topics
+                  / - if suggestion.topics.any?
+                  /   - suggestion.topics.each.with_index do |topic, index|
+                  /       span.badge.badge-pill.badge-light
+                  /         = tag.name
+                  / - else
+                  span.badge.badge-pill.badge-dark.mr-1 Example
+                  span.badge.badge-pill.badge-dark.mr-1 Transformers
+
+              .suggestion-actions
+                button type="button" id="favorite" class="btn btn-success btn-sm mb-3" Favorite
+                button type="button" id="discard"  class="btn btn-light btn-sm" Discard
+  - else
+    h5 No Suggestions Found

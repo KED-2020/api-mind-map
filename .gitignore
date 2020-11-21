@@ -1,12 +1,16 @@
 .DS_Store
+
 config/secrets.yml
+
 coverage/*
 !coverage/.resultset.json
-spec/coverage/*
-!spec/coverage/.resultset.json
-unit_test.rb
 
 *.db
+
 _snippets/
 .irb_history
 .bundle/
+<<<<<<< HEAD
+=======
+settings.json
+>>>>>>> origin

@@ -24,11 +24,7 @@ module MindMap
       end
 
       def self.find_or_create(entity)
-        db_resource = find(entity)
-
-        return rebuild_entity(db_resource) if db_resource
-
-        db_resource = PersistResource.new(entity).call
+        db_resource = find(entity) || PersistResource.new(entity).call
 
         rebuild_entity(db_resource)
       end

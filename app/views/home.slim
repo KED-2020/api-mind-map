@@ -1,35 +1,30 @@
+div.pb-3.text-center
+  h3 Welcome to Mind Map!
+  small.text-muted Better Research for a Better Tomorrow
 
-.container
-  form role="form" action="/resource" method='POST' id='search-resource-form'
-    .row.vertical-align.query-bar
-      .col-md-2.col-sm-2
-        .text-right Search
-      .col-md-8.col-sm-6
-        input { 
-          type='text' name='search'
-          id='github resource name' class="form-control"
-          placeholder="e.g. transformers"
-          help="Short helpful message"
-        }
-        
-    .row
-    .row.vertical-align.query-bar
-      .col-md-2.col-sm-2
-        .text-right Topics (Optional)
-      .col-md-8.col-sm-6
-        input { 
-          type='text' name='tags'
-          id='github_url_input' class="form-control"
-          placeholder="e.g. nlp,attention"
-        }
-      .col-md-8.col-sm-6
-        small class="form-text text-muted" Topics should be comma-separated. i.e. nlp,attention
-    .row
-    .row.vertical-align.query-bar
-      .col-md-12.col-sm-2
-        button { 
-          type='submit' id='repo-form-submit' class='submit' 
-          value='submit' class="btn btn-success" 
-        } Submit
-    .row
-      .col-md-12.blank-row
+section.border.rounded.homepage
+  h1.h4 Find Inbox
+
+  form.py-3.inbox-search-form role="form" action="/inbox" method="post"
+    label for="inbox-id" Inbox ID:
+
+    input {
+      type="text" name="inbox_id"
+      id="inbox-id" class="form-control"
+      placeholder="e.g 12345"
+    }
+
+    small.form-text.text-muted.mb-2 We'll find and load your inbox for you once you press enter
+
+    button {
+      type="submit" id="inbox-submit"
+      class="btn btn-success"
+    } Find Inbox
+
+  hr.w-100.border-top.my-3
+
+  div.pt-3.homepage-other-options
+    h2.h5.pb-2 Don't have an Inbox ID?
+
+    a href="inbox/new-guest" id="guest-login" class="btn btn-primary btn-block yb-3" role="button" Continue as Guest
+    a href="inbox/new" id="new-inbox" class="btn btn-link btn-block yb-3" role="button" Create New Inbox

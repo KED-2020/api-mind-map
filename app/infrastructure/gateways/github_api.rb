@@ -10,6 +10,10 @@ module MindMap
         @token = token
       end
 
+      def suggestions(topic)
+        Request.new(@token).search(topic, []).parse
+      end
+
       def search_data(query, topics)
         Request.new(@token).search(query, topics).parse
       end

@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-require_relative 'spec_helper'
+require_relative 'helpers/spec_helper'
 require_relative 'helpers/vcr_helper'
 
 describe 'Tests Github API library' do
@@ -50,13 +50,16 @@ describe 'Tests Github API library' do
 
     it 'Ensures topics are formatted correct' do
       @resource.topics.each do |topic|
-        _(topic).must_be_kind_of(String)
+        _(topic).must_be_kind_of(MindMap::Entity::Topic)
       end
     end
 
     it 'Ensure that the topic names are correct' do
+      topics = @resource.topics
       _(@resource.topics.count).must_equal CORRECT['topics'].count
-      _(@resource.topics).must_equal CORRECT['topics']
+
+      topicnames = topics.map(&:name)
+      _(topicnames).must_equal CORRECT['topics']
     end
   end
 end
