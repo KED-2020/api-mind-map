@@ -9,7 +9,8 @@ module MindMap
       end
 
       def suggestions
-        Mapper::GithubSuggestions.new(@gh_token).suggestions('transformers')
+        Mapper::GithubSuggestions.new(@gh_token).suggestions('tensorflow')
+        # Mapper::GithubSuggestions.new(@gh_token).suggestions('transformers')
       end
     end
   end

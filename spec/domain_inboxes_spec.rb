@@ -33,15 +33,20 @@ describe 'Test Inboxes Mappers and Repository' do
       url: '12345',
       description: 'test',
       suggestions: [])
-    saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox)
-                                                 .find_or_create(inbox)
+    saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
 
-    suggestions = MindMap::Mapper::Inbox.new(GITHUB_TOKEN).suggestions(saved_inbox)
+    suggestions = MindMap::Mapper::Inbox.new(GITHUB_TOKEN).suggestions()
     MindMap::Repository::Inboxes.add_suggestions(saved_inbox, suggestions)
 
+    # This test case is more friendly for Hurb Display
     _(suggestions.count).must_equal 30
-    _(suggestions[0].name).must_equal 'transformers'
-    _(suggestions[0].description).must_equal "🤗Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0."
-    _(suggestions[0].source).must_equal 'https://github.com/huggingface/transformers'
+    _(suggestions[0].name).must_equal "tensorflow"
+    _(suggestions[0].description).must_equal "An Open Source Machine Learning Framework for Everyone"
+    _(suggestions[0].source).must_equal "https://github.com/tensorflow/tensorflow"
+
+    # _(suggestions.count).must_equal 30
+    # _(suggestions[0].name).must_equal 'transformers'
+    # _(suggestions[0].description).must_equal "🤗Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0."
+    # _(suggestions[0].source).must_equal 'https://github.com/huggingface/transformers'
   end
 end
