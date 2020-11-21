@@ -22,10 +22,6 @@ module MindMap
 
       # GET /
       routing.root do
-        # Get cookie viewer's previously seen projects
-        session[:watching] ||= []
-        
-
         view 'home'
       end
 
@@ -47,9 +43,19 @@ module MindMap
           view 'new_inbox'
         end
 
-        # GET /inbox/new-guest
-        routing.on 'new-guest' do
-          view 'new_guest'
+        # GET /inbox/guest-inbox
+        routing.on 'guest-inbox' do
+          
+          # Get guest suggestions
+          session[:guest_suggestions] ||= []
+          
+          session[:guest_suggestions].insert(0, "suggestion1").uniq!
+          session[:guest_suggestions].insert(0, "suggestion2").uniq!
+          # session[:guest_suggestions].delete("suggestion1")
+          # session[:guest_suggestions].delete("suggestion2")
+          puts "guest_suggestions = #{session[:guest_suggestions]}"
+
+          view 'guest_inbox', locals: { guest_suggestions: session[:guest_suggestions] }
         end
         
         # POST /inbox/
