@@ -2,6 +2,7 @@
 
 require 'roda'
 require 'econfig'
+require 'delegate'
 
 module MindMap
   # Configuration for the App
@@ -11,6 +12,8 @@ module MindMap
     extend Econfig::Shortcut
     Econfig.env = environment.to_s
     Econfig.root = '.'
+
+    use Rack::Session::Cookie, secret: config.SESSION_SECRET
 
     configure :development, :test do
       ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"

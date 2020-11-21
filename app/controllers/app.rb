@@ -7,10 +7,14 @@ require 'slim/include'
 module MindMap
   # Web app
   class App < Roda
+    plugin :halt
+    plugin :flash
+    plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
     plugin :render, engine: 'slim', views: 'app/views'
     plugin :assets, css: 'style.css', path: 'app/views/assets'
-    plugin :halt
     plugin :partials
+
+    use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
 
     # rubocop:disable Metrics/BlockLength
     route do |routing|
@@ -18,6 +22,10 @@ module MindMap
 
       # GET /
       routing.root do
+        # Get cookie viewer's previously seen projects
+        session[:watching] ||= []
+        
+
         view 'home'
       end
 
@@ -34,11 +42,16 @@ module MindMap
       # Inbox
       routing.on 'inbox' do
         
-        # GET /inbox/new
-        routing.on 'new' do
+        # GET /inbox/new-inbox
+        routing.on 'new-inbox' do
           view 'new_inbox'
         end
 
+        # GET /inbox/new-guest
+        routing.on 'new-guest' do
+          view 'new_guest'
+        end
+        
         # POST /inbox/
         routing.post do
           inbox_id = routing.params['inbox_id']
@@ -50,10 +63,14 @@ module MindMap
         routing.on String do |inbox_id|
           # GET /inbox/{inbox_id}
           routing.get do
+
             # Find the inbox specified by the url.
             inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(inbox_id)
 
-            routing.redirect '/404' unless inbox
+            unless inbox
+              flash[:error] = 'Invalid Inbox Id' 
+              routing.redirect '/'
+            end
 
             # Load the suggestions for an inbox.
             suggestions = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
@@ -62,6 +79,13 @@ module MindMap
             view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
           end
         end
+
+        # GET /inbox/
+        routing.get do
+          flash[:error] = 'Please type your Inbox Id' 
+          routing.redirect '/'
+        end
+
       end
 
       # Resource
