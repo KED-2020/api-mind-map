@@ -26,6 +26,12 @@ module MindMap
         rebuild_entity(db_inbox)
       end
 
+      def self.add_suggestions(entity, suggestions)
+        return unless entity && suggestions.count.positive?
+
+        PersistInboxSuggestions.new(entity, suggestions).call
+      end
+
       private
 
       def self.rebuild_entity(db_record)
@@ -38,13 +44,35 @@ module MindMap
         )
       end
 
+      # Helper class to add suggestions to an existing inbox.
+      class PersistInboxSuggestions
+        def initialize(entity, suggestions)
+          @entity = entity
+          @suggestions = suggestions
+        end
+
+        def find_inbox
+          Database::InboxOrm.first(id: @entity.id)
+        end
+
+        def call
+          find_inbox.tap do |db_inbox|
+            @suggestions.each do |suggestion|
+              saved_suggestion = Suggestions.db_find_or_create(suggestion)
+
+              db_inbox.add_suggestion(saved_suggestion) if saved_suggestion
+            end
+          end
+        end
+      end
+
       # Helper class to persist inbox and its suggestions to the database
       class PersistInbox
         def initialize(entity)
           @entity = entity
         end
 
-        def create_resource
+        def create_inbox
           Database::InboxOrm.create(@entity.to_attr_hash)
         end
 

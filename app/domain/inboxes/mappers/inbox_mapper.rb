@@ -4,16 +4,13 @@ module MindMap
   module Mapper
     # Inbox for managing inbox services.
     class Inbox
-      def initialize(inbox)
-        @inbox = inbox
-      end
-
-      def build_entity
+      def initialize(gh_token)
+        @gh_token = gh_token
       end
 
       def suggestions
-        # This will need to be smarter later.
-        @inbox.suggestions
+        Mapper::GithubSuggestions.new(@gh_token).suggestions('tensorflow')
+        # Mapper::GithubSuggestions.new(@gh_token).suggestions('transformers')
       end
     end
   end
