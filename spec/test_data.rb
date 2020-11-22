@@ -16,9 +16,9 @@ DatabaseHelper.wipe_database    # Clean every time
 ########################################################################
 inbox = MindMap::Entity::Inbox.new(
   id: nil,
-  name: 'test',
+  name: 'Test Inbox',
   url: '12345',
-  description: 'test',
+  description: 'A test inbox which contains some suggestions from searching tensorflow from GitHub',
   suggestions: [])
 saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
 
@@ -32,7 +32,7 @@ MindMap::Repository::Inboxes.add_suggestions(saved_inbox, suggestions)
 ########################################################################
 guest_inbox = MindMap::Entity::Inbox.new(
   id: nil,
-  name: 'Guest',
+  name: 'Guest Inbox',
   url: 'guest-inbox',
   description: 'Guest Inbox reserve your inbox data by cookie, you can delete your cookie if you want.',
   suggestions: [])

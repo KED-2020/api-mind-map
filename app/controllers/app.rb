@@ -25,11 +25,6 @@ module MindMap
         view 'home'
       end
 
-      # GET /404
-      routing.on '404' do
-        view '404'
-      end
-
       # GET /resource_nil
       routing.on 'resource_nil' do
         view 'resource_nil'
