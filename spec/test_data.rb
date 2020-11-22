@@ -25,7 +25,18 @@ saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).find
 suggestions = MindMap::Mapper::Inbox.new(GITHUB_TOKEN).suggestions()
 MindMap::Repository::Inboxes.add_suggestions(saved_inbox, suggestions)
 
+########################################################################
+# Test Data: /inbox/guest-inbox
+########################################################################
+inbox = MindMap::Entity::Inbox.new(
+  id: nil,
+  name: 'Guest',
+  url: 'guest-inbox',
+  description: 'Guest Inbox reserve your inbox data by cookie, you can delete your cookie if you want.',
+  suggestions: [])
+saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
 
+# No suggestions in Guest Inbox
 
 
 # DatabaseHelper.wipe_database    # Kept as test data

@@ -15,7 +15,7 @@ describe 'Test Inboxes Mappers and Repository' do
 
   after do
     VcrHelper.eject_vcr
-    # DatabaseHelper.wipe_database  # Kept for test
+    DatabaseHelper.wipe_database
   end
 
   it 'HAPPY: should return null when no inbox for the given url exists' do
@@ -50,4 +50,6 @@ describe 'Test Inboxes Mappers and Repository' do
     # _(suggestions[0].description).must_equal "🤗Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0."
     # _(suggestions[0].source).must_equal 'https://github.com/huggingface/transformers'
   end
+
+
 end

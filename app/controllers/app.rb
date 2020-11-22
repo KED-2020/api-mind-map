@@ -46,7 +46,7 @@ module MindMap
         # GET /inbox/guest-inbox
         routing.on 'guest-inbox' do
           
-          # Get guest suggestions
+          # Get guest suggestions from cookie/session
           session[:guest_suggestions] ||= []
           
           session[:guest_suggestions].insert(0, "suggestion1").uniq!
@@ -55,7 +55,22 @@ module MindMap
           # session[:guest_suggestions].delete("suggestion2")
           puts "guest_suggestions = #{session[:guest_suggestions]}"
 
-          view 'guest_inbox', locals: { guest_suggestions: session[:guest_suggestions] }
+          # Reserve a specific id for 'guest-inbox' (# nice pattern?)
+          guest_inbox_id = 'guest-inbox'
+
+          # Find the inbox specified by the url.
+          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(guest_inbox_id)
+
+          unless inbox
+            flash[:error] = "Guest Inbox doesn't exist" 
+            routing.redirect '/'
+          end
+
+          # Currently, no suggestions for an guest inbox.
+          suggestions = []
+
+          # Show the user their inbox
+          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }        
         end
         
         # POST /inbox/

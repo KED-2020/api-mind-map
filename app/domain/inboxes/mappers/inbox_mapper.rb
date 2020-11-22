@@ -12,6 +12,10 @@ module MindMap
         Mapper::GithubSuggestions.new(@gh_token).suggestions('tensorflow')
         # Mapper::GithubSuggestions.new(@gh_token).suggestions('transformers')
       end
+
+      def no_suggestions
+        Mapper::GithubSuggestions.new(@gh_token).suggestions('1')
+      end
     end
   end
 end
