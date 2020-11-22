@@ -40,7 +40,23 @@ module MindMap
         
         # GET /inbox/new-inbox
         routing.on 'new-inbox' do
-          view 'new_inbox'
+
+          # Reserve a specific id for 'guest-inbox' (# nice pattern?)
+          new_inbox_id = 'new-inbox'
+
+          # Find the inbox specified by the url.
+          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(new_inbox_id)
+
+          unless inbox
+            flash[:error] = "New Inbox doesn't exist" 
+            routing.redirect '/'
+          end
+
+          # Currently, no suggestions for an guest inbox.
+          suggestions = []
+
+          # Show the user their inbox
+          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
         end
 
         # GET /inbox/guest-inbox
