@@ -5,6 +5,8 @@ div.pb-3.text-center
 section.border.rounded.homepage  
   h1.h4 Find Inbox
 
+  include :flash_bar
+
   form.py-3.inbox-search-form role="form" action="/inbox" method="post"
 
     label for="inbox-id" Inbox ID:
@@ -16,8 +18,6 @@ section.border.rounded.homepage
     }
 
     small.form-text.text-muted.mb-2 We'll find and load your inbox for you once you press enter
-
-    include :flash_bar
 
     button {
       type="submit" id="inbox-submit"
