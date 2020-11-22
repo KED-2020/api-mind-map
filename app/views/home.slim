@@ -2,10 +2,11 @@ div.pb-3.text-center
   h3 Welcome to Mind Map!
   small.text-muted Better Research for a Better Tomorrow
 
-section.border.rounded.homepage
+section.border.rounded.homepage  
   h1.h4 Find Inbox
 
   form.py-3.inbox-search-form role="form" action="/inbox" method="post"
+
     label for="inbox-id" Inbox ID:
 
     input {
@@ -15,6 +16,8 @@ section.border.rounded.homepage
     }
 
     small.form-text.text-muted.mb-2 We'll find and load your inbox for you once you press enter
+
+    include :flash_bar
 
     button {
       type="submit" id="inbox-submit"
@@ -26,5 +29,5 @@ section.border.rounded.homepage
   div.pt-3.homepage-other-options
     h2.h5.pb-2 Don't have an Inbox ID?
 
-    a href="inbox/new-guest" id="guest-login" class="btn btn-primary btn-block yb-3" role="button" Continue as Guest
-    a href="inbox/new" id="new-inbox" class="btn btn-link btn-block yb-3" role="button" Create New Inbox
+    a href="inbox/guest-inbox" id="guest-inbox" class="btn btn-primary btn-block yb-3" role="button" Continue as Guest
+    a href="inbox/new-inbox" id="new-inbox" class="btn btn-link btn-block yb-3" role="button" Create New Inbox

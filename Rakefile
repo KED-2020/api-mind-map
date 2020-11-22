@@ -7,50 +7,72 @@ task :default do
   puts `rake -T`
 end
 
+namespace :spec do
+  desc 'Run all tests'
+  Rake::TestTask.new(:all) do |t|
+    t.pattern = 'spec/*_spec.rb'
+    t.warning = false
+  end
 
-desc 'Run all tests'
-Rake::TestTask.new(:spec) do |t|
-  t.pattern = 'spec/*_spec.rb'
-  t.warning = false
+  desc 'Run github api test'
+  task :github_api do
+    sh 'ruby spec/gateway_github_spec.rb'
+  end
+
+  desc 'Run database test'
+  task :database do
+    sh 'ruby spec/gateway_database_spec.rb'
+  end
+
+  desc 'Run inbox domain test'
+  task :inbox_domain do
+    sh 'ruby spec/domain_inboxes_spec.rb'
+  end
 end
 
-desc 'Run github api test'
-task :spec_github_api do
-  sh 'ruby spec/gateway_github_spec.rb'
+namespace :respec do
+  desc 'Keep rerunning unit/integration tests upon changes'
+  task :all do
+    sh "rerun -c 'rake spec:all' --ignore 'coverage/*'" 
+  end
 end
 
-desc 'Run database test'
-task :spec_database do
-  sh 'ruby spec/gateway_database_spec.rb'
-end
-
-desc 'Run inbox domain test'
-task :spec_inbox_domain do
-  sh 'ruby spec/domain_inboxes_spec.rb'
-end
-
-
-namespace :run do
+namespace :rack do
   desc 'Run Roda app in dev env'
   task :dev do
-    sh 'rerun -c "rackup -p 9292"'
+    sh 'rackup -p 9292'
   end
 
   desc 'Run Roda app in test env'
   task :test do
+    sh 'ruby spec/test_data.rb'
     sh 'RACK_ENV=test rackup -p 9000'
   end
 end
 
-desc 'Keep restarting web app upon changes'
-task :rerack do
-  sh "rerun -c rackup --ignore 'coverage/*'"
+namespace :rerack do
+  desc 'Keep restarting web app upon changes in dev env'
+  task :dev do
+    sh 'rerun -c "rackup -p 9292" --ignore "coverage/*"'
+  end
+
+  desc 'Keep restarting web app upon changes in test env'
+  task :test do
+    sh 'ruby spec/test_data.rb'
+    sh 'rerun -c "RACK_ENV=test rackup -p 9000" --ignore "coverage/*"'
+  end
 end
 
+namespace :console do
+  desc 'Run application console (irb) in dev env'
+  task :dev do
+    sh 'irb -r ./init'
+  end
 
-desc 'Run application console (irb)'
-task :console do
-  sh 'irb -r ./init'
+  desc 'Run application console (irb) in test env'
+  task :test do
+    sh 'RACK_ENV=test irb -r ./init'
+  end
 end
 
 namespace :vcr do
