@@ -5,10 +5,10 @@ ENV['RACK_ENV'] = 'test'
 require_relative '../init'
 require_relative 'helpers/database_helper'
 
-GITHUB_TOKEN = MindMap::App.config.GITHUB_TOKEN
-
 DatabaseHelper.setup_database_cleaner
 DatabaseHelper.wipe_database    # Clean every time
+
+GITHUB_TOKEN = MindMap::App.config.GITHUB_TOKEN
 
 
 ########################################################################

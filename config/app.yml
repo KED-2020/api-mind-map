@@ -1,5 +1,12 @@
+---
 development:
-  DB_FILENAME: app/infrastructure/database/local/dev.db
+  # Infrastructure
+  DB_FILENAME:    app/infrastructure/database/local/dev.db
+  # Application
+  APP_HOST: http://localhost:9000
 
 test:
-  DB_FILENAME: app/infrastructure/database/local/test.db
+  # Infrastructure
+  DB_FILENAME:    app/infrastructure/database/local/test.db
+  # Application
+  APP_HOST: http://localhost:9000

@@ -43,7 +43,7 @@ module MindMap
           session[:suggestions].insert(0, "suggestion2").uniq!
           # session[:suggestions].delete("suggestion1")
           # session[:suggestions].delete("suggestion2")
-          puts "guest_suggestions = #{session[:suggestions]}"
+          # puts "guest_suggestions = #{session[:suggestions]}"
 
           # Reserve a specific id for 'guest-inbox' (# nice pattern?)
           guest_inbox_id = 'guest-inbox'
@@ -71,7 +71,7 @@ module MindMap
             inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(inbox_id)
 
             unless inbox
-              flash[:error] = 'Invalid Inbox Id'
+              flash[:error] = "This Inbox Id doesn't exist"
               routing.redirect '/'
             end
 
@@ -96,7 +96,7 @@ module MindMap
 
           # Reserve a specific id for 'guest-inbox' (# nice pattern?)
           new_inbox_id = ''
-
+          
           # Find the inbox specified by the url.
           inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(new_inbox_id)
 
