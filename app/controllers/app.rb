@@ -32,27 +32,6 @@ module MindMap
 
       # Inbox
       routing.on 'inbox' do
-        
-        # GET /inbox/new-inbox
-        routing.on 'new-inbox' do
-
-          # Reserve a specific id for 'guest-inbox' (# nice pattern?)
-          new_inbox_id = 'new-inbox'
-
-          # Find the inbox specified by the url.
-          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(new_inbox_id)
-
-          unless inbox
-            flash[:error] = "New Inbox doesn't exist" 
-            routing.redirect '/'
-          end
-
-          # Currently, no suggestions for an guest inbox.
-          suggestions = []
-
-          # Show the user their inbox
-          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
-        end
 
         # GET /inbox/guest-inbox
         routing.on 'guest-inbox' do
@@ -83,24 +62,16 @@ module MindMap
           # Show the user their inbox
           view 'inbox', locals: { inbox: inbox, suggestions: suggestions }        
         end
-        
-        # POST /inbox/
-        routing.post do
-          inbox_id = routing.params['inbox_id']
 
-          # Redirect to the get request
-          routing.redirect "/inbox/#{inbox_id}"
-        end
-
+        # GET /inbox/{inbox_id}
         routing.on String do |inbox_id|
-          # GET /inbox/{inbox_id}
           routing.get do
 
             # Find the inbox specified by the url.
             inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(inbox_id)
 
             unless inbox
-              flash[:error] = 'Invalid Inbox Id' 
+              flash[:error] = 'Invalid Inbox Id'
               routing.redirect '/'
             end
 
@@ -112,10 +83,33 @@ module MindMap
           end
         end
 
-        # GET /inbox/
+        # POST /inbox/
+        routing.post do
+          inbox_id = routing.params['inbox_id']
+
+          # Redirect to the get request
+          routing.redirect "/inbox/#{inbox_id}"
+        end
+
+        # GET /inbox
         routing.get do
-          flash[:error] = 'Please type your Inbox Id' 
-          routing.redirect '/'
+
+          # Reserve a specific id for 'guest-inbox' (# nice pattern?)
+          new_inbox_id = ''
+
+          # Find the inbox specified by the url.
+          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(new_inbox_id)
+
+          unless inbox
+            flash[:error] = "New Inbox doesn't exist" 
+            routing.redirect '/'
+          end
+
+          # Currently, no suggestions for an guest inbox.
+          suggestions = []
+
+          # Show the user their inbox
+          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
         end
 
       end
@@ -123,7 +117,7 @@ module MindMap
       # Resource
       routing.on 'resource' do
         routing.is do
-          # POST /resource
+          # POST /resource/
           routing.post do
             search_term = routing.params['search']
             tags_term = routing.params['tags']
@@ -144,13 +138,12 @@ module MindMap
             routing.redirect "/resource?resource_origin_id=#{saved_resource.origin_id}"
           end
 
-          # GET /resource
+          # GET /resource?resource_origin_id={resource_origin_id}
           routing.get do
             resource_origin_id = routing.params['resource_origin_id']
 
             resource = Repository::For.klass(Entity::Resource).find_origin_id(resource_origin_id)
-
-            # GET /resource?resource_origin_id={resource_origin_id}
+            
             view 'resource', locals: { resource: resource }
           end
         end
