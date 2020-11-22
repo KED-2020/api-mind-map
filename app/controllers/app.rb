@@ -58,13 +58,13 @@ module MindMap
         routing.on 'guest-inbox' do
           
           # Get guest suggestions from cookie/session
-          session[:guest_suggestions] ||= []
+          session[:suggestions] ||= []
           
-          session[:guest_suggestions].insert(0, "suggestion1").uniq!
-          session[:guest_suggestions].insert(0, "suggestion2").uniq!
-          # session[:guest_suggestions].delete("suggestion1")
-          # session[:guest_suggestions].delete("suggestion2")
-          puts "guest_suggestions = #{session[:guest_suggestions]}"
+          session[:suggestions].insert(0, "suggestion1").uniq!
+          session[:suggestions].insert(0, "suggestion2").uniq!
+          # session[:suggestions].delete("suggestion1")
+          # session[:suggestions].delete("suggestion2")
+          puts "guest_suggestions = #{session[:suggestions]}"
 
           # Reserve a specific id for 'guest-inbox' (# nice pattern?)
           guest_inbox_id = 'guest-inbox'
