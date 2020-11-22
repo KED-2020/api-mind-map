@@ -40,12 +40,12 @@ end
 namespace :rack do
   desc 'Run Roda app in dev env'
   task :dev do
-    # sh 'rerun -c "rackup -p 9292"'
     sh 'rackup -p 9292'
   end
 
   desc 'Run Roda app in test env'
   task :test do
+    sh 'ruby spec/test_data.rb'
     sh 'RACK_ENV=test rackup -p 9000'
   end
 end
@@ -58,6 +58,7 @@ namespace :rerack do
 
   desc 'Keep restarting web app upon changes in test env'
   task :test do
+    sh 'ruby spec/test_data.rb'
     sh 'rerun -c "RACK_ENV=test rackup -p 9000" --ignore "coverage/*"'
   end
 end
