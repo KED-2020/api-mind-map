@@ -5,14 +5,14 @@ ENV['RACK_ENV'] = 'test'
 require_relative '../init'
 require_relative 'helpers/database_helper'
 
-GITHUB_TOKEN = MindMap::App.config.GITHUB_TOKEN
-
 DatabaseHelper.setup_database_cleaner
 DatabaseHelper.wipe_database    # Clean every time
 
+GITHUB_TOKEN = MindMap::App.config.GITHUB_TOKEN
+
 
 ########################################################################
-# Test Data: /inbox/12345
+# Test Data: /inbox/12345 (Test Inbox)
 ########################################################################
 inbox = MindMap::Entity::Inbox.new(
   id: nil,
@@ -28,7 +28,7 @@ MindMap::Repository::Inboxes.add_suggestions(saved_inbox, suggestions)
 
 
 ########################################################################
-# Test Data: /inbox/guest-inbox
+# Test Data: /inbox/guest-inbox (Guest Inbox)
 ########################################################################
 guest_inbox = MindMap::Entity::Inbox.new(
   id: nil,
@@ -42,12 +42,12 @@ saved_guest_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox
 
 
 ########################################################################
-# Test Data: /inbox/new-inbox
+# Test Data: /inbox (New Inbox)
 ########################################################################
 new_inbox = MindMap::Entity::Inbox.new(
   id: nil,
   name: 'New Inbox',
-  url: 'new-inbox',
+  url: '',
   description: 'No suggestions in your New Inbox.',
   suggestions: [])
 saved_new_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).find_or_create(new_inbox)
