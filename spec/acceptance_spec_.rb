@@ -6,6 +6,8 @@ require_relative 'helpers/vcr_helper'
 require 'headless'
 require 'watir'
 
+homepage = 'http://localhost:9292'
+
 describe 'Acceptance Tests' do
   DatabaseHelper.setup_database_cleaner
 

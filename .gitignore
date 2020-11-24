@@ -10,4 +10,7 @@ coverage/*
 _snippets/
 .irb_history
 .bundle/
+<<<<<<< HEAD
+=======
 settings.json
+>>>>>>> origin
