@@ -8,7 +8,7 @@ task :default do
 end
 
 namespace :spec do
-  desc 'Run all tests'
+  desc 'Run all tests (except for acceptance test)'
   Rake::TestTask.new(:all) do |t|
     t.pattern = 'spec/*_spec.rb'
     t.warning = false
@@ -27,6 +27,12 @@ namespace :spec do
   desc 'Run inbox domain test'
   task :inbox_domain do
     sh 'ruby spec/domain_inboxes_spec.rb'
+  end
+
+  desc 'Run acceptance test'
+  task :accept do
+    puts 'NOTE: run `rake run:test` in another process'
+    sh 'ruby spec/acceptance_spec_.rb'
   end
 end
 
