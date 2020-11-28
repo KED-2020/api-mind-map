@@ -114,9 +114,8 @@ module MindMap
           suggestions = []
 
           # Show the user their inbox
-          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+          view 'inbox', locals: { inbox: Views::Inbox.new(inbox, suggestions) }
         end
-
       end
 
       # Resource

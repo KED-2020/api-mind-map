@@ -11,7 +11,7 @@ class HomePage
   button(:inbox_submit_button, id: 'inbox-submit')
   a(:guest_inbox_hyperlink, id: 'guest-inbox')
   a(:new_inbox_hyperlink, id: 'new-inbox')
-  
+
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
 
