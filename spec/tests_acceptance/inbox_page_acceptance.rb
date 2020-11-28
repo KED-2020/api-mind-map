@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require_relative '../helpers/acceptance_helper'
+require_relative 'pages/home_page'
 
-describe 'Acceptance Tests' do
+describe 'Homepage Acceptance Tests' do
+  include PageObject::PageFactory
+  
   DatabaseHelper.setup_database_cleaner
 
   before do
@@ -14,75 +17,72 @@ describe 'Acceptance Tests' do
     @browser.close
   end
 
-  describe 'Homepage' do
+  describe 'Visit Home page' do
 
-    it '(HAPPY) should see some basic elements on homepage' do
-        # GIVEN: user is on the home page without any projects
-        @browser.goto homepage
-
-        # THEN: user should see basic headers, no projects and a welcome message
-        _(@browser.a(id: 'home.link').text).must_equal 'Mind Map'
-        _(@browser.input(id: 'inbox-id').placeholder).must_equal 'e.g 12345'
-        _(@browser.button(id: 'inbox-submit').text).must_equal 'Find Inbox'
-        _(@browser.a(id: 'guest-inbox').text).must_equal 'Continue as Guest'
-        _(@browser.a(id: 'new-inbox').text).must_equal 'Create New Inbox'
+    it '(Happy) should see some basic elements on homepage' do
+      # GIVEN: nothing
+      # WHEN: user goes to the homepage
+      visit HomePage do |page|
+        # THEN: user should see some basic elements & should not see a warning message 
+        _(page.all_elements_present?).must_equal true
+        # THEN: these basic elements should be correct (Not decoupled if we test the textfield!?)
+        _(page.all_elements_has_correct_text?).must_equal true
+      end
     end
 
     it '(HAPPY) should be able to request a Test Inbox (e.g. /inbox/12345)' do
-        # GIVEN: user is on the home page
-        @browser.goto homepage
+      # GIVEN: an 'inbox 12345' exists in the database
 
-        # WHEN: they add an inbox URL and submit
-        inbox_url = 'inbox'
-        good_inbox_id = "12345"
-        @browser.text_field(id: 'inbox-id').set(good_inbox_id)
-        @browser.button(id: 'inbox-submit').click
-
-        # THEN: they should find themselves on the inbox page
-        _(@browser.url.include? inbox_url).must_equal true
-        _(@browser.url.include? good_inbox_id).must_equal true
+      # WHEN: user goes to the homepage
+      visit HomePage do |page|
+        # WHEN: user adds an existent inbox URL and submit
+        good_inbox_id = '12345'
+        page.request_inbox(good_inbox_id)
+        # THEN: user should be redirected to the 'inbox 12345'
+        _(page.in_inbox_page?).must_equal true
+        _(page.in_this_inbox_page?(good_inbox_id)).must_equal true
+      end
     end
 
     it '(HAPPY) should be able to request a Guest Inbox (e.g. /inbox/guest-inbox)' do
-        # GIVEN: user is on the home page
-        @browser.goto homepage
+      # GIVEN: a 'guest inbox' exists in the database
 
-        # WHEN: they add an inbox URL and submit
-        inbox_url = 'inbox'
-        good_inbox_id = 'guest-inbox'
-        @browser.element(id: 'guest-inbox').click
-
-        # THEN: they should find themselves on the inbox page
-        _(@browser.url.include? inbox_url).must_equal true
-        _(@browser.url.include? good_inbox_id).must_equal true
+      # WHEN: user goes to the homepage
+      visit HomePage do |page|
+        # WHEN: user clicks the guest inbox button
+        page.request_guest_inbox
+        # THEN: user should be redirected to the 'guest inbox'
+        _(page.in_inbox_page?).must_equal true
+        _(page.in_guest_inbox_page?).must_equal true
+      end
     end
 
     it '(HAPPY) should be able to request a New Inbox (e.g. /inbox/)' do
-        # GIVEN: user is on the home page
-        @browser.goto homepage
+      # GIVEN: a 'new inbox' exists in the database
 
-        # WHEN: they add an inbox URL and submit
-        inbox_url = 'inbox'
-        @browser.element(id: 'new-inbox').click
-
-        # THEN: they should find themselves on the inbox page
-        _(@browser.url.include? inbox_url).must_equal true
+      # WHEN: user goes to the homepage
+      visit HomePage do |page|
+        # WHEN: user clicks the new inbox button
+        page.request_new_inbox
+        # THEN: user should be redirected to the 'new inbox'
+        _(page.in_inbox_page?).must_equal true
+      end
     end
 
-    it '(SAD) should not be able to add valid but non-existent inbox URL' do
-        # GIVEN: user is on the home page
-        @browser.goto homepage
+    it '(SAD) should not be able to redirect to valid but non-existent inbox URL' do
+      # GIVEN: 'inbox 12345' is the only inbox exists in the database
 
-        # WHEN: they add an inbox URL and submit
-        inbox_url = 'inbox'
+      # WHEN: user goes to the homepage
+      visit HomePage do |page|
+        # WHEN: user adds a nonexistent inbox URL (e.g. 54321) and submit
         sad_inbox_id = '54321'
-        @browser.text_field(id: 'inbox-id').set(sad_inbox_id)
-        @browser.button(id: 'inbox-submit').click
-
-        # THEN: they should not redirect & should see a warning message
-        _(@browser.url.include? sad_inbox_id).must_equal false
-        _(@browser.div(id: 'flash_bar_danger').present?).must_equal true
-        _(@browser.div(id: 'flash_bar_danger').text.downcase).must_include "doesn't exist"
+        page.request_inbox(sad_inbox_id)
+        # THEN: user should not be redirected
+        _(page.in_this_inbox_page?(sad_inbox_id)).must_equal false
+        # THEN: user should see a warning message
+        _(page.warning_message_present?).must_equal true
+        _(page.is_warning_message?).must_equal true
+      end
     end
 
   end
