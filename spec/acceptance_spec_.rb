@@ -2,8 +2,6 @@
 
 require_relative 'helpers/spec_helper'
 require_relative 'helpers/database_helper'
-require_relative 'helpers/vcr_helper'
-require 'headless'
 require 'watir'
 
 
@@ -12,15 +10,11 @@ describe 'Acceptance Tests' do
 
   before do
     # DatabaseHelper.wipe_database    # Kept as test data
-    # @headless = Headless.new    # need optionally install Xvfb on Mac 
-    # @headless.start
-    @browser = Watir::Browser.new
-    # @browser = Watir::Browser.new :safari
+    @browser = Watir::Browser.new :chrome, headless: true    # need optionally install Xvfb on Mac 
   end
 
   after do
     @browser.close
-    # @headless.destroy
   end
 
   describe 'Homepage' do
