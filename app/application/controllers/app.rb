@@ -60,7 +60,7 @@ module MindMap
             suggestions = []
 
             # Show the user their inbox
-            view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+            view 'inbox', locals: { inbox: Views::Inbox.new(inbox, suggestions) }
           end
         end
 
@@ -84,7 +84,7 @@ module MindMap
             suggestions = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
 
             # Show the user their inbox
-            view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+            view 'inbox', locals: { inbox: Views::Inbox.new(inbox, suggestions) }
           end
         end
 

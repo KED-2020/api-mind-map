@@ -1,21 +1,23 @@
 .inbox
   h1.h2.pb-1.my-0 id='inbox_name'
     = inbox.name || 'Untitled Inbox'
-  p.pb-3.mb-0.text-muted id='inbox_description'
+  p.pb-2.mb-0.text-muted id='inbox_description'
     = inbox.description || 'No description has been set for this inbox yet.'
+  p.pb-2.mb-0.text-muted
+    = "#{inbox.num_suggestions || 0 } suggestions"
 
-  - if suggestions.any?
+  - if inbox.suggestions.any?
     h5 Suggestions
 
     ul.list-group
-      - suggestions.each.with_index do |suggestion, index|
+      - inbox.suggestions.each do |suggestion|
           li.list-group-item.border.mb-3.p-3 id="index" title=suggestion.name
             .suggestion-heading
               .h5.my-0
-                a href=suggestion.source id="suggestion[#{index}].link"
+                a href=suggestion.source_url id="#{suggestion.index_str}.link"
                   = suggestion.name
               small
-                = suggestion.suggested_date
+                = suggestion.date
             .suggestion-body
               .suggestion-description
                 p.m-0.mb-1
