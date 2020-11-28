@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'helpers/spec_helper'
-require_relative 'helpers/database_helper'
-require 'watir'
-
+require_relative '../helpers/acceptance_helper'
 
 describe 'Acceptance Tests' do
   DatabaseHelper.setup_database_cleaner
