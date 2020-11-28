@@ -44,8 +44,8 @@ group :test do
   gem 'webmock', '~> 3.0'
 
   gem 'headless', '~> 2.3'
-  gem 'watir', '~> 6.17'
   gem 'page-object', '~> 2.2'
+  gem 'watir', '~> 6.17'
 end
 
 # Quality
