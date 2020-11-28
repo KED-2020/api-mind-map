@@ -29,17 +29,18 @@ namespace :spec do
     sh 'ruby spec/domain_inboxes_spec.rb'
   end
 
+  # NOTE: run `rake run:test` in another process
   desc 'Run acceptance test'
-  task :accept do
-    puts 'NOTE: run `rake run:test` in another process'
-    sh 'ruby spec/acceptance_spec_.rb'
+  Rake::TestTask.new(:accept) do |t|
+    t.pattern = 'spec/tests_acceptance/*_acceptance.rb'
+    t.warning = false
   end
 end
 
 namespace :respec do
   desc 'Keep rerunning unit/integration tests upon changes'
   task :all do
-    sh "rerun -c 'rake spec:all' --ignore 'coverage/*'" 
+    sh "rerun -c 'rake spec:all' --ignore 'coverage/*'"
   end
 end
 

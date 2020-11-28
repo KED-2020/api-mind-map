@@ -1,7 +1,7 @@
 .inbox
-  h1.h2.pb-1.my-0
+  h1.h2.pb-1.my-0 id='inbox_name'
     = inbox.name || 'Untitled Inbox'
-  p.pb-3.mb-0.text-muted
+  p.pb-3.mb-0.text-muted id='inbox_description'
     = inbox.description || 'No description has been set for this inbox yet.'
 
   - if suggestions.any?
