@@ -36,11 +36,10 @@ describe 'Homepage Acceptance Tests' do
       # WHEN: user goes to the homepage
       visit HomePage do |page|
         # WHEN: user adds an existent inbox URL and submit
-        good_inbox_id = '12345'
-        page.request_inbox(good_inbox_id)
+        page.request_inbox(GOOD_INBOX_ID)
         # THEN: user should be redirected to the 'inbox 12345'
         _(page.in_inbox_page?).must_equal true
-        _(page.in_this_inbox_page?(good_inbox_id)).must_equal true
+        _(page.in_this_inbox_page?(GOOD_INBOX_ID)).must_equal true
       end
     end
 
@@ -75,10 +74,9 @@ describe 'Homepage Acceptance Tests' do
       # WHEN: user goes to the homepage
       visit HomePage do |page|
         # WHEN: user adds a nonexistent inbox URL (e.g. 54321) and submit
-        sad_inbox_id = '54321'
-        page.request_inbox(sad_inbox_id)
+        page.request_inbox(SAD_INBOX_ID)
         # THEN: user should not be redirected
-        _(page.in_this_inbox_page?(sad_inbox_id)).must_equal false
+        _(page.in_this_inbox_page?(SAD_INBOX_ID)).must_equal false
         # THEN: user should see a warning message
         _(page.warning_message_present?).must_equal true
         _(page.is_warning_message?).must_equal true

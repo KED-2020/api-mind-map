@@ -23,6 +23,10 @@ class InboxPage
     self.inbox_description_text.include? 'A test inbox'
   end
 
-
+  def includes_some_correct_suggestions?(suggestion_names)
+    self.suggestions[0].text.include? suggestion_names[0]
+    self.suggestions[0].text.include? suggestion_names[1]
+    self.suggestions[0].text.include? suggestion_names[2]
+  end
 
 end

@@ -22,21 +22,15 @@ describe 'Project Page Acceptance Tests' do
 
     it '(Happy) should see search content' do
       # GIVEN: user adds an existent inbox URL and submit
-      good_inbox_id = '12345'
       visit HomePage do |page|
-        page.request_inbox(good_inbox_id)
+        page.request_inbox(GOOD_INBOX_ID)
       end
-
       
       # WHEN: user goes to the inbox page
-      visit(InboxPage, using_params: { inbox_id: good_inbox_id }) do |page|
+      visit(InboxPage, using_params: { inbox_id: GOOD_INBOX_ID }) do |page|
         # THEN: they should see the searching results
         _(page.all_elements_has_correct_text?).must_equal true
-
-        suggestion_names = ['tensorflow', 'TensorFlow', 'TensorFlow-Examples']
-        _(page.suggestions[0].text).must_include suggestion_names[0]
-        _(page.suggestions[0].text).must_include suggestion_names[1]
-        _(page.suggestions[0].text).must_include suggestion_names[2]
+        _(page.includes_some_correct_suggestions?(SUGGESTION_NAMES)).must_equal true
       end
     end
 
