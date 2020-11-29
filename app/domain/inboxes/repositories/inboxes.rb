@@ -35,7 +35,8 @@ module MindMap
       def self.add_suggestions(entity, suggestions)
         return unless entity && suggestions.count.positive?
 
-        PersistInboxSuggestions.new(entity, suggestions).call
+        db_inbox = PersistInboxSuggestions.new(entity, suggestions).call
+        rebuild_entity(db_inbox)
       end
 
       def self.rebuild_entity(db_record)

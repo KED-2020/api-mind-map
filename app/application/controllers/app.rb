@@ -68,23 +68,17 @@ module MindMap
         routing.on String do |inbox_id|
           routing.get do
             inbox_find = MindMap::Forms::FindInbox.new.call(inbox_id: inbox_id)
-            unless inbox_find.success?
-              flash[:error] = 'This Inbox Id has wrong format!'
-              routing.redirect '/'
-            end
-            # Find the inbox specified by the url.
-            inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(inbox_id)
 
-            unless inbox
-              flash[:error] = "This Inbox Id doesn't exist"
+            result = Service::GetInbox.new.call({ inbox_id: inbox_id })
+
+            if result.failure?
+              flash[:error] = result.failure
               routing.redirect '/'
             end
 
-            # Load the suggestions for an inbox.
-            suggestions = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
-
+            inbox = result.value!
             # Show the user their inbox
-            view 'inbox', locals: { inbox: Views::Inbox.new(inbox, suggestions) }
+            view 'inbox', locals: { inbox: Views::Inbox.new(inbox[:inbox], inbox[:suggestions]) }
           end
         end
 
@@ -98,23 +92,20 @@ module MindMap
 
         # GET /inbox
         routing.get do
-
           # Reserve a specific id for 'guest-inbox' (# nice pattern?)
           new_inbox_id = ''
 
           # Find the inbox specified by the url.
-          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(new_inbox_id)
+          result = Service::GetInbox.new.call({ inbox_id: new_inbox_id })
 
-          unless inbox
-            flash[:error] = "New Inbox doesn't exist"
+          if result.failure?
+            flash[:error] = result.failure
             routing.redirect '/'
           end
 
-          # Currently, no suggestions for an guest inbox.
-          suggestions = []
-
+          inbox = result.value!
           # Show the user their inbox
-          view 'inbox', locals: { inbox: Views::Inbox.new(inbox, suggestions) }
+          view 'inbox', locals: { inbox: Views::Inbox.new(inbox[:inbox], inbox[:suggestions]) }
         end
       end
 

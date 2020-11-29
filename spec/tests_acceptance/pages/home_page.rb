@@ -50,7 +50,7 @@ class HomePage
   end
 
   def is_warning_message?
-    self.warning_message.downcase.include? "doesn't exist"
+    self.warning_message.downcase.include? "not found"
   end
 
   def in_inbox_page?
