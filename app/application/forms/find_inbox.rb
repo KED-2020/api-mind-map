@@ -4,7 +4,6 @@ require 'dry-validation'
 
 module MindMap
   module Forms
-    # Validate inbox id
     class FindInbox < Dry::Validation::Contract
       INBOX_REGEX = %r{^\d+$}.freeze
 
