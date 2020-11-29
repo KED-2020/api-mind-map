@@ -29,4 +29,5 @@ def homepage
 end
 GOOD_INBOX_ID = '12345'
 SAD_INBOX_ID = '54321'
+BAD_INBOX_ID = 'foo123'
 SUGGESTION_NAMES = ['tensorflow', 'TensorFlow', 'TensorFlow-Examples']

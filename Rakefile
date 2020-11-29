@@ -29,6 +29,11 @@ namespace :spec do
     sh 'ruby spec/domain_inboxes_spec.rb'
   end
 
+  desc 'Run inbox form test'
+  task :inbox_form do
+    sh 'ruby spec/tests_unit/form_inbox_spec.rb'
+  end
+
   # NOTE: run `rake run:test` in another process
   desc 'Run acceptance test'
   Rake::TestTask.new(:accept) do |t|

@@ -25,6 +25,11 @@ gem 'slim', '~> 3.0'
 gem 'dry-struct', '~> 1.3'
 gem 'dry-types', '~> 1.4'
 
+# Controllers and services
+gem 'dry-monads'
+gem 'dry-transaction'
+gem 'dry-validation'
+
 # Database
 gem 'hirb', '~> 0.7'
 gem 'hirb-unicode'
