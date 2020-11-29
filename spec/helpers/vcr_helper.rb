@@ -12,6 +12,7 @@ class VcrHelper
     VCR.configure do |config|
       config.cassette_library_dir = CASSETTES_FOLDER
       config.hook_into :webmock
+      config.ignore_localhost = true
     end
   end
 

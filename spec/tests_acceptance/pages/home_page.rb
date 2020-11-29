@@ -11,7 +11,7 @@ class HomePage
   button(:inbox_submit_button, id: 'inbox-submit')
   a(:guest_inbox_hyperlink, id: 'guest-inbox')
   a(:new_inbox_hyperlink, id: 'new-inbox')
-  
+
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
 
@@ -50,7 +50,7 @@ class HomePage
   end
 
   def is_warning_message?
-    self.warning_message.downcase.include? "doesn't exist"
+    self.warning_message.downcase.include? "not found"
   end
 
   def in_inbox_page?

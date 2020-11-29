@@ -26,13 +26,18 @@ module MindMap
         rebuild_entity(db_inbox)
       end
 
+      def self.create(entity)
+        db_inbox = find_url(entity.url) || PersistInbox.new(entity).call
+
+        rebuild_entity(db_inbox)
+      end
+
       def self.add_suggestions(entity, suggestions)
         return unless entity && suggestions.count.positive?
 
-        PersistInboxSuggestions.new(entity, suggestions).call
+        db_inbox = PersistInboxSuggestions.new(entity, suggestions).call
+        rebuild_entity(db_inbox)
       end
-
-      private
 
       def self.rebuild_entity(db_record)
         return nil unless db_record

@@ -3,9 +3,10 @@
 require 'roda'
 require 'slim'
 require 'slim/include'
+require 'delegate'
 
 module MindMap
-  # Web app
+  # Environment-specific configuration
   class App < Roda
     plugin :halt
     plugin :flash
@@ -32,58 +33,52 @@ module MindMap
 
       # Inbox
       routing.on 'inbox' do
-
         # GET /inbox/guest-inbox
         routing.on 'guest-inbox' do
-          
-          # Get guest suggestions from cookie/session
-          session[:suggestions] ||= []
-          
-          session[:suggestions].insert(0, "suggestion1").uniq!
-          session[:suggestions].insert(0, "suggestion2").uniq!
-          # session[:suggestions].delete("suggestion1")
-          # session[:suggestions].delete("suggestion2")
-          # puts "guest_suggestions = #{session[:suggestions]}"
+          routing.get do
+            # Get guest suggestions from cookie/session
+            session[:suggestions] ||= []
 
-          # Reserve a specific id for 'guest-inbox' (# nice pattern?)
-          guest_inbox_id = 'guest-inbox'
+            session[:suggestions].insert(0, "suggestion1").uniq!
+            session[:suggestions].insert(0, "suggestion2").uniq!
+            # session[:suggestions].delete("suggestion1")
+            # session[:suggestions].delete("suggestion2")
+            # puts "guest_suggestions = #{session[:suggestions]}"
 
-          # Find the inbox specified by the url.
-          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(guest_inbox_id)
+            # Reserve a specific id for 'guest-inbox' (# nice pattern?)
+            guest_inbox_id = 'guest-inbox'
 
-          unless inbox
-            flash[:error] = "Guest Inbox doesn't exist" 
-            routing.redirect '/'
+            # Find the inbox specified by the url.
+            inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(guest_inbox_id)
+
+            unless inbox
+              flash[:error] = "Guest Inbox doesn't exist"
+              routing.redirect '/'
+            end
+
+            # Currently, no suggestions for an guest inbox.
+            suggestions = []
+
+            # Show the user their inbox
+            view 'inbox', locals: { inbox: Views::Inbox.new(inbox, suggestions) }
           end
-
-          # Currently, no suggestions for an guest inbox.
-          suggestions = []
-
-          # Show the user their inbox
-          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }        
         end
 
         # GET /inbox/{inbox_id}
         routing.on String do |inbox_id|
           routing.get do
             inbox_find = MindMap::Forms::FindInbox.new.call(inbox_id: inbox_id)
-            unless inbox_find.success?
-              flash[:error] = 'This Inbox Id has wrong format!'
-              routing.redirect '/'
-            end
-            # Find the inbox specified by the url.
-            inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(inbox_id)
 
-            unless inbox
-              flash[:error] = "This Inbox Id doesn't exist"
+            result = Service::GetInbox.new.call(inbox_id: inbox_id)
+
+            if result.failure?
+              flash[:error] = result.failure
               routing.redirect '/'
             end
 
-            # Load the suggestions for an inbox.
-            suggestions = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
-
+            inbox = result.value!
             # Show the user their inbox
-            view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+            view 'inbox', locals: { inbox: Views::Inbox.new(inbox[:inbox], inbox[:suggestions]) }
           end
         end
 
@@ -97,25 +92,21 @@ module MindMap
 
         # GET /inbox
         routing.get do
-
           # Reserve a specific id for 'guest-inbox' (# nice pattern?)
           new_inbox_id = ''
-          
-          # Find the inbox specified by the url.
-          inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(new_inbox_id)
 
-          unless inbox
-            flash[:error] = "New Inbox doesn't exist" 
+          # Find the inbox specified by the url.
+          result = Service::GetInbox.new.call(inbox_id: new_inbox_id)
+
+          if result.failure?
+            flash[:error] = result.failure
             routing.redirect '/'
           end
 
-          # Currently, no suggestions for an guest inbox.
-          suggestions = []
-
+          inbox = result.value!
           # Show the user their inbox
-          view 'inbox', locals: { inbox: inbox, suggestions: suggestions }
+          view 'inbox', locals: { inbox: Views::Inbox.new(inbox[:inbox], inbox[:suggestions]) }
         end
-
       end
 
       # Resource
@@ -147,7 +138,7 @@ module MindMap
             resource_origin_id = routing.params['resource_origin_id']
 
             resource = Repository::For.klass(Entity::Resource).find_origin_id(resource_origin_id)
-            
+
             view 'resource', locals: { resource: resource }
           end
         end
