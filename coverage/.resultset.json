@@ -620,7 +620,32 @@
           null,
           null,
           1,
+          2,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/mind-map/app/application/forms/find_inbox.rb": {
+        "lines": [
+          null,
+          null,
           1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
           null
         ]
       },
@@ -760,6 +785,8 @@
           null,
           0,
           0,
+          0,
+          null,
           0,
           null,
           0,
@@ -1505,6 +1532,6 @@
         ]
       }
     },
-    "timestamp": 1606663112
+    "timestamp": 1606671801
   }
 }
