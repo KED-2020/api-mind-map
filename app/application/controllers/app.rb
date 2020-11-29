@@ -69,7 +69,7 @@ module MindMap
           routing.get do
             inbox_find = MindMap::Forms::FindInbox.new.call(inbox_id: inbox_id)
 
-            result = Service::GetInbox.new.call({ inbox_id: inbox_id })
+            result = Service::GetInbox.new.call(inbox_id: inbox_id)
 
             if result.failure?
               flash[:error] = result.failure
@@ -96,7 +96,7 @@ module MindMap
           new_inbox_id = ''
 
           # Find the inbox specified by the url.
-          result = Service::GetInbox.new.call({ inbox_id: new_inbox_id })
+          result = Service::GetInbox.new.call(inbox_id: new_inbox_id)
 
           if result.failure?
             flash[:error] = result.failure
