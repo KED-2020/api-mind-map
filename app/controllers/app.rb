@@ -66,7 +66,11 @@ module MindMap
         # GET /inbox/{inbox_id}
         routing.on String do |inbox_id|
           routing.get do
-
+            inbox_find = MindMap::Forms::FindInbox.new.call(inbox_id: inbox_id)
+            unless inbox_find.success?
+              flash[:error] = 'This Inbox Id has wrong format!'
+              routing.redirect '/'
+            end
             # Find the inbox specified by the url.
             inbox = Repository::Inbox::For.klass(Entity::Inbox).find_url(inbox_id)
 
