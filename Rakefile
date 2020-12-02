@@ -10,7 +10,7 @@ end
 namespace :spec do
   desc 'Run all tests (except for acceptance test)'
   Rake::TestTask.new(:all) do |t|
-    t.pattern = 'spec/*_spec.rb'
+    t.pattern = 'spec/**/*_spec.rb'
     t.warning = false
   end
 

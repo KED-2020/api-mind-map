@@ -2,7 +2,7 @@
   .row
     h3
       span.research.area
-        = "Search: #{resource.name}"
+        = "Search: #{document.name}"
     .row
       .col-md-12.blank-row
 
@@ -11,8 +11,8 @@
       .col-md-2.col-sm-2
         .text-right Description:
       .col-md-8.col-sm-6
-        span.resource.attribute
-          = resource.description
+        span.document.attribute
+          = document.description
     .row
       .col-md-12.blank-row
 
@@ -20,8 +20,8 @@
       .col-md-2.col-sm-2
         .text-right Github url:
       .col-md-8.col-sm-6
-        span.resource.attribute
-          = resource.github_url
+        span.document.attribute
+          = document.github_url
     .row
       .col-md-12.blank-row
 
@@ -29,8 +29,8 @@
       .col-md-2.col-sm-2
         .text-right HomePage:
       .col-md-8.col-sm-6
-        span.resource.attribute
-          = resource.homepage
+        span.document.attribute
+          = document.homepage
     .row
       .col-md-12.blank-row
 
@@ -38,8 +38,8 @@
       .col-md-2.col-sm-2
         .text-right Language:
       .col-md-8.col-sm-6
-        span.resource.attribute
-          = resource.language
+        span.document.attribute
+          = document.language
     .row
       .col-md-12.blank-row
 
@@ -47,5 +47,5 @@
       .col-md-2.col-sm-2
         .text-right Topics:
       ul.col-md-8.col-sm-6
-        - resource.topics.each do |topic|
+        - document.topics.each do |topic|
           li.topic = topic.name

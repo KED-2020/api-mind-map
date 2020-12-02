@@ -4,12 +4,13 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:suggestions) do
+    create_table(:documents) do
       primary_key :id
 
-      String :name, null: false
+      Integer :origin_id, unique: true
+      String :name
       String :description
-      String :source
+      String :html_url, unique: true
 
       DateTime :created_at
       DateTime :updated_at

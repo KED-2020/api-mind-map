@@ -10,6 +10,7 @@ describe 'GetInbox integration tests' do
 
   before do
     VcrHelper.configure_vcr_for_github
+    DatabaseHelper.wipe_database
   end
 
   after do

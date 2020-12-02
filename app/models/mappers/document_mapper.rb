@@ -4,8 +4,8 @@ require_relative '../entities/topic'
 
 module MindMap
   module Github
-    # Data Mapper: Github search -> Resource entity
-    class ResourceMapper
+    # Data Mapper: Github search -> Document entity
+    class DocumentMapper
       def initialize(gh_token, gateway_class = Github::Api)
         @token = gh_token
         @gateway_class = gateway_class
@@ -31,14 +31,12 @@ module MindMap
         def build_entity
           return nil unless @data['items'][0]
 
-          MindMap::Entity::Resource.new(
+          MindMap::Entity::Document.new(
             id: nil,
             name: name,
             origin_id: origin_id,
             description: description,
-            github_url: github_url,
-            homepage: homepage,
-            language: language,
+            html_url: html_url,
             topics: topics
           )
         end
@@ -46,7 +44,7 @@ module MindMap
 
         # To keep things a bit simple, we take the first result from
         # the search results. We will extend this later on to allow
-        # the user to select which resource they want to select.
+        # the user to select which document they want to select.
         def name
           @data['items'][0]['name']
         end
@@ -59,16 +57,8 @@ module MindMap
           @data['items'][0]['description']
         end
 
-        def github_url
+        def html_url
           @data['items'][0]['html_url']
-        end
-
-        def homepage
-          @data['items'][0]['homepage']
-        end
-
-        def language
-          @data['items'][0]['language']
         end
 
         def topics

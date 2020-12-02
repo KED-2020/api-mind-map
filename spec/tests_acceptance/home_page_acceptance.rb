@@ -5,7 +5,6 @@ require_relative 'pages/home_page'
 
 describe 'Homepage Acceptance Tests' do
   include PageObject::PageFactory
-
   DatabaseHelper.setup_database_cleaner
 
   before do

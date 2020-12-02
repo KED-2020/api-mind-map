@@ -1,10 +1,8 @@
 ---
 name: transformers
-homepage: https://huggingface.co/transformers
-url: https://github.com/huggingface/transformers
+html_url: https://github.com/huggingface/transformers
 description: "\U0001F917Transformers: State-of-the-art Natural Language Processing
   for Pytorch and TensorFlow 2.0."
-language: Python
 topics:
 - bert
 - gpt

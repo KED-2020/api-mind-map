@@ -9,7 +9,7 @@ module MindMap
       attribute :id, Integer.optional
       attribute :name, Strict::String
       attribute :description, Strict::String.optional
-      attribute :source, Strict::String
+      attribute :html_url, Strict::String
       attribute :created_at,  Strict::Time
 
       def to_attr_hash

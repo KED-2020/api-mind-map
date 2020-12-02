@@ -5,7 +5,7 @@ module MindMap
     # Finds the right repository for an entity object or class
     class For
       ENTITY_REPOSITORY = {
-        Entity::Resource => Resources,
+        Entity::Document => Documents,
         Entity::Topic => Topics
       }.freeze
 

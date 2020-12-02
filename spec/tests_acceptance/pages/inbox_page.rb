@@ -28,5 +28,4 @@ class InboxPage
     self.suggestions[0].text.include? suggestion_names[1]
     self.suggestions[0].text.include? suggestion_names[2]
   end
-
 end

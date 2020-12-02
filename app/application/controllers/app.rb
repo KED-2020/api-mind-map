@@ -26,9 +26,9 @@ module MindMap
         view 'home'
       end
 
-      # GET /resource_nil
-      routing.on 'resource_nil' do
-        view 'resource_nil'
+      # GET /document_nil
+      routing.on 'document_nil' do
+        view 'document_nil'
       end
 
       # Inbox
@@ -109,10 +109,10 @@ module MindMap
         end
       end
 
-      # Resource
-      routing.on 'resource' do
+      # Document
+      routing.on 'documents' do
         routing.is do
-          # POST /resource/
+          # POST /document/
           routing.post do
             search_term = routing.params['search']
             tags_term = routing.params['tags']
@@ -121,25 +121,25 @@ module MindMap
 
             tags = tags_term&.length&.positive? ? tags_term.split(',') : []
 
-            # Get the resource from Github
-            resource = Github::ResourceMapper
+            # Get the document from Github
+            document = Github::DocumentMapper
                        .new(MindMap::App.config.GITHUB_TOKEN)
                        .search(search_term, tags)
-            routing.redirect '/resource_nil' unless resource
+            routing.redirect '/document_nil' unless document
             # Add the repo to database
-            saved_resource = Repository::For.entity(resource).find_or_create(resource)
+            saved_document = Repository::For.entity(document).find_or_create(document)
 
-            # Redirect viewer to resource details
-            routing.redirect "/resource?resource_origin_id=#{saved_resource.origin_id}"
+            # Redirect viewer to document details
+            routing.redirect "/documents?document_origin_id=#{saved_document.origin_id}"
           end
 
-          # GET /resource?resource_origin_id={resource_origin_id}
+          # GET /document?document_origin_id={document_origin_id}
           routing.get do
-            resource_origin_id = routing.params['resource_origin_id']
+            document_origin_id = routing.params['document_origin_id']
 
-            resource = Repository::For.klass(Entity::Resource).find_origin_id(resource_origin_id)
+            document = Repository::For.klass(Entity::document).find_origin_id(document_origin_id)
 
-            view 'resource', locals: { resource: resource }
+            view 'document', locals: { document: document }
           end
         end
       end
