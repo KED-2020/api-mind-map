@@ -123,7 +123,7 @@ module MindMap
 
             result = Service::AddDocument.new.call(html_url)
 
-            if result?.failure
+            if result.failure?
               flash[:error] = result.failure
               routing.redirect '/favorites'
             end
@@ -135,12 +135,14 @@ module MindMap
           # GET /favorites/documents/{document_id}
           routing.on String do |document_id|
             routing.get do
-              document = Repository::For.klass(Entity::Document).find_id(document_id)
+              result = MindMap::Service::GetDocument.new.call(document_id)
 
-              if document.nil?
-                flash[:error] = 'Document not found'
+              if result.failure?
+                flash[:error] = result.failure
                 routing.redirect '/document_nil'
               end
+
+              document = result.value!
 
               view 'document', locals: { document: document }
             end
