@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 require_relative '../../helpers/spec_helper'
 require_relative '../../helpers/vcr_helper'
@@ -17,7 +17,7 @@ describe 'Tests Github API library' do
   describe 'Search Query' do
     it 'Ensures that the correct parameters are returned' do
       document =
-        MindMap::Github::DocumentMapper
+        MindMap::Github::DocumentsMapper
         .new(GITHUB_TOKEN)
         .search(SEARCH_QUERY, TOPICS)
       _(document.name).must_equal CORRECT['name']
@@ -27,7 +27,7 @@ describe 'Tests Github API library' do
 
     it 'Ensures that an exception is raised when the query is too long' do
       _(proc do
-        MindMap::Github::DocumentMapper
+        MindMap::Github::DocumentsMapper
           .new(GITHUB_TOKEN)
           .search(INVALID_SEARCH_QUERY, TOPICS)
       end).must_raise MindMap::Github::Api::Response::UnprocessableEntity
@@ -35,7 +35,7 @@ describe 'Tests Github API library' do
 
     it 'Ensures that an exception is raised when the token is invalid' do
       _(proc do
-        MindMap::Github::DocumentMapper
+        MindMap::Github::DocumentsMapper
           .new('BAD_TOKEN')
           .search(SEARCH_QUERY, TOPICS)
       end).must_raise MindMap::Github::Api::Response::Unauthorized
@@ -44,7 +44,7 @@ describe 'Tests Github API library' do
 
   describe 'Topic Information' do
     before do
-      @document = MindMap::Github::DocumentMapper
+      @document = MindMap::Github::DocumentsMapper
                   .new(GITHUB_TOKEN)
                   .search(SEARCH_QUERY, TOPICS)
     end
@@ -61,6 +61,35 @@ describe 'Tests Github API library' do
 
       topic_names = topics.map(&:name)
       _(topic_names).must_equal CORRECT['topics']
+    end
+  end
+
+  describe 'Project Information' do
+    it 'HAPPY: should provide correct project attributes' do
+      document = MindMap::Github::DocumentMapper
+                 .new(GITHUB_TOKEN)
+                 .find("#{PROJECT_NAME}/#{PROJECT_OWNER}")
+
+      _(document.origin_id).must_equal CORRECT['document_id']
+      _(document.name).must_equal CORRECT['document_name']
+      _(document.html_url).must_equal CORRECT['document_html_url']
+      _(document.description).must_equal CORRECT['document_description']
+    end
+
+    it 'BAD: should raise exception on incorrect project' do
+      _(proc do
+        MindMap::Github::DocumentMapper
+          .new(GITHUB_TOKEN)
+          .find("#{PROJECT_NAME}/unknown")
+      end).must_raise MindMap::Github::Api::Response::NotFound
+    end
+
+    it 'BAD: should raise exception when unauthorized' do
+      _(proc do
+          MindMap::Github::DocumentMapper
+            .new('BAD_TOKEN')
+            .find("#{PROJECT_NAME}/#{PROJECT_OWNER}")
+        end).must_raise MindMap::Github::Api::Response::Unauthorized
     end
   end
 end

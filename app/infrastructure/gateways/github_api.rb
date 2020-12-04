@@ -18,13 +18,22 @@ module MindMap
         Request.new(@token).search(query, topics).parse
       end
 
+      def find_project(project)
+        Request.new(@token).find_project(project).parse
+      end
+
       # Sends out HTTP requests to Github
       # :reek:FeatureEnvy
       class Request
         SEARCH_REPO_PATH = 'https://api.github.com/search/repositories'
+        REPO_PATH = 'https://api.github.com/repos/'
 
         def initialize(token)
           @token = token
+        end
+
+        def find_project(project)
+          get(REPO_PATH + project)
         end
 
         def search(query, topics)

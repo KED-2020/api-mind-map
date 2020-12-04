@@ -13,6 +13,11 @@ module MindMap
         find_origin_id(entity.origin_id)
       end
 
+      def self.find_html_url(html_url)
+        db_record = Database::DocumentOrm.first(html_url: html_url)
+        rebuild_entity(db_record)
+      end
+
       def self.find_id(id)
         db_record = Database::DocumentOrm.first(id: id)
         rebuild_entity(db_record)
@@ -25,8 +30,14 @@ module MindMap
 
       def self.find_or_create(entity)
         db_document = find(entity) || PersistDocument.new(entity).call
-
         rebuild_entity(db_document)
+      end
+
+      def self.create(entity)
+        raise 'Document already exists' if find_html_url(entity.html_url)
+
+        db_project = PersistDocument.new(entity).call
+        rebuild_entity(db_project)
       end
 
       private

@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 require_relative '../../helpers/spec_helper'
 require_relative '../../helpers/vcr_helper'
@@ -19,7 +19,7 @@ describe 'Integration Tests of Github API and Database' do
   end
 
   it 'Happy: should be able to save document & topics from Github to database' do
-    document = MindMap::Github::DocumentMapper
+    document = MindMap::Github::DocumentsMapper
                 .new(GITHUB_TOKEN)
                 .search(DB_TEST_SEARCH_QUERY, DB_TEST_TOPICS)
 
