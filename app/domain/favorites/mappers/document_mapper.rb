@@ -14,6 +14,13 @@ module MindMap
 
       def search(query, topics)
         data = @gateway.search_data(query, topics)
+
+        build_entity(data)
+      end
+
+      def find(project)
+        data = @gateway.find_document(project)
+
         build_entity(data)
       end
 

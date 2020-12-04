@@ -14,26 +14,6 @@ namespace :spec do
     t.warning = false
   end
 
-  desc 'Run github api test'
-  task :github_api do
-    sh 'ruby spec/gateway_github_spec.rb'
-  end
-
-  desc 'Run database test'
-  task :database do
-    sh 'ruby spec/gateway_database_spec.rb'
-  end
-
-  desc 'Run inbox domain test'
-  task :inbox_domain do
-    sh 'ruby spec/domain_inboxes_spec.rb'
-  end
-
-  desc 'Run inbox form test'
-  task :inbox_form do
-    sh 'ruby spec/tests_unit/form_inbox_spec.rb'
-  end
-
   # NOTE: run `rake run:test` in another process
   desc 'Run acceptance test'
   Rake::TestTask.new(:accept) do |t|
@@ -57,7 +37,6 @@ namespace :rack do
 
   desc 'Run Roda app in test env'
   task :test do
-    sh 'ruby spec/test_data.rb'
     sh 'RACK_ENV=test rackup -p 9000'
   end
 end
@@ -70,7 +49,6 @@ namespace :rerack do
 
   desc 'Keep restarting web app upon changes in test env'
   task :test do
-    sh 'ruby spec/test_data.rb'
     sh 'rerun -c "RACK_ENV=test rackup -p 9000" --ignore "coverage/*"'
   end
 end
