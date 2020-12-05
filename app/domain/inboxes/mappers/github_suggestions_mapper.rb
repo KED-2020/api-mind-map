@@ -35,7 +35,7 @@ module MindMap
             id: nil,
             name: name,
             description: description,
-            source: source,
+            html_url: html_url,
             created_at: Time.now
           )
         end
@@ -48,7 +48,7 @@ module MindMap
           @data['description']
         end
 
-        def source
+        def html_url
           @data['html_url']
         end
       end

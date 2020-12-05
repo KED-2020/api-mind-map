@@ -5,7 +5,7 @@ module MindMap
     # Repository for suggestions
     class Suggestions
       def self.find_id(id)
-        rebuild_entity Database::SuggestionOrm.first(id: id)
+        rebuild_entity Database::DocumentOrm.first(id: id)
       end
 
       private
@@ -23,7 +23,7 @@ module MindMap
       end
 
       def self.db_find_or_create(entity)
-        Database::SuggestionOrm.find_or_create(entity.to_attr_hash)
+        Database::DocumentOrm.find_or_create(entity.to_attr_hash)
       end
     end
   end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'helpers/spec_helper'
-require_relative 'helpers/vcr_helper'
-require_relative 'helpers/database_helper'
+require_relative '../../helpers/spec_helper'
+require_relative '../../helpers/vcr_helper'
+require_relative '../../helpers/database_helper'
 
 describe 'Test Inboxes Mappers and Repository' do
   VcrHelper.setup_vcr
@@ -43,13 +43,6 @@ describe 'Test Inboxes Mappers and Repository' do
     _(suggestions.count).must_equal 30
     _(suggestions[0].name).must_equal "tensorflow"
     _(suggestions[0].description).must_equal "An Open Source Machine Learning Framework for Everyone"
-    _(suggestions[0].source).must_equal "https://github.com/tensorflow/tensorflow"
-
-    # _(suggestions.count).must_equal 30
-    # _(suggestions[0].name).must_equal 'transformers'
-    # _(suggestions[0].description).must_equal "🤗Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0."
-    # _(suggestions[0].source).must_equal 'https://github.com/huggingface/transformers'
+    _(suggestions[0].html_url).must_equal "https://github.com/tensorflow/tensorflow"
   end
-
-
 end

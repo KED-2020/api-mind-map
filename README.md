@@ -14,11 +14,12 @@ The documents that our system suggests for the users are sent as suggestions to 
 
 ### Short-term
 
-* Add more data sources
-* Allow users to create inboxes
-* Allow users to save and delete suggestions
+- Add more data sources
+- Allow users to create inboxes
+- Allow users to save and delete suggestions
 
 ### Long-term
+
 The main long term goal of our project is to implement a more efficient and accuraate way to suggest documents to the users.
 
 ## Entities
@@ -26,46 +27,49 @@ The main long term goal of our project is to implement a more efficient and accu
 These are some of the entities in our project. To see more details about the database, see the database section below.
 
 #### Inbox
+
 The place where all the suggestions are given to a user. I guess you can think of this as sort of an RSS feed or your email inbox.
 
-|id|name|description|url|created_at|updated_at|
-|--|----|-----------|---|----------|----------|
-|1|some name|some description|1234|created_time|updated_time|
+| id  | name      | description      | url  | created_at   | updated_at   |
+| --- | --------- | ---------------- | ---- | ------------ | ------------ |
+| 1   | some name | some description | 1234 | created_time | updated_time |
 
-       
 #### Suggestion
+
 A document that has been suggested to a user by the system.
 
-|id|name|description|source|created_at|updated_at|
-|--|----|-----------|---|----------|----------|
-|1|some name|some description|github|created_time|updated_time|
+| id  | name      | description      | source | created_at   | updated_at   |
+| --- | --------- | ---------------- | ------ | ------------ | ------------ |
+| 1   | some name | some description | github | created_time | updated_time |
 
 #### Topic
- A topic that can be linked to a collection of documents.
+
+A topic that can be linked to a collection of documents.
 
 #### Document
+
 An article, blog, or tool saved by a user.
 
 ## Geting Started
 
-* Installation
-  * `$ rbenv local 2.7.1`
-  * `$ bundle install`
-* API Authentication
-  * Put your GITHUB_TOKEN into `config/secrets.yml`
-* Generate testfile (`spec/fixtures/github_results.yml`)
-  * `$ bundle exec ruby spec/fixtures/resource_info.rb`
-* Test the Functions & the Code Quality (based on RakeFile)
-  * `$ rake spec`
-  * `$ rake quality:all`
+- Installation
+  - `$ rbenv local 2.7.1`
+  - `$ bundle install`
+- API Authentication
+  - Put your GITHUB_TOKEN into `config/secrets.yml`
+- Generate testfile (`spec/fixtures/github_results.yml`)
+  - `$ bundle exec ruby spec/fixtures/document_info.rb`
+- Test the Functions & the Code Quality (based on RakeFile)
+  - `$ rake spec`
+  - `$ rake quality:all`
 
 ## Database
 
 We use SQLite as our database for both development and test environments. On the production environment, we use Postgres.
 
-* Test the getting data from github api and write to db
- * `$ rake db:gwdbint`
- 
+- Test the getting data from github api and write to db
+- `$ rake db:gwdbint`
+
 ### Entity-relationship Diagram
 
 ![](entity-relationship.png)

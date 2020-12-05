@@ -11,7 +11,7 @@ describe 'Project Page Acceptance Tests' do
 
   before do
     DatabaseHelper.wipe_database
-    @browser = Watir::Browser.new :chrome, headless: true    # need optionally install Xvfb on Mac 
+    @browser = Watir::Browser.new :chrome, headless: true    # need optionally install Xvfb on Mac
   end
 
   after do
@@ -24,25 +24,18 @@ describe 'Project Page Acceptance Tests' do
       # GIVEN: user adds an existent inbox URL and submit
       inbox = MindMap::Entity::Inbox.new(id: nil,
                                          name: 'Test Inbox',
-                                         url: '12345',
+                                         url: GOOD_INBOX_ID,
                                          description: 'A test inbox',
                                          suggestions: [])
       saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).create(inbox)
-      suggestions = MindMap::Mapper::Inbox.new(GITHUB_TOKEN).suggestions()
-      MindMap::Repository::Inboxes.add_suggestions(saved_inbox, suggestions)
-
-      visit HomePage do |page|
-        page.request_inbox(GOOD_INBOX_ID)
-      end
 
       # WHEN: user goes to the inbox page
       visit(InboxPage, using_params: { inbox_id: GOOD_INBOX_ID }) do |page|
+
         # THEN: they should see the searching results
         _(page.all_elements_has_correct_text?).must_equal true
         _(page.includes_some_correct_suggestions?(SUGGESTION_NAMES)).must_equal true
       end
     end
-
   end
-
 end

@@ -6,7 +6,7 @@ require 'yaml'
 ####################################
 ## Configuration
 ####################################
-GITHUB_TOKEN = YAML.safe_load(File.read('config/secrets.yml'))['GITHUB_TOKEN']
+GITHUB_TOKEN = YAML.safe_load(File.read('config/secrets.yml'))['test']['GITHUB_TOKEN']
 
 gh_response = {}
 gh_results = {}
@@ -35,7 +35,7 @@ def topics_to_query(topics)
 end
 
 ####################################
-## HAPPY Resources request
+## HAPPY Documents request
 ####################################
 
 # Search & Find Repository
@@ -53,28 +53,24 @@ gh_response[repo_search_url] = call_github(repo_search_url, search_repo_params)
 
 repo_search = gh_response[repo_search_url].parse
 
-selected_resource = repo_search['items'][0]
+pp repo_search
+
+selected_document = repo_search['items'][0]
 
 # Explore the selected repo
-gh_results['name'] = selected_resource['name']
+gh_results['name'] = selected_document['name']
 # transformers
 
-gh_results['homepage'] = selected_resource['homepage']
-# Should be https://huggingface.co/
-
-gh_results['url'] = selected_resource['html_url']
+gh_results['html_url'] = selected_document['html_url']
 # Should be https://github.com/huggingface/transformers
 
-gh_results['description'] = selected_resource['description']
+gh_results['description'] = selected_document['description']
 # Should be \U0001F917Transformers: State-of-the-art Natural Language Processing for Pytorch and TensorFlow 2.0.
 
-gh_results['language'] = selected_resource['language']
-# Should be Python
-
-gh_results['topics'] = selected_resource['topics']
+gh_results['topics'] = selected_document['topics']
 
 ####################################
-## BAD Resources request
+## BAD documents request
 ####################################
 
 # Bad Search Request

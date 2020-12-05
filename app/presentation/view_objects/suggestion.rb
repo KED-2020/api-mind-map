@@ -28,8 +28,8 @@ module Views
       @suggestion.suggested_date
     end
 
-    def source_url
-      @suggestion.source
+    def html_url
+      @suggestion.html_url
     end
   end
 end

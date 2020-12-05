@@ -6,10 +6,10 @@ module MindMap
   module Database
     # Object Relational Mapper for Topics
     class TopicOrm < Sequel::Model(:topics)
-      many_to_many :resources,
-                   class: :'MindMap::Database::ResourceOrm',
-                   join_table: :resources_topics,
-                   left_key: :topic_id, right_key: :resource_id
+      many_to_many :documents,
+                   class: :'MindMap::Database::DocumentOrm',
+                   join_table: :documents_topics,
+                   left_key: :topic_id, right_key: :document_id
 
       plugin :timestamps, update_on_create: true
 

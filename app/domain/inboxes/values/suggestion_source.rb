@@ -4,8 +4,8 @@ require 'delegate'
 
 module MindMap
   module Value
-    # Useful actions to do to a suggestion's source.
-    class SuggestionSource < SimpleDelegator
+    # Useful actions to do to a suggestion's html_url.
+    class SuggestionUrl < SimpleDelegator
       def initialize
         super
       end
