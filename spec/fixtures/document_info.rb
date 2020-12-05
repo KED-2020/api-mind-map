@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 require 'http'
 require 'yaml'
@@ -53,8 +53,6 @@ gh_response[repo_search_url] = call_github(repo_search_url, search_repo_params)
 
 repo_search = gh_response[repo_search_url].parse
 
-pp repo_search
-
 selected_document = repo_search['items'][0]
 
 # Explore the selected repo
@@ -70,7 +68,7 @@ gh_results['description'] = selected_document['description']
 gh_results['topics'] = selected_document['topics']
 
 ####################################
-## BAD documents request
+## SAD documents request
 ####################################
 
 # Bad Search Request
@@ -84,6 +82,24 @@ gh_response[invalid_query_url] = call_github(invalid_query_url, { q: LONG_SEARCH
 # Invalid API endpoint
 invalid_endpoint_url = format_api_path('search/invalid')
 gh_response[invalid_endpoint_url] = call_github(invalid_endpoint_url, search_repo_params)
+
+####################################
+## HAPPY Single Document Request
+####################################
+document_owner = 'derrxb'
+document = 'derrxb'
+document_path = document_owner + '/' + document
+
+get_repo_url = format_api_path('repos/')
+gh_response[get_repo_url] = call_github(get_repo_url + document_path)
+document_response = gh_response[get_repo_url].parse
+
+# Explore the returned repo
+gh_results['document_id'] = document_response['id']
+gh_results['document_name'] = document_response['name']
+gh_results['document_html_url'] = document_response['html_url']
+gh_results['document_description'] = document_response['description']
+gh_results['document_topics'] = document_response['topics']
 
 ####################################
 ## Save Results

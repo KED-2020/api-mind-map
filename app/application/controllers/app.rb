@@ -109,37 +109,43 @@ module MindMap
         end
       end
 
-      # Document
-      routing.on 'documents' do
-        routing.is do
-          # POST /document/
+      # Favorites
+      routing.on 'favorites' do
+        # GET /favorites
+        routing.get do
+          view 'favorites'
+        end
+
+        routing.on 'documents' do
+          # POST /favorites/documents
           routing.post do
-            search_term = routing.params['search']
-            tags_term = routing.params['tags']
+            html_url = MindMap::Forms::AddDocument.new.call(routing.params)
 
-            routing.halt 400 unless search_term.length.positive?
+            result = Service::AddDocument.new.call(html_url)
 
-            tags = tags_term&.length&.positive? ? tags_term.split(',') : []
+            if result.failure?
+              flash[:error] = result.failure
+              routing.redirect '/favorites'
+            end
 
-            # Get the document from Github
-            document = Github::DocumentMapper
-                       .new(MindMap::App.config.GITHUB_TOKEN)
-                       .search(search_term, tags)
-            routing.redirect '/document_nil' unless document
-            # Add the repo to database
-            saved_document = Repository::For.entity(document).find_or_create(document)
-
-            # Redirect viewer to document details
-            routing.redirect "/documents?document_origin_id=#{saved_document.origin_id}"
+            # Show the user their favorites
+            routing.redirect '/favorites'
           end
 
-          # GET /document?document_origin_id={document_origin_id}
-          routing.get do
-            document_origin_id = routing.params['document_origin_id']
+          # GET /favorites/documents/{document_id}
+          routing.on String do |document_id|
+            routing.get do
+              result = MindMap::Service::GetDocument.new.call(document_id)
 
-            document = Repository::For.klass(Entity::document).find_origin_id(document_origin_id)
+              if result.failure?
+                flash[:error] = result.failure
+                routing.redirect '/document_nil'
+              end
 
-            view 'document', locals: { document: document }
+              document = result.value!
+
+              view 'document', locals: { document: document }
+            end
           end
         end
       end

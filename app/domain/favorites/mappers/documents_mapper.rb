@@ -4,16 +4,16 @@ require_relative '../entities/topic'
 
 module MindMap
   module Github
-    # Data Mapper: GitHub Project => Document
-    class DocumentMapper
+    # Data Mapper: Github search -> Document entity
+    class DocumentsMapper
       def initialize(gh_token, gateway_class = Github::Api)
         @token = gh_token
         @gateway_class = gateway_class
         @gateway = @gateway_class.new(@token)
       end
 
-      def find(document)
-        data = @gateway.find_project(document)
+      def search(query, topics)
+        data = @gateway.search_data(query, topics)
 
         build_entity(data)
       end
@@ -30,7 +30,7 @@ module MindMap
 
         # rubocop:disable Metrics/MethodLength
         def build_entity
-          return nil unless @data
+          return nil unless @data['items'][0]
 
           MindMap::Entity::Document.new(
             id: nil,
@@ -47,23 +47,23 @@ module MindMap
         # the search results. We will extend this later on to allow
         # the user to select which document they want to select.
         def name
-          @data['name']
+          @data['items'][0]['name']
         end
 
         def origin_id
-          @data['id']
+          @data['items'][0]['id']
         end
 
         def description
-          @data['description']
+          @data['items'][0]['description']
         end
 
         def html_url
-          @data['html_url']
+          @data['items'][0]['html_url']
         end
 
         def topics
-          @data['topics']&.map do |topic|
+          @data['items'][0]['topics']&.map do |topic|
             MindMap::Entity::Topic.new(
               id: nil,
               name: topic,
