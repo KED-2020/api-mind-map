@@ -1,45 +1,47 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.1'
+ruby File.read('.ruby-version').strip
 
-# Utilities
-gem 'rake'
+# PRESENTATION LAYER
+gem 'multi_json'
+gem 'roar'
 
-gem 'database_cleaner'
-group :production do
-  gem 'pg'
-end
-
-# Networking
-gem 'http', '~> 4.0'
-
-# Web Application
+# APPLICATION LAYER
+# Web application related
 gem 'econfig', '~> 2.1'
 gem 'puma', '~> 3.11'
 gem 'rack', '~> 2' # 2.3 will fix delegateclass bug
 gem 'roda', '~> 3.8'
-gem 'slim', '~> 3.0'
-
-# Validation
-gem 'dry-struct', '~> 1.3'
-gem 'dry-types', '~> 1.4'
 
 # Controllers and services
 gem 'dry-monads'
 gem 'dry-transaction'
 gem 'dry-validation'
 
+# DOMAIN LAYER
+# Validation
+gem 'dry-struct', '~> 1.3'
+gem 'dry-types', '~> 1.4'
+
+# INFRASTRUCTURE LAYER
+# Networking
+gem 'http', '~> 4.0'
+
 # Database
 gem 'hirb', '~> 0.7'
-gem 'hirb-unicode'
-gem 'sequel', '~> 5.38.0'
+gem 'sequel', '~> 5.0'
 
 group :development, :test do
-  gem 'sqlite3'
+  gem 'database_cleaner', '~> 1.8'
+  gem 'sqlite3', '~> 1.4'
 end
 
-# Testing
+group :production do
+  gem 'pg', '~> 1.2'
+end
+
+# TESTING
 group :test do
   gem 'minitest', '~> 5.0'
   gem 'minitest-rg', '~> 5.0'
@@ -47,19 +49,26 @@ group :test do
   gem 'simplecov', '~> 0'
   gem 'vcr', '~> 6.0'
   gem 'webmock', '~> 3.0'
-
-  gem 'headless', '~> 2.3'
-  gem 'page-object', '~> 2.2'
-  gem 'watir', '~> 6.17'
-end
-
-# Quality
-group :development, :test do
-  gem 'flog'
-  gem 'reek'
-  gem 'rubocop'
 end
 
 group :development, :test do
   gem 'rerun', '~> 0.13'
 end
+
+# DEBUGGING
+group :development do
+  # Debugging: see https://stackify.com/ruby-debugger-using-visual-studio-code/
+  gem 'debase', '~> 0.2'
+  gem 'ruby-debug-ide', '~> 0.7'
+end
+
+# QUALITY
+group :development, :test do
+  gem 'flog'
+  gem 'reek'
+  gem 'rubocop', '~> 1.4'
+end
+
+# UTILITIES
+gem 'rack-test' # can also be used to diagnose production
+gem 'rake', '~> 13.0'
