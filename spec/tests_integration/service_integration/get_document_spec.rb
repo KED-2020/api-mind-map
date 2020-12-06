@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../helpers/spec_helper.rb'
-require_relative '../../helpers/vcr_helper.rb'
-require_relative '../../helpers/database_helper.rb'
+require_relative '../../helpers/spec_helper'
+require_relative '../../helpers/vcr_helper'
+require_relative '../../helpers/database_helper'
 
 describe 'GetDocument Service Integration Test' do
   VcrHelper.setup_vcr
@@ -10,7 +10,7 @@ describe 'GetDocument Service Integration Test' do
 
   before do
     DatabaseHelper.wipe_database
-    VcrHelper.configure_vcr_for_github
+    VcrHelper.configure_vcr_for_github(recording: :none)
   end
 
   after do

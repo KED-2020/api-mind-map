@@ -1,13 +1,20 @@
 ---
 development:
   # Infrastructure
-  DB_FILENAME:    app/infrastructure/database/local/dev.db
+  DB_FILENAME: app/infrastructure/database/local/dev.db
   # Application
   API_HOST: http://localhost:9292
 
 test:
   # Infrastructure
-  DB_FILENAME:    app/infrastructure/database/local/test.db
+  DB_FILENAME: app/infrastructure/database/local/test.db
   # Application
   API_HOST: http://localhost:9090
-  APP_HOST: http://localhost:9000
+
+app_test:
+  API_HOST: http://localhost:9090
+  # Infrastructure
+  DB_FILENAME: app/infrastructure/database/local/test.db
+
+production:
+  # API_HOST: https://mind-map.herokuapp.com

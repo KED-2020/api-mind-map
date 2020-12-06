@@ -9,7 +9,7 @@ describe 'GetInbox integration tests' do
   DatabaseHelper.setup_database_cleaner
 
   before do
-    VcrHelper.configure_vcr_for_github
+    VcrHelper.configure_vcr_for_github(recording: :none)
     DatabaseHelper.wipe_database
   end
 

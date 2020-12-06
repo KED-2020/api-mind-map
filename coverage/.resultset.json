@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/init.rb": {
         "lines": [
           null,
           null,
@@ -11,14 +11,14 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/config/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/config/init.rb": {
         "lines": [
           null,
           null,
           1
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/config/environment.rb": {
+      "/Users/derrickbol/dev/api-mind-map/config/environment.rb": {
         "lines": [
           null,
           null,
@@ -36,29 +36,34 @@
           1,
           null,
           1,
-          null,
-          1,
           1,
           null,
-          null,
-          1,
-          null,
-          null,
-          null,
-          1,
-          1,
-          null,
-          1,
           null,
           1,
           0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          14,
           null,
           null,
           null,
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/init.rb": {
         "lines": [
           null,
           null,
@@ -68,7 +73,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/init.rb": {
         "lines": [
           null,
           null,
@@ -78,7 +83,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/gateways/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/gateways/init.rb": {
         "lines": [
           null,
           null,
@@ -87,7 +92,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/gateways/github_api.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/gateways/github_api.rb": {
         "lines": [
           null,
           null,
@@ -183,7 +188,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/database/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/database/init.rb": {
         "lines": [
           null,
           null,
@@ -193,7 +198,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/database/orms/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/database/orms/init.rb": {
         "lines": [
           null,
           null,
@@ -202,7 +207,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/database/orms/document_orm.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/database/orms/document_orm.rb": {
         "lines": [
           null,
           null,
@@ -227,7 +232,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/database/orms/inbox_orm.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/database/orms/inbox_orm.rb": {
         "lines": [
           null,
           null,
@@ -248,7 +253,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/infrastructure/database/orms/topic_orm.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/infrastructure/database/orms/topic_orm.rb": {
         "lines": [
           null,
           null,
@@ -273,7 +278,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/init.rb": {
         "lines": [
           null,
           null,
@@ -283,7 +288,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/requests/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/forms/init.rb": {
         "lines": [
           null,
           null,
@@ -292,7 +297,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/requests/add_document.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/forms/add_document.rb": {
         "lines": [
           null,
           null,
@@ -321,7 +326,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/requests/find_inbox.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/forms/find_inbox.rb": {
         "lines": [
           null,
           null,
@@ -355,11 +360,7 @@
           null,
           null,
           1,
-          0,
-          null,
-          null,
-          null,
-          1,
+          2,
           0,
           null,
           null,
@@ -372,7 +373,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/services/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/services/init.rb": {
         "lines": [
           null,
           null,
@@ -381,7 +382,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/services/add_document.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/services/add_document.rb": {
         "lines": [
           null,
           null,
@@ -400,14 +401,14 @@
           1,
           null,
           1,
-          0,
+          3,
           0,
           0,
           null,
-          0,
+          2,
           null,
           null,
-          0,
+          1,
           null,
           null,
           1,
@@ -448,7 +449,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/services/get_document.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/services/get_document.rb": {
         "lines": [
           null,
           null,
@@ -460,10 +461,10 @@
           1,
           null,
           1,
-          0,
+          2,
           null,
           null,
-          0,
+          2,
           null,
           0,
           null,
@@ -472,7 +473,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/services/get_inbox.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/services/get_inbox.rb": {
         "lines": [
           null,
           null,
@@ -491,11 +492,11 @@
           1,
           null,
           1,
-          0,
+          2,
           null,
           0,
           null,
-          0,
+          2,
           null,
           null,
           1,
@@ -519,7 +520,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/controllers/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/controllers/init.rb": {
         "lines": [
           null,
           null,
@@ -528,20 +529,15 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/application/controllers/app.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/application/controllers/app.rb": {
         "lines": [
           null,
           null,
           1,
           1,
-          1,
-          1,
           null,
           1,
           null,
-          1,
-          1,
-          1,
           1,
           1,
           1,
@@ -551,68 +547,57 @@
           null,
           null,
           1,
-          0,
+          7,
+          null,
+          null,
+          7,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          6,
+          null,
+          6,
+          null,
+          2,
+          2,
+          2,
+          null,
+          2,
+          null,
+          2,
+          2,
+          2,
           null,
           null,
           0,
           0,
-          null,
-          null,
-          null,
-          0,
-          0,
-          null,
-          null,
-          null,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          0,
-          null,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          null,
-          null,
-          0,
-          null,
           null,
           0,
           null,
           null,
           null,
           null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
           null,
           null,
-          0,
           null,
-          0,
+          4,
+          4,
           null,
+          4,
+          2,
           null,
+          2,
+          null,
+          2,
+          2,
+          2,
           null,
           null,
           0,
@@ -623,60 +608,27 @@
           null,
           null,
           null,
-          0,
-          null,
-          0,
           null,
           null,
-          0,
+          2,
+          2,
+          2,
           null,
-          0,
-          0,
-          0,
+          2,
           null,
-          null,
-          0,
-          null,
-          0,
-          null,
-          null,
-          null,
-          null,
-          0,
-          null,
+          2,
           0,
           0,
           null,
           null,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
+          2,
+          2,
           null,
           null,
           0,
           null,
           null,
           null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          null,
-          0,
-          null,
-          0,
           null,
           null,
           null,
@@ -687,7 +639,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/init.rb": {
         "lines": [
           null,
           null,
@@ -697,7 +649,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/init.rb": {
         "lines": [
           null,
           null,
@@ -707,7 +659,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/entities/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/entities/init.rb": {
         "lines": [
           null,
           null,
@@ -719,11 +671,39 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/entities/inbox.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/entities/inbox.rb": {
         "lines": [
           null,
           null,
           1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          6,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/entities/suggestion.rb": {
+        "lines": [
+          null,
           null,
           1,
           1,
@@ -749,35 +729,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/entities/suggestion.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          0,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/mappers/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/mappers/init.rb": {
         "lines": [
           null,
           null,
@@ -786,7 +738,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/mappers/github_suggestions_mapper.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/mappers/github_suggestions_mapper.rb": {
         "lines": [
           null,
           null,
@@ -847,7 +799,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/mappers/inbox_mapper.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/mappers/inbox_mapper.rb": {
         "lines": [
           null,
           null,
@@ -872,7 +824,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/repositories/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/repositories/init.rb": {
         "lines": [
           null,
           null,
@@ -881,7 +833,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/repositories/for.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/repositories/for.rb": {
         "lines": [
           null,
           null,
@@ -899,7 +851,7 @@
           null,
           null,
           1,
-          0,
+          3,
           null,
           null,
           1,
@@ -911,7 +863,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/repositories/inboxes.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/repositories/inboxes.rb": {
         "lines": [
           null,
           null,
@@ -930,9 +882,9 @@
           null,
           null,
           1,
-          0,
+          3,
           null,
-          0,
+          1,
           null,
           null,
           1,
@@ -942,9 +894,9 @@
           null,
           null,
           1,
-          0,
+          1,
           null,
-          0,
+          1,
           null,
           null,
           1,
@@ -955,9 +907,9 @@
           null,
           null,
           1,
-          0,
+          2,
           null,
-          0,
+          1,
           null,
           null,
           null,
@@ -968,27 +920,6 @@
           1,
           1,
           0,
-          0,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          1,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
           0,
           null,
           null,
@@ -999,6 +930,27 @@
           1,
           0,
           0,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
           0,
           null,
           0,
@@ -1011,7 +963,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/inboxes/repositories/suggestions.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/inboxes/repositories/suggestions.rb": {
         "lines": [
           null,
           null,
@@ -1032,7 +984,7 @@
           null,
           null,
           1,
-          0,
+          1,
           0,
           null,
           null,
@@ -1045,7 +997,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/init.rb": {
         "lines": [
           null,
           null,
@@ -1055,7 +1007,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/entities/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/entities/init.rb": {
         "lines": [
           null,
           null,
@@ -1067,7 +1019,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/entities/document.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/entities/document.rb": {
         "lines": [
           null,
           null,
@@ -1094,7 +1046,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/entities/topic.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/entities/topic.rb": {
         "lines": [
           null,
           null,
@@ -1116,7 +1068,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/mappers/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/mappers/init.rb": {
         "lines": [
           null,
           null,
@@ -1125,7 +1077,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/mappers/document_mapper.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/mappers/document_mapper.rb": {
         "lines": [
           null,
           null,
@@ -1206,7 +1158,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/mappers/documents_mapper.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/mappers/documents_mapper.rb": {
         "lines": [
           null,
           null,
@@ -1287,7 +1239,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/repositories/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/repositories/init.rb": {
         "lines": [
           null,
           null,
@@ -1296,7 +1248,7 @@
           1
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/repositories/documents.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/repositories/documents.rb": {
         "lines": [
           null,
           null,
@@ -1319,8 +1271,8 @@
           null,
           null,
           1,
-          0,
-          0,
+          2,
+          2,
           null,
           null,
           1,
@@ -1343,7 +1295,7 @@
           1,
           null,
           1,
-          0,
+          2,
           null,
           0,
           null,
@@ -1378,7 +1330,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/repositories/topics.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/repositories/topics.rb": {
         "lines": [
           null,
           null,
@@ -1420,7 +1372,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/domain/favorites/repositories/for.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/domain/favorites/repositories/for.rb": {
         "lines": [
           null,
           null,
@@ -1434,7 +1386,7 @@
           null,
           null,
           1,
-          0,
+          2,
           null,
           null,
           1,
@@ -1445,17 +1397,17 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/init.rb": {
         "lines": [
           null,
           null,
           1,
           1,
-          1,
+          2,
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/representers/init.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/responses/init.rb": {
         "lines": [
           null,
           null,
@@ -1464,7 +1416,58 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/representers/document_representer.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/responses/api_result.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/responses/openstruct_with_links.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/init.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          8,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/document_representer.rb": {
         "lines": [
           null,
           null,
@@ -1488,7 +1491,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/representers/topic_representer.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/topic_representer.rb": {
         "lines": [
           null,
           null,
@@ -1507,7 +1510,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/representers/inbox_representer.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/http_response_representer.rb": {
         "lines": [
           null,
           null,
@@ -1515,7 +1518,47 @@
           1,
           null,
           1,
+          1,
           null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          7,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/inbox_representer.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
           1,
           1,
           1,
@@ -1542,7 +1585,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/representers/suggestion_representer.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/suggestion_representer.rb": {
         "lines": [
           null,
           null,
@@ -1563,7 +1606,7 @@
           null
         ]
       },
-      "/Users/qs.chou/rubyDev/soa/mindmap/dev/api-mind-map/app/presentation/representers/inboxs_representer.rb": {
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/inboxs_representer.rb": {
         "lines": [
           null,
           null,
@@ -1577,14 +1620,92 @@
           null,
           1,
           1,
+          0,
           null,
           1,
           null,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/app/presentation/representers/suggestion_source_representer.rb": {
+        "lines": [
+          null,
+          1,
+          0,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/spec/helpers/vcr_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          7,
+          7,
+          7,
+          null,
+          null,
+          7,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          7,
+          null,
+          null
+        ]
+      },
+      "/Users/derrickbol/dev/api-mind-map/spec/helpers/database_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          7,
+          7,
+          7,
           null,
           null
         ]
       }
     },
-    "timestamp": 1607276308
+    "timestamp": 1607277653
   }
 }

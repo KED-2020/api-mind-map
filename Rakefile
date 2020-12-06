@@ -75,6 +75,8 @@ namespace :vcr do
 end
 
 namespace :quality do
+  CODE = 'app' # rubocop:disable Lint/ConstantDefinitionInBlock
+
   desc 'Run all quality checks'
   task all: %i[rubocop reek flog]
 
@@ -83,7 +85,7 @@ namespace :quality do
   end
 
   task :reek do
-    sh 'reek'
+    sh "reek #{CODE}"
   end
 
   task :flog do

@@ -9,7 +9,7 @@ describe 'Add Document Integration Test' do
   DatabaseHelper.setup_database_cleaner
 
   before do
-    VcrHelper.configure_vcr_for_github
+    VcrHelper.configure_vcr_for_github(recording: :none)
   end
 
   after do
