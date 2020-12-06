@@ -8,10 +8,10 @@ module MindMap
       include Dry::Monads::Result::Mixin
 
       def call(id)
-        document = Repository::For.klass(Entity::Document)
-          .find_id(id)
-
-        Success(document)
+        Repository::For.klass(Entity::Document)
+                       .find_id(id)
+                       .then { |document| Response::Document.new(document) }
+                       .then { |id| Sucess(Response::ApiResult.new(status: :ok, message: id)) }
       rescue StandardError
         Failure('Could not access database')
       end

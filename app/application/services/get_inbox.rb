@@ -15,9 +15,9 @@ module MindMap
       private
 
       def get_inbox(input)
-        input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox).find_url(input[:inbox_id])
-
-        input[:inbox] ? Success(input) : Failure('Inbox not found')
+        Repository::Inbox::For.klass(Entity::Inbox).find_url(input[:inbox_id])
+                              .then { |inbox| Response::Inbox.new(inbox) }
+                              .then { |inbox_id| Sucess(Response::ApiResult.new(status: :ok, message:inbox_id)) }
       rescue StandardError
         Failure('Having trouble accessing the database')
       end

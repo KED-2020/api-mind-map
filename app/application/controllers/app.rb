@@ -67,7 +67,7 @@ module MindMap
         # GET /inbox/{inbox_id}
         routing.on String do |inbox_id|
           routing.get do
-            inbox_id = Request::InboxFind.new.(inbox_id: inbox_id)
+            inbox_id = Request::InboxFind.new.call(inbox_id: inbox_id)
 
             result = Service::GetInbox.new.call(inbox_id: inbox_id)
 

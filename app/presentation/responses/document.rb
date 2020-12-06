@@ -3,6 +3,6 @@
 module MindMap
   module Response
     # Lists of Inbox
-    Inbox = Struct.new(:inbox)
+    Document = Struct.new(:document)
   end
 end
