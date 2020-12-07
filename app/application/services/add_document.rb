@@ -14,15 +14,17 @@ module MindMap
 
       private
 
+      INVALID_PARAMS_MSG = 'Invalid link to GitHub document provided.'
+      GH_NOT_FOUND_MSG = 'Could not find that project on GitHub.'
+      DB_ERROR_MSG = 'Having trouble accessing the database.'
+
       def parse_url(input)
-        if input.success?
-          document_owner, document = input[:html_url].split('/')[-2..-1]
-          Success(document_path: "#{document_owner}/#{document}", html_url: input[:html_url])
-        else
-          Failure('Invalid link to GitHub document provided')
-        end
+        throw INVALID_PARAMS_MSG unless input.success?
+
+        document_owner, document = input[:html_url].split('/')[-2..-1]
+        Success(document_path: "#{document_owner}/#{document}", html_url: input[:html_url])
       rescue StandardError
-        Failure('Invalid link to GitHub document provided')
+        Failure(Response::ApiResult.new(status: :bad_request, message: e.to_s))
       end
 
       def find_document(input)
@@ -34,7 +36,7 @@ module MindMap
 
         Success(input)
       rescue StandardError => e
-        Failure(e.to_s)
+        Failure(Response::ApiResult.new(status: :not_found, message: e.to_s))
       end
 
       def store_document(input)
@@ -44,9 +46,9 @@ module MindMap
                      input[:local_document]
                    end
 
-        Success(document)
+        Success(Response::ApiResult.new(status: :created, message: document))
       rescue StandardError
-        Failure('Having trouble accessing the database')
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
       end
 
       def document_from_database(input)
@@ -56,7 +58,7 @@ module MindMap
       def document_from_github(input)
         Github::DocumentMapper.new(MindMap::App.config.GITHUB_TOKEN).find(input[:document_path])
       rescue StandardError
-        raise 'Could not find that project on Github'
+        raise GITHUB_NOT_FOUND
       end
     end
   end
