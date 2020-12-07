@@ -14,12 +14,13 @@ module MindMap
 
       private
 
+      DB_ERROR_MSG = 'Could not access database.'
+      GH_ERROR_MSG = 'Having trouble receiving the suggestion.'
+
       def get_inbox(input)
         input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox).find_url(input[:inbox_id])
-
-        input[:inbox] ? Success(input) : Failure('Inbox not found')
       rescue StandardError
-        Failure('Having trouble accessing the database')
+        Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG)
       end
 
       def get_suggestions(input)
@@ -27,16 +28,16 @@ module MindMap
 
         Success(input)
       rescue StandardError
-        Failure('Having trouble receiving the suggestion')
+        Response::ApiResult.new(status: :not_found, message: GH_ERROR_MSG)
       end
 
       def add_suggestions_to_inbox(input)
-        input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox).add_suggestions(input[:inbox], input[:suggestions])
-        input[:suggestions] = input[:inbox].suggestions
+        Repository::Inbox::For.klass(Entity::Inbox).add_suggestions(input[:inbox], input[:suggestions])
 
-        Success(input)
+        Response::Inbox.new(input[:inbox])
+          .then { |inbox| Success(Response::ApiResult.new(status: :ok, message: inbox))}
       rescue StandardError
-        Failure('Having trouble saving the suggestions to an inbox')
+        Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG)
       end
     end
   end
