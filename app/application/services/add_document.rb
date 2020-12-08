@@ -30,7 +30,7 @@ module MindMap
       end
 
       def parse_url(input)
-        document_owner, document = input[:url].split('/')[-2..-1]
+        document_owner, document = input[:url].split('/')[-2..]
 
         Success(document_path: "#{document_owner}/#{document}", url: input[:url])
       rescue StandardError => error

@@ -7,6 +7,7 @@ require_relative 'topic_representer'
 
 module MindMap
   module Representer
+    # Document Representer
     class Document < Roar::Decorator
       include Roar::JSON
       include Roar::Hypermedia

@@ -15,6 +15,7 @@ module MindMap
 
       private
 
+      NOT_FOUND_MSG = 'Could not find inbox with the given id.'
       DB_ERROR_MSG = 'Could not access database.'
       GH_ERROR_MSG = 'Having trouble receiving the suggestion.'
 
@@ -29,11 +30,13 @@ module MindMap
       def find_inbox(input)
         input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox).find_url(input[:inbox_id])
 
-        throw DB_ERROR_MSG if input[:inbox].nil?
-
-        Success(input)
-      rescue StandardError => e
-        Failure(Response::ApiResult.new(status: :not_found, message: e.message))
+        if input[:inbox].nil?
+          Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_MSG))
+        else
+          Success(input)
+        end
+      rescue StandardError
+        Failure(Response::ApiResult.new(status: :not_found, message: DB_ERROR_MSG))
       end
 
       def get_suggestions(input)
