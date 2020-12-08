@@ -18,13 +18,7 @@ module MindMap
       collection :suggestions, extend: Representer::Suggestion, class: OpenStruct
 
       link :self do
-        "#{App.config.API_HOST}/api/v1/inboxs/#{inbox_name}"
-      end
-
-      private
-
-      def inbox_name
-        represented.name
+        "#{App.config.API_HOST}/api/v1/inboxes/#{represented.name}"
       end
     end
   end

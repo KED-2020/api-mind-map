@@ -34,7 +34,7 @@ module MindMap
           # GET /inboxes/{inbox_id}
           routing.on String do |inbox_id|
             routing.get do
-              inbox_find = MindMap::Forms::FindInbox.new.call(inbox_id: inbox_id)
+              inbox_find = Request::EncodedInboxId.new(inbox_id)
 
               result = Service::GetInbox.new.call(inbox_id: inbox_find)
 
@@ -58,9 +58,9 @@ module MindMap
           routing.on 'documents' do
             # POST /favorites/documents
             routing.post do
-              html_url = MindMap::Forms::AddDocument.new.call(routing.params)
+              html_url = Request::AddDocument.new(routing.params)
 
-              result = Service::AddDocument.new.call(html_url)
+              result = Service::AddDocument.new.call(html_url: html_url)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
@@ -79,9 +79,7 @@ module MindMap
             # GET /favorites/documents/{document_id}
             routing.on String do |document_id|
               routing.get do
-                result = MindMap::Service::GetDocument.new.call(document_id)
-
-                pp result
+                result = MindMap::Service::GetDocument.new.call(document_id: document_id)
 
                 if result.failure?
                   failed = Representer::HttpResponse.new(result.failure)

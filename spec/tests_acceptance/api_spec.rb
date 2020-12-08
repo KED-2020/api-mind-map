@@ -47,20 +47,20 @@ describe 'Test API routes' do
 
       get "/api/v1/inboxes/#{saved_inbox.url}"
 
-      _(last_response.status).must_equal 200
+      _(last_response.status).must_equal 201
 
       inbox = JSON.parse last_response.body
 
       _(inbox['name']).must_equal saved_inbox.name
       _(inbox['description']).must_equal saved_inbox.description
       _(inbox['url']).must_equal saved_inbox.url
-      _(inbox['suggestions'].count).must_equal 0
+      _(inbox['suggestions'].count).must_equal 30
     end
 
     it 'should return an error for invalid inbox' do
       get '/api/v1/inboxes/9999'
 
-      _(last_response.status).must_equal 400
+      _(last_response.status).must_equal 404
 
       response = JSON.parse(last_response.body)
       _(response['message']).must_include 'not'
@@ -69,7 +69,7 @@ describe 'Test API routes' do
 
   describe 'Add documents route' do
     it 'should be able to add a document' do
-      post 'api/v1/favorites/documents', JSON.generate('html_url': PROJECT_URL)
+      post 'api/v1/favorites/documents', { html_url: PROJECT_URL }
 
       _(last_response.status).must_equal 201
 
@@ -86,7 +86,7 @@ describe 'Test API routes' do
     end
 
     it 'should report error when the document is invalid' do
-      post 'api/v1/favorites/documents', JSON.generate('html_url': 'https://github.com/derrxb/invalid')
+      post 'api/v1/favorites/documents', { html_url: 'https://github.com/derrxb/invalid' }
 
       _(last_response.status).must_equal 404
 
@@ -96,13 +96,11 @@ describe 'Test API routes' do
   end
 
   describe 'Get documents route' do
-    it 'should return a the requested documents' do
-      MindMap::Service::AddDocument.new.call(html_url: PROJECT_URL)
-      document_id = 1
+    it 'should return the requested documents' do
+      html_url = MindMap::Request::AddDocument.new({ 'html_url' => PROJECT_URL }) # Ensures a string as hash key is used.
+      result = MindMap::Service::AddDocument.new.call(html_url: html_url).value!.message.id
 
-      get "/api/v1/favorites/documents/#{document_id}"
-
-      last_response.body
+      get "/api/v1/favorites/documents/#{result}"
 
       _(last_response.status).must_equal 200
 
@@ -116,7 +114,7 @@ describe 'Test API routes' do
     it 'should return an error for invalid documents' do
       get '/api/v1/favorites/documents/9999'
 
-      _(last_response.status).must_equal 400
+      _(last_response.status).must_equal 404
 
       response = JSON.parse(last_response.body)
       _(response['message']).must_include 'not'

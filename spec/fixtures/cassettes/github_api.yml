@@ -928,4 +928,78 @@ http_interactions:
       encoding: UTF-8
       string: '{"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/repos#get-a-repository"}'
   recorded_at: Fri, 04 Dec 2020 22:41:46 GMT
+- request:
+    method: get
+    uri: https://api.github.com/repos/derrxb/invalid
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.github.mercy-preview+json
+      Authorization:
+      - token <GITHUB_TOKEN>
+      Connection:
+      - close
+      Host:
+      - api.github.com
+      User-Agent:
+      - http.rb/4.4.1
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Tue, 08 Dec 2020 13:25:31 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '107'
+      Connection:
+      - close
+      Server:
+      - GitHub.com
+      Status:
+      - 404 Not Found
+      X-Oauth-Scopes:
+      - repo, user, workflow, write:discussion
+      X-Accepted-Oauth-Scopes:
+      - repo
+      X-Github-Media-Type:
+      - github.mercy-preview; format=json
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4997'
+      X-Ratelimit-Reset:
+      - '1607434543'
+      X-Ratelimit-Used:
+      - '3'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+        X-Poll-Interval, X-GitHub-Media-Type, Deprecation, Sunset
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Github-Request-Id:
+      - DF61:361B:98099C:C0FC8E:5FCF7ECB
+    body:
+      encoding: UTF-8
+      string: '{"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/repos#get-a-repository"}'
+  recorded_at: Tue, 08 Dec 2020 13:25:23 GMT
 recorded_with: VCR 6.0.0

@@ -2,8 +2,8 @@ AllCops:
   TargetRubyVersion: 2.7
   NewCops: enable
   Include:
-    - 'Gemfile'
-    - 'Rakefile'
+    - "Gemfile"
+    - "Rakefile"
   Exclude:
     - _snippets/*
 
@@ -14,3 +14,5 @@ Metrics/BlockLength:
     - spec/**/*
     - Rakefile
 
+Naming/RescuedExceptionsVariableName:
+  Enabled: false

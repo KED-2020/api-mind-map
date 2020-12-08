@@ -8,6 +8,7 @@ module MindMap
     class AddDocument
       include Dry::Transaction
 
+      step :validate_url
       step :parse_url
       step :find_document
       step :store_document
@@ -18,13 +19,23 @@ module MindMap
       GH_NOT_FOUND_MSG = 'Could not find that project on GitHub.'
       DB_ERROR_MSG = 'Having trouble accessing the database.'
 
-      def parse_url(input)
-        throw INVALID_PARAMS_MSG unless input.success?
+      def validate_url(input)
+        url_request = input[:html_url].call
 
-        document_owner, document = input[:html_url].split('/')[-2..-1]
-        Success(document_path: "#{document_owner}/#{document}", html_url: input[:html_url])
-      rescue StandardError
-        Failure(Response::ApiResult.new(status: :bad_request, message: e.to_s))
+        if url_request.success?
+          Success(input.merge(url: url_request.value!))
+        else
+          Failure(url_request.failure)
+        end
+      end
+
+      def parse_url(input)
+        document_owner, document = input[:url].split('/')[-2..-1]
+
+        Success(document_path: "#{document_owner}/#{document}", url: input[:url])
+      rescue StandardError => error
+        puts 'returning bad url'
+        Failure(Response::ApiResult.new(status: :bad_request, message: error.to_s))
       end
 
       def find_document(input)
@@ -48,17 +59,17 @@ module MindMap
 
         Success(Response::ApiResult.new(status: :created, message: document))
       rescue StandardError
-        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
       end
 
       def document_from_database(input)
-        MindMap::Repository::For.klass(Entity::Document).find_html_url(input[:html_url])
+        MindMap::Repository::For.klass(Entity::Document).find_html_url(input[:url])
       end
 
       def document_from_github(input)
         Github::DocumentMapper.new(MindMap::App.config.GITHUB_TOKEN).find(input[:document_path])
       rescue StandardError
-        raise GITHUB_NOT_FOUND
+        raise GH_NOT_FOUND_MSG
       end
     end
   end
