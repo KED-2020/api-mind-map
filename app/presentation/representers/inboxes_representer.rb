@@ -7,8 +7,8 @@ require_relative 'inbox_representer'
 
 module MindMap
   module Representer
-    # Represents list of inboxs for API output
-    class InboxsList < Roar::Decorator
+    # Represents list of inboxes for API output
+    class InboxesList < Roar::Decorator
       include Roar::JSON
 
       collection :inbox, extend: Representer::Inbox, class: Response::OpenStructWithLinks

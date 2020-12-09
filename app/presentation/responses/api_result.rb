@@ -7,8 +7,7 @@ module MindMap
     ).freeze
 
     FAILURE = Set.new(
-      %i[forbidden not_found bad_request conflict cannot_process
-         internal_error]
+      %i[forbidden not_found bad_request conflict cannot_process internal_error]
     ).freeze
 
     CODES = SUCCESS | FAILURE

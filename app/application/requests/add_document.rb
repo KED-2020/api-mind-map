@@ -1,24 +1,36 @@
 # frozen_string_literal: true
 
 require 'URI'
-require 'dry-validation'
+require 'json'
+require 'dry/monads/result'
 
 module MindMap
-  module Forms
-    # Ensure that the link they use to add item is a url.
-    class AddDocument < Dry::Validation::Contract
+  module Request
+    # Ensures that only supported links can be added as documents.
+    class AddDocument
+      include Dry::Monads::Result::Mixin
+
       URL_REGEX = %r{(http[s]?)\:\/\/(www.)?github\.com\/.*\/.*}.freeze
 
-      params do
-        required(:html_url).filled(:string)
+      INVALID_URL = 'Unsupported link to document provided'
+
+      def initialize(params)
+        @params = params
       end
 
-      rule(:html_url) do
-        unless URI.parse(value) && URI.parse(value).host == 'github.com' && URL_REGEX.match?(value)
-          key.failure('is an invalid url. We cannot load your document from here.')
-        end
-      rescue URI::InvalidURIError
-        key.failure('is an invalid url. We cannot load your document from here.')
+      def call
+        url = URI.parse(@params['html_url'])
+
+        throw INVALID_URL unless url.host == 'github.com' && URL_REGEX.match?(url.to_s)
+
+        Success(url.to_s)
+      rescue StandardError
+        Failure(
+          Response::ApiResult.new(
+            status: :bad_request,
+            message: INVALID_URL
+          )
+        )
       end
     end
   end
