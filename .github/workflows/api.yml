@@ -1,0 +1,33 @@
+name: API continuous integration
+
+on:
+  push:
+    branches: [master]
+
+  pull_request:
+    branches:
+      - '**'
+    
+  workflow_dispatch:
+
+jobs:
+  api_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos]
+    runs-on: ${{ matrix.os}}-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby.setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Steup test database
+        run RACK_ENV=test bundle exec rake db:migrate
+
+      - name: Run all specs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: bundle exec rake spec
