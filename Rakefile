@@ -132,7 +132,7 @@ namespace :db do
     task :config do
       require_relative 'config/environment' # load config info
       require_relative 'app/infrastructure/cache/init' # load cache client
-      @api = MindMap::Api
+      @app = MindMap::App
     end
 
     desc 'Directory listing of local dev cache'
@@ -148,7 +148,7 @@ namespace :db do
       desc 'Lists production cache'
       task production: :config do
         puts 'Finding production cache'
-        keys = MindMap::Cache::Client.new(@api.config).keys
+        keys = MindMap::Cache::Client.new(@app.config).keys
 
         puts 'No keys found' if keys.none?
         keys.each { |key| puts "Key: #{key}" }
@@ -169,7 +169,7 @@ namespace :db do
         if $stdin.gets.chomp.downcase == 'y'
           puts 'Deleting production cache'
 
-          wiped = MindMap::Cache::Client.new(@api.config).wipe
+          wiped = MindMap::Cache::Client.new(@app.config).wipe
           wiped.each_key { |key| puts "Wiped: #{key}" }
         end
       end
