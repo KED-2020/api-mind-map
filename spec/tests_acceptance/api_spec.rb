@@ -43,6 +43,7 @@ describe 'Test API routes' do
       _(last_response.status).must_equal 201
 
       resource = JSON.parse last_response.body
+      _(resource['id']).wont_be_nil
       _(resource['name']).must_equal INBOX[:name]
       _(resource['description']).must_equal INBOX[:description]
       _(resource['url']).must_equal INBOX[:url]
@@ -95,6 +96,7 @@ describe 'Test API routes' do
 
       inbox = JSON.parse last_response.body
 
+      _(inbox['id']).wont_be_nil
       _(inbox['name']).must_equal saved_inbox.name
       _(inbox['description']).must_equal saved_inbox.description
       _(inbox['url']).must_equal saved_inbox.url
@@ -118,6 +120,7 @@ describe 'Test API routes' do
       _(last_response.status).must_equal 201
 
       document = JSON.parse last_response.body
+      _(document['id']).wont_be_nil
       _(document['name']).must_equal CORRECT['document_name']
       _(document['html_url']).must_equal CORRECT['document_html_url']
       _(document['description']).must_equal CORRECT['document_description']
@@ -150,6 +153,7 @@ describe 'Test API routes' do
 
       document = JSON.parse last_response.body
 
+      _(document['id']).wont_be_nil
       _(document['name']).must_equal CORRECT['document_name']
       _(document['html_url']).must_equal CORRECT['document_html_url']
       _(document['description']).must_equal CORRECT['document_description']
