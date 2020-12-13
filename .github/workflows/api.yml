@@ -35,7 +35,7 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Steup test database
-        run: RACK_ENV=test bundle exec rake db:migrate
+        run: RACK_ENV=test bundle exec rake db:migrate --trace
 
       - name: Run all specs
         env: # define secrets in Github project -> settings -> secrets
