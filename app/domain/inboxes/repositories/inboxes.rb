@@ -63,7 +63,7 @@ module MindMap
         def call
           find_inbox.tap do |db_inbox|
             @suggestions.each do |suggestion|
-              saved_suggestion = Suggestions.db_find_or_create(suggestion)
+              saved_suggestion = Suggestions.find_or_create_by_html_url(suggestion)
 
               db_inbox.add_suggestion(saved_suggestion) if saved_suggestion
             end
@@ -84,7 +84,7 @@ module MindMap
         def call
           create_inbox.tap do |db_inbox|
             @entity.suggestions.each do |suggestion|
-              saved_suggestion = Suggestions.db_find_or_create(suggestion)
+              saved_suggestion = Suggestions.find_or_create_by_html_url(suggestion)
 
               db_inbox.add_suggestion(saved_suggestion) if saved_suggestion
             end
