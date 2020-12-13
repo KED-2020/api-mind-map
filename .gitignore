@@ -5,7 +5,7 @@ config/secrets.yml
 coverage/*
 !coverage/.resultset.json
 
-#*.db
+*.db
 
 _snippets/
 .irb_history

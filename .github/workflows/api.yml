@@ -40,4 +40,4 @@ jobs:
       - name: Run all specs
         env: # define secrets in Github project -> settings -> secrets
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: bundle exec rake spec
+        run: bundle exec rake spec:all
