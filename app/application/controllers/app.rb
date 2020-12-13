@@ -9,6 +9,7 @@ module MindMap
     plugin :halt
     plugin :flash
     plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
+    plugin :caching
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
 
@@ -96,6 +97,8 @@ module MindMap
             # GET /favorites/documents/{document_id}
             routing.on String do |document_id|
               routing.get do
+                response.cache_control public: true, max_age: 3600
+
                 result = MindMap::Service::GetDocument.new.call(document_id: document_id)
 
                 if result.failure?

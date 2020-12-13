@@ -11,3 +11,5 @@ _snippets/
 .irb_history
 .bundle/
 settings.json
+_snippets/
+_cache/

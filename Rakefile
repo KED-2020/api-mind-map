@@ -127,4 +127,52 @@ namespace :db do
     FileUtils.rm(MindMap::App.config.DB_FILENAME)
     puts "Deleted #{MindMap::App.config.DB_FILENAME}"
   end
+
+  namespace :cache do
+    task :config do
+      require_relative 'config/environment' # load config info
+      require_relative 'app/infrastructure/cache/init' # load cache client
+      @api = MindMap::Api
+    end
+
+    desc 'Directory listing of local dev cache'
+    namespace :list do
+      task :dev do
+        puts 'Lists development cache'
+        list = `ls _cache`
+
+        puts 'No local cache found' if list.empty?
+        puts list
+      end
+
+      desc 'Lists production cache'
+      task production: :config do
+        puts 'Finding production cache'
+        keys = MindMap::Cache::Client.new(@api.config).keys
+
+        puts 'No keys found' if keys.none?
+        keys.each { |key| puts "Key: #{key}" }
+      end
+    end
+
+    namespace :wipe do
+      desc 'Delete development cache'
+      task :dev do
+        puts 'Deleting development cache'
+        sh 'rm -rf _cache/*'
+      end
+
+      desc 'Delete production cache'
+      task production: :config do
+        print 'Are you sure you wish to wipe the production cache? (y/n) '
+
+        if $stdin.gets.chomp.downcase == 'y'
+          puts 'Deleting production cache'
+
+          wiped = MindMap::Cache::Client.new(@api.config).wipe
+          wiped.each_key { |key| puts "Wiped: #{key}" }
+        end
+      end
+    end
+  end
 end
