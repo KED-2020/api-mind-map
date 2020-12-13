@@ -51,6 +51,23 @@ module MindMap
               ).to_json
             end
           end
+
+          routing.post do
+            params = Request::AddInbox.new(routing.params)
+
+            result = Service::AddInbox.new.call(params: params)
+
+            if result.failure?
+              failed = Representer::HttpResponse.new(result.failure)
+              routing.halt failed.http_status_code, failed.to_json
+            end
+
+            http_response = Representer::HttpResponse.new(result.value!)
+            response.status = http_response.http_status_code
+
+            # Return the inbox the uses just created
+            Representer::Inbox.new(result.value!.message).to_json
+          end
         end
 
         # Favorites

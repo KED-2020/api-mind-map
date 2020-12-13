@@ -8,8 +8,6 @@ module MindMap
         rebuild_entity Database::DocumentOrm.first(id: id)
       end
 
-      private
-
       def self.rebuild_entity(db_record)
         return nill unless db_record
 
@@ -24,6 +22,11 @@ module MindMap
 
       def self.db_find_or_create(entity)
         Database::DocumentOrm.find_or_create(entity.to_attr_hash)
+      end
+
+      def self.find_or_create_by_html_url(entity)
+        Database::DocumentOrm.find(html_url: entity.to_attr_hash[:html_url]) ||
+          Database::DocumentOrm.create(entity.to_attr_hash)
       end
     end
   end

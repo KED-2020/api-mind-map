@@ -48,7 +48,11 @@ module MindMap
       end
 
       def add_suggestions_to_inbox(input)
-        input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox).add_suggestions(input[:inbox], input[:suggestions])
+        # Don't add suggestions if they exist
+        if input[:inbox].suggestions.count.zero?
+          input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox)
+                                                .add_suggestions(input[:inbox], input[:suggestions])
+        end
 
         Success(Response::ApiResult.new(status: :created, message: input[:inbox]))
       rescue StandardError

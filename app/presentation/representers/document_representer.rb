@@ -13,6 +13,7 @@ module MindMap
       include Roar::Hypermedia
       include Roar::Decorator::HypermediaConsumer
 
+      property :id
       property :origin_id
       property :name
       property :description

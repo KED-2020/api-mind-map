@@ -36,6 +36,51 @@ describe 'Test API routes' do
     end
   end
 
+  describe 'Add inboxes route' do
+    it 'should be able to add an inbox' do
+      post 'api/v1/inboxes', INBOX
+
+      _(last_response.status).must_equal 201
+
+      resource = JSON.parse last_response.body
+      _(resource['id']).wont_be_nil
+      _(resource['name']).must_equal INBOX[:name]
+      _(resource['description']).must_equal INBOX[:description]
+      _(resource['url']).must_equal INBOX[:url]
+
+      inbox = MindMap::Representer::Inbox.new(
+        MindMap::Response::OpenStructWithLinks.new
+      ).from_json last_response.body
+
+      _(inbox.links['self'].href).must_include 'http'
+    end
+
+    it 'should report an error when an inbox with a given id already exists' do
+      new_inbox = MindMap::Entity::Inbox.new(id: nil,
+                                             name: 'Test Inbox',
+                                             url: INBOX[:url],
+                                             description: 'A test inbox',
+                                             suggestions: [])
+      MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).create(new_inbox)
+
+      post 'api/v1/inboxes', INBOX
+
+      _(last_response.status).must_equal 422
+
+      response = JSON.parse(last_response.body)
+      _(response['message']).must_include 'already exists'
+    end
+
+    it 'should report an error when the inbox_url is an invalid format' do
+      post 'api/v1/inboxes', INBOX.merge(url: '1234')
+
+      _(last_response.status).must_equal 400
+
+      response = JSON.parse(last_response.body)
+      _(response['message']).must_include 'Unsupported'
+    end
+  end
+
   describe 'Get inboxes route' do
     it 'should return a the requested inbox' do
       new_inbox = MindMap::Entity::Inbox.new(id: nil,
@@ -51,6 +96,7 @@ describe 'Test API routes' do
 
       inbox = JSON.parse last_response.body
 
+      _(inbox['id']).wont_be_nil
       _(inbox['name']).must_equal saved_inbox.name
       _(inbox['description']).must_equal saved_inbox.description
       _(inbox['url']).must_equal saved_inbox.url
@@ -74,6 +120,7 @@ describe 'Test API routes' do
       _(last_response.status).must_equal 201
 
       document = JSON.parse last_response.body
+      _(document['id']).wont_be_nil
       _(document['name']).must_equal CORRECT['document_name']
       _(document['html_url']).must_equal CORRECT['document_html_url']
       _(document['description']).must_equal CORRECT['document_description']
@@ -106,6 +153,7 @@ describe 'Test API routes' do
 
       document = JSON.parse last_response.body
 
+      _(document['id']).wont_be_nil
       _(document['name']).must_equal CORRECT['document_name']
       _(document['html_url']).must_equal CORRECT['document_html_url']
       _(document['description']).must_equal CORRECT['document_description']
