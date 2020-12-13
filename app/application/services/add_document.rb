@@ -34,7 +34,6 @@ module MindMap
 
         Success(document_path: "#{document_owner}/#{document}", url: input[:url])
       rescue StandardError => error
-        puts 'returning bad url'
         Failure(Response::ApiResult.new(status: :bad_request, message: error.to_s))
       end
 

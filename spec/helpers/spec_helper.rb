@@ -35,3 +35,9 @@ SUGGESTION_NAMES = ['tensorflow', 'TensorFlow', 'TensorFlow-Examples']
 PROJECT_OWNER = 'derrxb'
 PROJECT_NAME = 'derrxb'
 PROJECT_URL = 'https://github.com/derrxb/derrxb'
+
+INBOX = {
+  name: 'Test Inbox',
+  description: 'Test Inbox Description',
+  url: 'wonderful-time-alone'
+}.freeze
