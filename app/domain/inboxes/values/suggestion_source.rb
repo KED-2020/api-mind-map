@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'URI'
+require 'uri'
 require 'delegate'
 module MindMap
   module Value

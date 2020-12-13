@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'URI'
+require 'uri'
 require 'json'
 require 'dry/monads/result'
 
