@@ -7,6 +7,7 @@ module MindMap
     # Aggregate root for the inboxes domain
     class Inbox < Dry::Struct
       include Dry.Types
+      extend MindMap::Mixins::MnemonicsGenerator
 
       attribute :id, Integer.optional
       attribute :url, Strict::String
@@ -20,6 +21,10 @@ module MindMap
 
       def empty?
         suggestions.empty?
+      end
+
+      def self.new_inbox_id
+        generate_mnemonics
       end
     end
   end
