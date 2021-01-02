@@ -3,6 +3,8 @@
 require 'roda'
 require 'econfig'
 require 'delegate'
+require 'rack/cache'
+require 'redis-rack-cache'
 
 module MindMap
   # Configuration for the App
@@ -15,6 +17,21 @@ module MindMap
 
     configure :development, :test do
       ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
+    end
+
+    configure :development do
+      use Rack::Cache,
+          verbose: true,
+          metastore: 'file:_cache/rack/meta',
+          entitystore: 'file:_cache/rack/body'
+    end
+
+    configure :production do
+      # Set DATABASE_URL environment variable on production platform
+      use Rack::Cache,
+          verbose: true,
+          metastore: "#{config.REDISCLOUD_URL}/0/metastore",
+          entitystore: "#{config.REDISCLOUD_URL}/0/entitystore"
     end
 
     configure :app_test do
