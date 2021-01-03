@@ -30,7 +30,7 @@ module MindMap
       end
 
       routing.on 'api/v1' do
-        # Inbox
+        # Inboxes
         routing.on 'inboxes' do
           routing.is do
             routing.post do
@@ -70,6 +70,24 @@ module MindMap
 
           # GET /inboxes/{inbox_id}
           routing.on String do |inbox_id|
+            routing.is 'documents' do
+              routing.get do
+                result = Service::GetInboxDocuments.new.call(inbox_id: inbox_id)
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::DocumentsList.new(
+                  result.value!.message
+                ).to_json
+              end
+            end
+
             routing.get do
               inbox_find = Request::EncodedInboxId.new(inbox_id)
 
@@ -90,14 +108,34 @@ module MindMap
           end
         end
 
-        # Favorites
-        routing.on 'favorites' do
-          routing.on 'documents' do
-            # POST /favorites/documents
-            routing.post do
-              html_url = Request::AddDocument.new(routing.params)
+        # Documents
+        routing.on 'documents' do
+          # POST /documents
+          routing.post do
+            html_url = Request::AddDocument.new(routing.params)
 
-              result = Service::AddDocument.new.call(html_url: html_url)
+            result = Service::AddDocument.new.call(html_url: html_url)
+
+            if result.failure?
+              failed = Representer::HttpResponse.new(result.failure)
+              routing.halt failed.http_status_code, failed.to_json
+            end
+
+            http_response = Representer::HttpResponse.new(result.value!)
+            response.status = http_response.http_status_code
+
+            # Return the document the user just created
+            Representer::Document.new(
+              result.value!.message
+            ).to_json
+          end
+
+          # GET /documents/{document_id}
+          routing.on String do |document_id|
+            routing.get do
+              response.cache_control public: true, max_age: 3600
+
+              result = MindMap::Service::GetDocument.new.call(document_id: document_id)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
@@ -107,32 +145,10 @@ module MindMap
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              # Return the document the user just created
+              # Return the document the user requested
               Representer::Document.new(
                 result.value!.message
               ).to_json
-            end
-
-            # GET /favorites/documents/{document_id}
-            routing.on String do |document_id|
-              routing.get do
-                response.cache_control public: true, max_age: 3600
-
-                result = MindMap::Service::GetDocument.new.call(document_id: document_id)
-
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
-                end
-
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
-
-                # Return the document the user requested
-                Representer::Document.new(
-                  result.value!.message
-                ).to_json
-              end
             end
           end
         end

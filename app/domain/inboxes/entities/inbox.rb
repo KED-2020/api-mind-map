@@ -14,9 +14,10 @@ module MindMap
       attribute :name, Strict::String
       attribute :description, Strict::String.optional
       attribute :suggestions, Strict::Array.of(MindMap::Entity::Suggestion).optional
+      attribute :documents,   Strict::Array.of(MindMap::Entity::Document).optional
 
       def to_attr_hash
-        to_hash.reject { |key, _| %i[id suggestions].include? key }
+        to_hash.reject { |key, _| %i[id suggestions documents].include? key }
       end
 
       def empty?

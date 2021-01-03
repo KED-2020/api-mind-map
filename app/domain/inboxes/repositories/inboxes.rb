@@ -44,7 +44,8 @@ module MindMap
 
         Entity::Inbox.new(
           db_record.to_hash.merge(
-            suggestions: Suggestions.rebuild_many(db_record.suggestions)
+            suggestions: Suggestions.rebuild_many(db_record.suggestions),
+            documents: Documents.rebuild_many(db_record.documents)
           )
         )
       end

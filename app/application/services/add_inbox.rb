@@ -44,7 +44,8 @@ module MindMap
           name: input[:params]['name'],
           description: input[:params]['description'],
           url: input[:params]['url'],
-          suggestions: []
+          suggestions: [],
+          documents: []
         )))
       end
 
