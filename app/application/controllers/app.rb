@@ -88,6 +88,20 @@ module MindMap
               end
             end
 
+            routing.is 'subscriptions' do
+              routing.get do
+                # All the subscriptions for an inbox
+              end
+
+              routing.post do
+                # Add a subscription to an inbox
+              end
+
+              routing.delete do
+                # Delete a subscription for an inbox
+              end
+            end
+
             routing.get do
               inbox_find = Request::EncodedInboxId.new(inbox_id)
 

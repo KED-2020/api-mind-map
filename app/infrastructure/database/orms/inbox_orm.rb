@@ -16,6 +16,10 @@ module MindMap
                    join_table: :inboxes_documents,
                    left_key: :inbox_id, right_key: :document_id
 
+      one_to_many :subscriptions,
+                  class: :'MindMap::Database::SubscriptionOrm',
+                  key: :inbox_id
+
       plugin :timestamps, update_on_create: true
     end
   end
