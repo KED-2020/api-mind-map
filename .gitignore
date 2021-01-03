@@ -13,3 +13,5 @@ _snippets/
 settings.json
 _snippets/
 _cache/
+app/infrastructure/database/local/dev.db
+app/infrastructure/database/local/test.db
