@@ -12,7 +12,7 @@ module MindMap
       GENERATE_ERROR = 'Could not generate a unique inbox id'
 
       def call
-        if (inbox_id = Repository::Inbox::For.klass(Entity::Inbox).new_inbox_id)
+        if (inbox_id = Repository::For.klass(Entity::Inbox).new_inbox_id)
           Success(Response::ApiResult.new(status: :ok, message: inbox_id))
         else
           Failure(Response::ApiResult.new(status: :not_found, message: GENERATE_ERROR))

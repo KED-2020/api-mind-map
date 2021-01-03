@@ -29,7 +29,7 @@ module MindMap
       end
 
       def ensure_inbox_is_unique(input)
-        saved_inbox = MindMap::Repository::Inbox::For.klass(Entity::Inbox).find_url(input[:params]['url'])
+        saved_inbox = MindMap::Repository::For.klass(Entity::Inbox).find_url(input[:params]['url'])
 
         if saved_inbox.nil?
           Success(input)
@@ -49,7 +49,7 @@ module MindMap
       end
 
       def store_inbox(input)
-        inbox = MindMap::Repository::Inbox::For.klass(Entity::Inbox).create(input[:inbox])
+        inbox = MindMap::Repository::For.klass(Entity::Inbox).create(input[:inbox])
 
         Success(Response::ApiResult.new(status: :created, message: inbox))
       rescue StandardError

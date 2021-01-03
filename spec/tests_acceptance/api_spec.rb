@@ -61,7 +61,7 @@ describe 'Test API routes' do
                                              url: INBOX[:url],
                                              description: 'A test inbox',
                                              suggestions: [])
-      MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).create(new_inbox)
+      MindMap::Repository::For.klass(MindMap::Entity::Inbox).create(new_inbox)
 
       post 'api/v1/inboxes', INBOX
 
@@ -88,7 +88,7 @@ describe 'Test API routes' do
                                              url: GOOD_INBOX_ID,
                                              description: 'A test inbox',
                                              suggestions: [])
-      saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).create(new_inbox)
+      saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).create(new_inbox)
 
       get "/api/v1/inboxes/#{saved_inbox.url}"
 
