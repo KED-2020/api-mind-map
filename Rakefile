@@ -32,7 +32,7 @@ end
 namespace :rack do
   desc 'Run Roda app in dev env'
   task :dev do
-    sh 'rackup -p 9292'
+    sh 'rackup -p 9090'
   end
 
   desc 'Run Roda app in test env'
@@ -44,7 +44,7 @@ end
 namespace :rerack do
   desc 'Keep restarting web app upon changes in dev env'
   task :dev do
-    sh 'rerun -c "rackup -p 9292" --ignore "coverage/*"'
+    sh 'rerun -c "rackup -p 9090" --ignore "coverage/*"'
   end
 
   desc 'Keep restarting web app upon changes in test env'

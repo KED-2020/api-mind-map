@@ -14,7 +14,7 @@ on:
   # Allows running this workflow manually from the actions tab
   workflow_dispatch:
 
-# A weorkflow is defined of one or more jobs that can run sequentially or in parallel
+# A workflow is defined of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called 'api_test'
   api_test:

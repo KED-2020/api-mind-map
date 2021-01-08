@@ -40,8 +40,6 @@ module MindMap
         rebuild_entity(db_project)
       end
 
-      private
-
       def self.rebuild_entity(db_record)
         return nil unless db_record
 
@@ -50,6 +48,12 @@ module MindMap
             topics: Topics.rebuild_many(db_record.topics)
           )
         )
+      end
+
+      def self.rebuild_many(db_records)
+        db_records.map do |db_entity|
+          Documents.rebuild_entity(db_entity)
+        end
       end
 
       # Helper class to persist document and its topics to the database

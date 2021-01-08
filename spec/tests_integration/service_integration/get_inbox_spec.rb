@@ -28,9 +28,10 @@ describe 'GetInbox integration tests' do
                                          name: 'test',
                                          url: GOOD_INBOX_ID,
                                          description: 'test',
-                                         suggestions: [])
+                                         suggestions: [],
+                                         documents: [])
 
-      saved_inbox = MindMap::Repository::Inbox::For.klass(MindMap::Entity::Inbox).create(inbox)
+      saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).create(inbox)
 
       # WHEN: we request an inbox and its suggestions
       inbox_id = MindMap::Request::EncodedInboxId.new(saved_inbox.url)

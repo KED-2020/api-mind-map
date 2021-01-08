@@ -28,7 +28,7 @@ module MindMap
       end
 
       def find_inbox(input)
-        input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox).find_url(input[:inbox_id])
+        input[:inbox] = Repository::For.klass(Entity::Inbox).find_url(input[:inbox_id])
 
         if input[:inbox].nil?
           Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_MSG))
@@ -50,7 +50,7 @@ module MindMap
       def add_suggestions_to_inbox(input)
         # Don't add suggestions if they exist
         if input[:inbox].suggestions.count.zero?
-          input[:inbox] = Repository::Inbox::For.klass(Entity::Inbox)
+          input[:inbox] = Repository::For.klass(Entity::Inbox)
                                                 .add_suggestions(input[:inbox], input[:suggestions])
         end
 
