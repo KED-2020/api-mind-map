@@ -33,7 +33,9 @@ describe 'Test Inboxes Mappers and Repository' do
       name: 'test',
       url: '12345',
       description: 'test',
-      suggestions: [])
+      suggestions: [],
+      documents: []
+    )
     saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
 
     suggestions = MindMap::Mapper::Inbox.new(GITHUB_TOKEN).suggestions()
