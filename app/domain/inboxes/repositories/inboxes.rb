@@ -49,6 +49,14 @@ module MindMap
         )
       end
 
+      def self.new_inbox_id
+        loop do
+          id = Entity::Inbox.new_inbox_id
+
+          return id if Database::InboxOrm.first(url: id).nil?
+        end
+      end
+
       # Helper class to add suggestions to an existing inbox.
       class PersistInboxSuggestions
         def initialize(entity, suggestions)

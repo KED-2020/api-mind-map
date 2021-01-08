@@ -32,6 +32,42 @@ module MindMap
       routing.on 'api/v1' do
         # Inbox
         routing.on 'inboxes' do
+          routing.is do
+            routing.post do
+              params = Request::AddInbox.new(routing.params)
+
+              result = Service::AddInbox.new.call(params: params)
+
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+
+              # Return the inbox the uses just created
+              Representer::Inbox.new(result.value!.message).to_json
+            end
+          end
+
+          # GET /inboxes/mnemonics
+          routing.on 'mnemonics' do
+            routing.get do
+              result = Service::GetNewInboxId.new.call
+
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+
+              result.value!.message
+            end
+          end
+
           # GET /inboxes/{inbox_id}
           routing.on String do |inbox_id|
             routing.get do
@@ -51,23 +87,6 @@ module MindMap
                 result.value!.message
               ).to_json
             end
-          end
-
-          routing.post do
-            params = Request::AddInbox.new(routing.params)
-
-            result = Service::AddInbox.new.call(params: params)
-
-            if result.failure?
-              failed = Representer::HttpResponse.new(result.failure)
-              routing.halt failed.http_status_code, failed.to_json
-            end
-
-            http_response = Representer::HttpResponse.new(result.value!)
-            response.status = http_response.http_status_code
-
-            # Return the inbox the uses just created
-            Representer::Inbox.new(result.value!.message).to_json
           end
         end
 
