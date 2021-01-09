@@ -20,10 +20,11 @@ module MindMap
         end
       end
 
-      def self.find_inbox_suggestion(suggestion_id)
-        db_suggestion = Database::DocumentOrm.left_join(:inboxes_suggestions, document_id: :id)
-                                             .where(document_id: suggestion_id)
-                                             .first
+      def self.find_suggestion(inbox, suggestion_id)
+        db_suggestion = Database::DocumentOrm.left_join(
+          :inboxes_suggestions,
+          [[:document_id, suggestion_id], [:inbox_id, inbox.id]]
+        ).first
 
         return nil unless db_suggestion
 

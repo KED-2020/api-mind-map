@@ -1,14 +1,9 @@
 # frozen_string_literal: true
 
 module MindMap
-
   module Repository
     # Repository for document Entities
     class Documents
-      def self.all
-        Database::DocumentOrm.all.map { |db_document| rebuild_entity(db_document) }
-      end
-
       def self.find(entity)
         find_origin_id(entity.origin_id)
       end

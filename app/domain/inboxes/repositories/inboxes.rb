@@ -33,10 +33,10 @@ module MindMap
                           .remove_suggestion(suggestion_id)
       end
 
-      def self.add_documents(inbox_url, documents)
-        return unless inbox_url && documents
+      def self.add_document(inbox_url, document)
+        return unless inbox_url && document
 
-        db_inbox = PersistInboxDocuments.new(inbox_url, documents).call
+        db_inbox = PersistInboxDocuments.new(inbox_url, [document]).call
 
         rebuild_entity(db_inbox)
       end
