@@ -62,7 +62,7 @@ describe 'Test API routes' do
                                              description: 'A test inbox',
                                              suggestions: [],
                                              documents: [])
-      MindMap::Repository::For.klass(MindMap::Entity::Inbox).create(new_inbox)
+      MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(new_inbox)
 
       post 'api/v1/inboxes', INBOX
 
@@ -86,11 +86,11 @@ describe 'Test API routes' do
     it 'should return a the requested inbox' do
       new_inbox = MindMap::Entity::Inbox.new(id: nil,
                                              name: 'Test Inbox',
-                                             url: GOOD_INBOX_ID,
+                                             url: GOOD_INBOX_URL,
                                              description: 'A test inbox',
                                              suggestions: [],
                                              documents: [])
-      saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).create(new_inbox)
+      saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(new_inbox)
 
       get "/api/v1/inboxes/#{saved_inbox.url}"
 
@@ -173,7 +173,7 @@ describe 'Test API routes' do
 
   describe 'Get inbox documents route' do
     it 'should return an empty list when no documents exists' do
-      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_ID,
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
                                                       'name' => 'test',
                                                       'description' => 'test' })
       inbox = MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
@@ -188,16 +188,16 @@ describe 'Test API routes' do
     end
 
     it 'should return an documents lists when they exists for an inbox' do
-      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_ID,
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
                                                       'name' => 'test',
                                                       'description' => 'test' })
       MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
 
-      load_inbox = MindMap::Request::EncodedInboxId.new(GOOD_INBOX_ID)
-      inbox = MindMap::Service::GetInbox.new.call(inbox_id: load_inbox).value!.message
+      load_inbox = MindMap::Request::EncodedInboxId.new(GOOD_INBOX_URL)
+      inbox = MindMap::Service::GetInbox.new.call(inbox_url: load_inbox).value!.message
 
       MindMap::Service::SaveInboxSuggestion.new.call(suggestion_id: inbox.suggestions.first.id,
-                                                     inbox_id: inbox.url)
+                                                     inbox_url: inbox.url)
 
       get "api/v1/inboxes/#{inbox.url}/documents"
 
@@ -211,13 +211,13 @@ describe 'Test API routes' do
 
   describe 'Save inbox suggestion route' do
     it 'should save the suggestion as a document on the inbox' do
-      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_ID,
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
                                                       'name' => 'test',
                                                       'description' => 'test' })
       inbox_response = MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
 
       load_inbox = MindMap::Request::EncodedInboxId.new(inbox_response.url)
-      inbox = MindMap::Service::GetInbox.new.call(inbox_id: load_inbox)
+      inbox = MindMap::Service::GetInbox.new.call(inbox_url: load_inbox)
 
       post "api/v1/inboxes/#{inbox.value!.message.url}/suggestions/#{inbox.value!.message.suggestions.first.id}"
 
@@ -227,13 +227,13 @@ describe 'Test API routes' do
 
   describe 'Discard inbox suggestion route' do
     it 'should remove suggestion from the inbox' do
-      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_ID,
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
                                                       'name' => 'test',
                                                       'description' => 'test' })
       inbox_response = MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
 
       load_inbox = MindMap::Request::EncodedInboxId.new(inbox_response.url)
-      inbox = MindMap::Service::GetInbox.new.call(inbox_id: load_inbox)
+      inbox = MindMap::Service::GetInbox.new.call(inbox_url: load_inbox)
 
       delete "api/v1/inboxes/#{inbox.value!.message.url}/suggestions/#{inbox.value!.message.suggestions.first.id}"
 

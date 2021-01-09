@@ -24,7 +24,7 @@ module MindMap
       end
 
       def verify_inbox_exists(input)
-        if Repository::For.klass(Entity::Inbox).exists(input[:inbox_id])
+        if Repository::For.klass(Entity::Inbox).exists(input[:inbox_url])
           Success(input)
         else
           Failure(Response::ApiResult.new(status: :not_found, message: INBOX_NOT_FOUND_MSG))
@@ -50,7 +50,7 @@ module MindMap
         html_url = input[:suggestion].html_url
         document = Repository::For.klass(Entity::Document).find_html_url(html_url)
 
-        Repository::For.klass(Entity::Inbox).add_documents(input[:inbox_id], [document])
+        Repository::For.klass(Entity::Inbox).add_documents(input[:inbox_url], [document])
 
         Success(Response::ApiResult.new(status: :created, message: document))
       rescue StandardError

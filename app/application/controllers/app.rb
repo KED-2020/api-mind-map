@@ -68,11 +68,11 @@ module MindMap
             end
           end
 
-          # GET /inboxes/{inbox_id}
-          routing.on String do |inbox_id|
+          # GET /inboxes/{inbox_url}
+          routing.on String do |inbox_url|
             routing.on 'documents' do
               routing.get do
-                result = Service::GetInboxDocuments.new.call(inbox_id: inbox_id)
+                result = Service::GetInboxDocuments.new.call(inbox_url: inbox_url)
 
                 if result.failure?
                   failed = Representer::HttpResponse.new(result.failure)
@@ -91,7 +91,7 @@ module MindMap
             routing.on 'suggestions' do
               routing.on String do |suggestion_id|
                 routing.post do
-                  result = Service::SaveInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_id: inbox_id)
+                  result = Service::SaveInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
 
                   if result.failure?
                     failed = Representer::HttpResponse.new(result.failure)
@@ -107,7 +107,7 @@ module MindMap
                 end
 
                 routing.delete do
-                  result = Service::DeleteInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_id: inbox_id)
+                  result = Service::DeleteInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
 
                   if result.failure?
                     failed = Representer::HttpResponse.new(result.failure)
@@ -138,9 +138,9 @@ module MindMap
             end
 
             routing.get do
-              inbox_find = Request::EncodedInboxId.new(inbox_id)
+              inbox_find = Request::EncodedInboxId.new(inbox_url)
 
-              result = Service::GetInbox.new.call(inbox_id: inbox_find)
+              result = Service::GetInbox.new.call(inbox_url: inbox_find)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)

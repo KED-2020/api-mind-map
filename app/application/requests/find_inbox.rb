@@ -10,15 +10,15 @@ module MindMap
     class EncodedInboxId
       include Dry::Monads::Result::Mixin
 
-      def initialize(inbox_id)
-        @inbox_id = inbox_id
+      def initialize(inbox_url)
+        @inbox_url = inbox_url
       end
 
       # Use in API to parse incoming inbox requests
       def call
-        throw 'Inbox Id not found' if @inbox_id.nil?
+        throw 'Inbox URL not found' if @inbox_url.nil?
 
-        Success(@inbox_id)
+        Success(@inbox_url)
       rescue StandardError => e
         Failure(Response::ApiResult.new(status: :bad_request, message: e.message))
       end

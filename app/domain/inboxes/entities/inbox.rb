@@ -24,7 +24,7 @@ module MindMap
         suggestions.empty?
       end
 
-      def self.new_inbox_id
+      def self.new_inbox_url
         generate_mnemonics
       end
     end

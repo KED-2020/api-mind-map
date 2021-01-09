@@ -18,7 +18,7 @@ module MindMap
       DB_ERROR_MSG = 'Could not access database.'
 
       def verify_inbox_exists(input)
-        if Repository::For.klass(Entity::Inbox).exists(input[:inbox_id])
+        if Repository::For.klass(Entity::Inbox).exists(input[:inbox_url])
           Success(input)
         else
           Failure(Response::ApiResult.new(status: :not_found, message: INBOX_NOT_FOUND_MSG))
@@ -29,7 +29,7 @@ module MindMap
 
       def delete_inbox_suggestion(input)
         Repository::For.klass(Entity::Inbox)
-                       .remove_suggestion(input[:inbox_id], input[:suggestion_id])
+                       .remove_suggestion(input[:inbox_url], input[:suggestion_id])
 
         Success(Response::ApiResult.new(status: :no_content, message: nil))
       rescue StandardError
