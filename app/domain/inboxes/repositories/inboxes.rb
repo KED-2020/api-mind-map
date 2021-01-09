@@ -43,6 +43,11 @@ module MindMap
         rebuild_entity(db_inbox)
       end
 
+      def self.remove_suggestion(inbox_url, suggestion_id)
+        Database::InboxOrm.first(url: inbox_url)
+                          .remove_suggestion(suggestion_id)
+      end
+
       def self.add_documents(inbox_id, documents)
         return unless inbox_id && documents
 

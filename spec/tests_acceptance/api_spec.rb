@@ -222,13 +222,22 @@ describe 'Test API routes' do
       post "api/v1/inboxes/#{inbox.value!.message.url}/suggestions/#{inbox.value!.message.suggestions.first.id}"
 
       _(last_response.status).must_equal 201
-      response = JSON.parse(last_response.body)
-
-      pp response
     end
   end
 
   describe 'Discard inbox suggestion route' do
-    it 'should remove suggestion from the inbox'
+    it 'should remove suggestion from the inbox' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_ID,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      inbox_response = MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
+
+      load_inbox = MindMap::Request::EncodedInboxId.new(inbox_response.url)
+      inbox = MindMap::Service::GetInbox.new.call(inbox_id: load_inbox)
+
+      delete "api/v1/inboxes/#{inbox.value!.message.url}/suggestions/#{inbox.value!.message.suggestions.first.id}"
+
+      _(last_response.status).must_equal 204
+    end
   end
 end
