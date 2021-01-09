@@ -4,6 +4,10 @@ module MindMap
   module Repository
     # A repository for inboxes
     class Inboxes
+      def self.exists(inbox_url)
+        !Database::InboxOrm.first(url: inbox_url).nil?
+      end
+
       def self.all
         Database::InboxOrm.all.map { |db_project| rebuild_entity(db_project) }
       end
@@ -36,6 +40,14 @@ module MindMap
         return unless entity && suggestions.count.positive?
 
         db_inbox = PersistInboxSuggestions.new(entity, suggestions).call
+        rebuild_entity(db_inbox)
+      end
+
+      def self.add_documents(inbox_id, documents)
+        return unless inbox_id && documents
+
+        db_inbox = PersistInboxDocuments.new(inbox_id, documents).call
+
         rebuild_entity(db_inbox)
       end
 
@@ -75,6 +87,28 @@ module MindMap
               saved_suggestion = Suggestions.find_or_create_by_html_url(suggestion)
 
               db_inbox.add_suggestion(saved_suggestion) if saved_suggestion
+            end
+          end
+        end
+      end
+
+      # Helper class to add documents to an existing inbox.
+      class PersistInboxDocuments
+        def initialize(inbox_id, documents)
+          @inbox_id = inbox_id
+          @documents = documents
+        end
+
+        def find_inbox
+          Database::InboxOrm.first(url: @inbox_id)
+        end
+
+        def call
+          find_inbox.tap do |db_inbox|
+            @documents.each do |db_record|
+              document = Documents.find_or_create_by_html_url(db_record)
+
+              db_inbox.add_document(document) if document
             end
           end
         end

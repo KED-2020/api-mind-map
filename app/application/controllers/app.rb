@@ -70,7 +70,7 @@ module MindMap
 
           # GET /inboxes/{inbox_id}
           routing.on String do |inbox_id|
-            routing.is 'documents' do
+            routing.on 'documents' do
               routing.get do
                 result = Service::GetInboxDocuments.new.call(inbox_id: inbox_id)
 
@@ -88,12 +88,33 @@ module MindMap
               end
             end
 
-            routing.is 'subscriptions' do
+            routing.on 'suggestions' do
+              routing.on String do |suggestion_id|
+                routing.post do
+                  result = Service::SaveInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_id: inbox_id)
+
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
+
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
+
+                  Representer::Document.new(
+                    result.value!.message
+                  ).to_json
+                end
+              end
+            end
+
+            routing.on 'subscriptions' do
               routing.get do
                 # All the subscriptions for an inbox
               end
 
               routing.post do
+                puts 'hi'
                 # Add a subscription to an inbox
               end
 

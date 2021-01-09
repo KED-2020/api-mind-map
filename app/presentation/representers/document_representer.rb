@@ -21,7 +21,7 @@ module MindMap
       collection :topics, extend: Representer::Topic, class: OpenStruct
 
       link :self do
-        "#{App.config.API_HOST}/api/v1/inboxes/#{represented.name}"
+        "#{App.config.API_HOST}/api/v1/documents/#{represented.id}"
       end
     end
   end

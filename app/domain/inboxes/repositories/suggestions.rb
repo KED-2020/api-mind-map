@@ -9,7 +9,7 @@ module MindMap
       end
 
       def self.rebuild_entity(db_record)
-        return nill unless db_record
+        return nil unless db_record
 
         Entity::Suggestion.new(db_record.to_hash)
       end
@@ -18,6 +18,16 @@ module MindMap
         db_records.map do |db_entity|
           Suggestions.rebuild_entity(db_entity)
         end
+      end
+
+      def self.find_inbox_suggestion(suggestion_id)
+        db_suggestion = Database::DocumentOrm.left_join(:inboxes_suggestions, document_id: :id)
+                                             .where(document_id: suggestion_id)
+                                             .first
+
+        return nil unless db_suggestion
+
+        rebuild_entity db_suggestion
       end
 
       def self.db_find_or_create(entity)
