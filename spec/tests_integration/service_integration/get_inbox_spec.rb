@@ -48,7 +48,7 @@ describe 'GetInbox integration tests' do
     it 'SAD: should not return inbox if it does not exist' do
       # GIVEN: an inbox that does not exist
       # WHEN: we request an inbox and its suggestions
-      inbox_url = MindMap::Request::EncodedInboxId.new(SAD_inbox_url)
+      inbox_url = MindMap::Request::EncodedInboxId.new(SAD_INBOX_URL)
       result = MindMap::Service::GetInbox.new.call(inbox_url: inbox_url)
 
       # Then: we should get failure
