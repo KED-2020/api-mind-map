@@ -8,7 +8,7 @@ module MindMap
     class GetInbox
       include Dry::Transaction
 
-      step :validate_inbox_id
+      step :validate_inbox_url
       step :find_inbox
       step :get_suggestions
       step :add_suggestions_to_inbox
@@ -19,16 +19,16 @@ module MindMap
       DB_ERROR_MSG = 'Could not access database.'
       GH_ERROR_MSG = 'Having trouble receiving the suggestion.'
 
-      def validate_inbox_id(input)
-        inbox_id = input[:inbox_id].call
+      def validate_inbox_url(input)
+        inbox_url = input[:inbox_url].call
 
-        return Failure(inbox_id.failure) unless inbox_id.success?
+        return Failure(inbox_url.failure) unless inbox_url.success?
 
-        Success(input.merge(inbox_id: inbox_id.value!))
+        Success(input.merge(inbox_url: inbox_url.value!))
       end
 
       def find_inbox(input)
-        input[:inbox] = Repository::For.klass(Entity::Inbox).find_url(input[:inbox_id])
+        input[:inbox] = Repository::For.klass(Entity::Inbox).find_by_url(input[:inbox_url])
 
         if input[:inbox].nil?
           Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_MSG))

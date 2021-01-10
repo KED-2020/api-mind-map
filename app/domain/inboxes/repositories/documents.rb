@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 module MindMap
-
   module Repository
     # Repository for document Entities
     class Documents
-      def self.all
-        Database::DocumentOrm.all.map { |db_document| rebuild_entity(db_document) }
-      end
-
       def self.find(entity)
         find_origin_id(entity.origin_id)
       end
 
       def self.find_html_url(html_url)
         db_record = Database::DocumentOrm.first(html_url: html_url)
+
         rebuild_entity(db_record)
       end
 
@@ -30,6 +26,7 @@ module MindMap
 
       def self.find_or_create(entity)
         db_document = find(entity) || PersistDocument.new(entity).call
+
         rebuild_entity(db_document)
       end
 
@@ -45,6 +42,7 @@ module MindMap
 
         Entity::Document.new(
           db_record.to_hash.merge(
+            origin_id: db_record&.origin_id || 0,
             topics: Topics.rebuild_many(db_record.topics)
           )
         )
@@ -76,6 +74,11 @@ module MindMap
             end
           end
         end
+      end
+
+      def self.find_or_create_by_html_url(entity)
+        Database::DocumentOrm.find(html_url: entity.to_attr_hash[:html_url]) ||
+          Database::DocumentOrm.create(entity.to_attr_hash)
       end
     end
   end

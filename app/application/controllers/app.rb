@@ -68,11 +68,11 @@ module MindMap
             end
           end
 
-          # GET /inboxes/{inbox_id}
-          routing.on String do |inbox_id|
-            routing.is 'documents' do
+          # GET /inboxes/{inbox_url}
+          routing.on String do |inbox_url|
+            routing.on 'documents' do
               routing.get do
-                result = Service::GetInboxDocuments.new.call(inbox_id: inbox_id)
+                result = Service::GetInboxDocuments.new.call(inbox_url: inbox_url)
 
                 if result.failure?
                   failed = Representer::HttpResponse.new(result.failure)
@@ -88,12 +88,47 @@ module MindMap
               end
             end
 
-            routing.is 'subscriptions' do
+            routing.on 'suggestions' do
+              routing.on String do |suggestion_id|
+                routing.post do
+                  result = Service::SaveInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
+
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
+
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
+
+                  Representer::Document.new(
+                    result.value!.message
+                  ).to_json
+                end
+
+                routing.delete do
+                  result = Service::DeleteInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
+
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
+
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
+
+                  result.value!.message
+                end
+              end
+            end
+
+            routing.on 'subscriptions' do
               routing.get do
                 # All the subscriptions for an inbox
               end
 
               routing.post do
+                puts 'hi'
                 # Add a subscription to an inbox
               end
 
@@ -103,9 +138,9 @@ module MindMap
             end
 
             routing.get do
-              inbox_find = Request::EncodedInboxId.new(inbox_id)
+              inbox_find = Request::EncodedInboxId.new(inbox_url)
 
-              result = Service::GetInbox.new.call(inbox_id: inbox_find)
+              result = Service::GetInbox.new.call(inbox_url: inbox_find)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)

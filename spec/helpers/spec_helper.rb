@@ -27,10 +27,10 @@ DB_TEST_TOPICS = %w[python].freeze
 def homepage
   MindMap::App.config.APP_HOST
 end
-GOOD_INBOX_ID = 'wonderful-time-alone'
-SAD_INBOX_ID = 'wonderful-time-alone'
-BAD_INBOX_ID = 'foo123'
-SUGGESTION_NAMES = ['tensorflow', 'TensorFlow', 'TensorFlow-Examples']
+GOOD_INBOX_URL = 'wonderful-time-alone'
+SAD_INBOX_URL = 'wonderful-time-alone'
+BAD_INBOX_URL = 'foo123'
+SUGGESTION_NAMES = %w[tensorflow TensorFlow TensorFlow-Examples].freeze
 
 PROJECT_OWNER = 'derrxb'
 PROJECT_NAME = 'derrxb'

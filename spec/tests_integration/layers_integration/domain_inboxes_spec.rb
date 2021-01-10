@@ -19,7 +19,7 @@ describe 'Test Inboxes Mappers and Repository' do
   end
 
   it 'HAPPY: should return null when no inbox for the given url exists' do
-    inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_url('invalid_url')
+    inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_by_url('invalid_url')
 
     assert_nil(inbox)
   end

@@ -4,30 +4,18 @@ module MindMap
   module Repository
     # A repository for inboxes
     class Inboxes
-      def self.all
-        Database::InboxOrm.all.map { |db_project| rebuild_entity(db_project) }
+      def self.exists(inbox_url)
+        !Database::InboxOrm.first(url: inbox_url).nil?
       end
 
-      def self.find_id(id)
-        db_record = Database::InboxOrm.first(id: id)
-
-        rebuild_entity(db_record)
-      end
-
-      def self.find_url(url)
+      def self.find_by_url(url)
         db_record = Database::InboxOrm.first(url: url)
 
         rebuild_entity(db_record)
       end
 
       def self.find_or_create(entity)
-        db_inbox = find_id(entity.id) || PersistInbox.new(entity).call
-
-        rebuild_entity(db_inbox)
-      end
-
-      def self.create(entity)
-        db_inbox = find_url(entity.url) || PersistInbox.new(entity).call
+        db_inbox = find_by_url(entity.url) || PersistInbox.new(entity).call
 
         rebuild_entity(db_inbox)
       end
@@ -36,6 +24,20 @@ module MindMap
         return unless entity && suggestions.count.positive?
 
         db_inbox = PersistInboxSuggestions.new(entity, suggestions).call
+
+        rebuild_entity(db_inbox)
+      end
+
+      def self.remove_suggestion(inbox_url, suggestion_id)
+        Database::InboxOrm.first(url: inbox_url)
+                          .remove_suggestion(suggestion_id)
+      end
+
+      def self.add_document(inbox_url, document)
+        return unless inbox_url && document
+
+        db_inbox = PersistInboxDocuments.new(inbox_url, [document]).call
+
         rebuild_entity(db_inbox)
       end
 
@@ -50,9 +52,9 @@ module MindMap
         )
       end
 
-      def self.new_inbox_id
+      def self.new_inbox_url
         loop do
-          id = Entity::Inbox.new_inbox_id
+          id = Entity::Inbox.new_inbox_url
 
           return id if Database::InboxOrm.first(url: id).nil?
         end
@@ -80,6 +82,28 @@ module MindMap
         end
       end
 
+      # Helper class to add documents to an existing inbox.
+      class PersistInboxDocuments
+        def initialize(inbox_url, documents)
+          @inbox_url = inbox_url
+          @documents = documents
+        end
+
+        def find_inbox
+          Database::InboxOrm.first(url: @inbox_url)
+        end
+
+        def call
+          find_inbox.tap do |db_inbox|
+            @documents.each do |db_record|
+              document = Documents.find_or_create_by_html_url(db_record)
+
+              db_inbox.add_document(document) if document
+            end
+          end
+        end
+      end
+
       # Helper class to persist inbox and its suggestions to the database
       class PersistInbox
         def initialize(entity)
@@ -96,6 +120,12 @@ module MindMap
               saved_suggestion = Suggestions.find_or_create_by_html_url(suggestion)
 
               db_inbox.add_suggestion(saved_suggestion) if saved_suggestion
+            end
+
+            @entity.documents.each do |document|
+              saved_document = Documents.find_or_create_by_html_url(document)
+
+              db_inbox.add_document(saved_document) if saved_document
             end
           end
         end

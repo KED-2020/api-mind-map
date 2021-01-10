@@ -4,16 +4,16 @@ require 'dry/monads'
 
 module MindMap
   module Service
-    # Gets a new inbox ID.
-    class GetNewInboxId
+    # Gets a new Inbox URL.
+    class GetNewInboxUrl
       include Dry::Monads::Result::Mixin
 
       DB_ERROR_MSG = 'Could not access database'
       GENERATE_ERROR = 'Could not generate a unique inbox id'
 
       def call
-        if (inbox_id = Repository::For.klass(Entity::Inbox).new_inbox_id)
-          Success(Response::ApiResult.new(status: :ok, message: inbox_id))
+        if (inbox_url = Repository::For.klass(Entity::Inbox).new_inbox_url)
+          Success(Response::ApiResult.new(status: :ok, message: inbox_url))
         else
           Failure(Response::ApiResult.new(status: :not_found, message: GENERATE_ERROR))
         end

@@ -8,15 +8,15 @@ module MindMap
     class GetInboxDocuments
       include Dry::Transaction
 
-      step :validate_inbox_id
+      step :validate_inbox_url
       step :retrieve_documents
 
       private
 
       DB_ERR = 'Cannot access database'
 
-      def validate_inbox_id(input)
-        if (inbox = Repository::For.klass(Entity::Inbox).find_url(input[:inbox_id]))
+      def validate_inbox_url(input)
+        if (inbox = Repository::For.klass(Entity::Inbox).find_by_url(input[:inbox_url]))
           Success(input.merge!(inbox: inbox))
         else
           Failure('Could not find an inbox with the given id.')
