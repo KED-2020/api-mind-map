@@ -266,5 +266,19 @@ describe 'Test API routes' do
       _(response['name']).must_equal subscription[:name]
       _(response['description']).must_equal subscription[:description]
     end
+
+    it 'should fail to create a subscription if the inbox does not exist' do
+      subscription = {
+        name: 'Test',
+        description: 'Test subscription'
+      }
+
+      post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions", subscription
+
+      _(last_response.status).must_equal 404
+      response = JSON.parse(last_response.body)
+
+      _(response['message']).must_include 'No inbox with the given `url` exists.'
+    end
   end
 end
