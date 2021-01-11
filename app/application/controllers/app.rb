@@ -156,7 +156,6 @@ module MindMap
                 end
               end
 
-
               routing.post do
                 params = Request::AddSubscription.new(routing.params.merge!('inbox_url' => inbox_url))
 
