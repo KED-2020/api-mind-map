@@ -22,6 +22,18 @@ module MindMap
       link :self do
         "#{App.config.API_HOST}/api/v1/inboxes/#{represented.name}"
       end
+
+      link :suggestions do
+        "#{App.config.API_HOST}/api/v1/inboxes/#{represented.url}/suggestions"
+      end
+
+      link :documents do
+        "#{App.config.API_HOST}/api/v1/inboxes/#{represented.url}/documents"
+      end
+
+      link :subscriptions do
+        "#{App.config.API_HOST}/api/v1/inboxes/#{represented.url}/subscriptions"
+      end
     end
   end
 end

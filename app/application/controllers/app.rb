@@ -128,8 +128,20 @@ module MindMap
               end
 
               routing.post do
-                puts 'hi'
-                # Add a subscription to an inbox
+                params = Request::AddSubscription.new(routing.params.merge!('inbox_url' => inbox_url))
+
+                result = Service::AddSubscription.new.call(params: params)
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                # Return the subscription the uses just created
+                Representer::Subscription.new(result.value!.message).to_json
               end
 
               routing.delete do

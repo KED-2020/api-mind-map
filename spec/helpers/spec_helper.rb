@@ -39,5 +39,5 @@ PROJECT_URL = 'https://github.com/derrxb/derrxb'
 INBOX = {
   name: 'Test Inbox',
   description: 'Test Inbox Description',
-  url: 'wonderful-time-alone'
+  url: GOOD_INBOX_URL
 }.freeze
