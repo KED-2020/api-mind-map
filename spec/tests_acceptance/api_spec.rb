@@ -281,4 +281,23 @@ describe 'Test API routes' do
       _(response['message']).must_include 'No inbox with the given `url` exists.'
     end
   end
+
+  describe 'Delete a subscription route' do
+    it 'should delete a subscription' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      subscription_params = MindMap::Request::AddSubscription.new({ 'name' => 'test',
+                                                                    'description' => 'test',
+                                                                    'inbox_url' => GOOD_INBOX_URL })
+
+      subscription = MindMap::Service::AddSubscription.new.call(params: subscription_params).value!.message
+
+      delete "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions/#{subscription.id}"
+
+      _(last_response.status).must_equal 204
+    end
+  end
 end

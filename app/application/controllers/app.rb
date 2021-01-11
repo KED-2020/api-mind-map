@@ -123,6 +123,23 @@ module MindMap
             end
 
             routing.on 'subscriptions' do
+              routing.on String do |subscription_id|
+                routing.delete do
+                  result = Service::DeleteInboxSubscription.new.call(inbox_url: inbox_url,
+                                                                     subscription_id: subscription_id)
+
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
+
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
+
+                  result.value!.message
+                end
+              end
+
               routing.get do
                 # All the subscriptions for an inbox
               end
@@ -142,10 +159,6 @@ module MindMap
 
                 # Return the subscription the uses just created
                 Representer::Subscription.new(result.value!.message).to_json
-              end
-
-              routing.delete do
-                # Delete a subscription for an inbox
               end
             end
 

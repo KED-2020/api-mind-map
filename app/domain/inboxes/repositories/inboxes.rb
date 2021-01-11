@@ -41,6 +41,11 @@ module MindMap
                           .remove_suggestion(suggestion_id)
       end
 
+      def self.remove_subscription(inbox_url, subscription_id)
+        Database::InboxOrm.first(url: inbox_url)
+                          .remove_subscription(subscription_id)
+      end
+
       def self.add_document(inbox_url, document)
         return unless inbox_url && document
 
