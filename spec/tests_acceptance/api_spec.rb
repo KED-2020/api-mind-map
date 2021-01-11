@@ -300,4 +300,46 @@ describe 'Test API routes' do
       _(last_response.status).must_equal 204
     end
   end
+
+  describe 'Get inbox subscriptions' do
+    it 'should return empty list if not subscriptions are available' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      get "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions"
+
+      _(last_response.status).must_equal 200
+      response = JSON.parse(last_response.body)
+
+      subscriptions = response['subscriptions']
+      _(subscriptions).must_be_kind_of Array
+      _(subscriptions.count).must_equal 0
+    end
+
+    it 'should return all the subscriptions' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      # Add subscriptions to inbox
+      subscription_params = MindMap::Request::AddSubscription.new({ 'name' => 'test',
+                                                                    'description' => 'test',
+                                                                    'inbox_url' => GOOD_INBOX_URL })
+
+      MindMap::Service::AddSubscription.new.call(params: subscription_params)
+      MindMap::Service::AddSubscription.new.call(params: subscription_params)
+
+      get "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions"
+
+      _(last_response.status).must_equal 200
+      response = JSON.parse(last_response.body)
+
+      subscriptions = response['subscriptions']
+      _(subscriptions).must_be_kind_of Array
+      _(subscriptions.count).must_equal 2
+    end
+  end
 end
