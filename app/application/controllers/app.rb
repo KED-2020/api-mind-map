@@ -54,7 +54,7 @@ module MindMap
           # GET /inboxes/mnemonics
           routing.on 'mnemonics' do
             routing.get do
-              result = Service::GetNewInboxId.new.call
+              result = Service::GetNewInboxUrl.new.call
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
