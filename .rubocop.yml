@@ -13,6 +13,12 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*
     - Rakefile
+    - app/application/controllers/app.rb
+
+Metrics/ClassLength:
+  Enabled: true
+  Exclude:
+    - app/application/controllers/app.rb
 
 Naming/RescuedExceptionsVariableName:
   Enabled: false

@@ -13,7 +13,6 @@ module MindMap
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
 
-    # rubocop:disable Metrics/BlockLength
     route do |routing|
       response['Content-Type'] = 'application/json'
 
@@ -33,6 +32,7 @@ module MindMap
         # Inboxes
         routing.on 'inboxes' do
           routing.is do
+            # POST api/v1/inboxes
             routing.post do
               params = Request::AddInbox.new(routing.params)
 
@@ -51,7 +51,7 @@ module MindMap
             end
           end
 
-          # GET /inboxes/mnemonics
+          # GET api/v1/inboxes/mnemonics
           routing.on 'mnemonics' do
             routing.get do
               result = Service::GetNewInboxUrl.new.call
@@ -68,8 +68,9 @@ module MindMap
             end
           end
 
-          # GET /inboxes/{inbox_url}
+          # GET api/v1/inboxes/:inbox_url
           routing.on String do |inbox_url|
+            # GET api/v1/inboxes/:inbox_url/documents
             routing.on 'documents' do
               routing.get do
                 result = Service::GetInboxDocuments.new.call(inbox_url: inbox_url)
@@ -90,6 +91,7 @@ module MindMap
 
             routing.on 'suggestions' do
               routing.on String do |suggestion_id|
+                # POST api/v1/inboxes/:inbox_url/suggestions/:suggestion_id
                 routing.post do
                   result = Service::SaveInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
 
@@ -106,6 +108,7 @@ module MindMap
                   ).to_json
                 end
 
+                # DELETE api/v1/inboxes/:inbox_url/suggestions/:suggestion_id
                 routing.delete do
                   result = Service::DeleteInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
 
@@ -123,6 +126,7 @@ module MindMap
             end
 
             routing.on 'subscriptions' do
+              # GET api/v1/inboxes/:inbox_url/subscriptions
               routing.get do
                 result = Service::GetInboxSubscriptions.new.call(inbox_url: inbox_url)
 
@@ -139,23 +143,7 @@ module MindMap
                 ).to_json
               end
 
-              routing.on String do |subscription_id|
-                routing.delete do
-                  result = Service::DeleteInboxSubscription.new.call(inbox_url: inbox_url,
-                                                                     subscription_id: subscription_id)
-
-                  if result.failure?
-                    failed = Representer::HttpResponse.new(result.failure)
-                    routing.halt failed.http_status_code, failed.to_json
-                  end
-
-                  http_response = Representer::HttpResponse.new(result.value!)
-                  response.status = http_response.http_status_code
-
-                  result.value!.message
-                end
-              end
-
+              # POST api/v1/inboxes/:inbox_url/subscriptions
               routing.post do
                 params = Request::AddSubscription.new(routing.params.merge!('inbox_url' => inbox_url))
 
@@ -172,8 +160,28 @@ module MindMap
                 # Return the subscription the uses just created
                 Representer::Subscription.new(result.value!.message).to_json
               end
+
+              routing.on String do |subscription_id|
+                # DELETE api/v1/inboxes/:inbox_url/subscriptions/:subscription_id
+                routing.delete do
+                  result = Service::DeleteInboxSubscription.new.call(inbox_url: inbox_url,
+                                                                     subscription_id: subscription_id)
+
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
+
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
+
+                  result.value!.message
+                end
+              end
+
             end
 
+            # GET api/v1/inboxes/:inbox_url
             routing.get do
               inbox_find = Request::EncodedInboxId.new(inbox_url)
 
@@ -196,7 +204,7 @@ module MindMap
 
         # Documents
         routing.on 'documents' do
-          # POST /documents
+          # POST api/v1/documents
           routing.post do
             html_url = Request::AddDocument.new(routing.params)
 
@@ -216,7 +224,7 @@ module MindMap
             ).to_json
           end
 
-          # GET /documents/{document_id}
+          # GET api/v1/documents/:document_id
           routing.on String do |document_id|
             routing.get do
               response.cache_control public: true, max_age: 3600
@@ -240,6 +248,5 @@ module MindMap
         end
       end
     end
-    # rubocop:enable Metrics/BlockLength
   end
 end
