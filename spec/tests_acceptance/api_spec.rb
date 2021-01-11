@@ -280,6 +280,20 @@ describe 'Test API routes' do
 
       _(response['message']).must_include 'No inbox with the given `url` exists.'
     end
+
+    it 'should fail to create a subscription if required parameters are missing' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions"
+
+      _(last_response.status).must_equal 400
+      response = JSON.parse(last_response.body)
+
+      _(response['message']).must_include 'are required'
+    end
   end
 
   describe 'Delete a subscription route' do
