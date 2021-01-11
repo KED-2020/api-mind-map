@@ -38,16 +38,7 @@ module MindMap
 
               result = Service::AddInbox.new.call(params: params)
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
-              end
-
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
-
-              # Return the inbox the uses just created
-              Representer::Inbox.new(result.value!.message).to_json
+              Representer::For.new(result).status_and_body(response)
             end
           end
 
@@ -56,15 +47,7 @@ module MindMap
             routing.get do
               result = Service::GetNewInboxUrl.new.call
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
-              end
-
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
-
-              result.value!.message
+              Representer::For.new(result).status_and_body(response)
             end
           end
 
@@ -75,17 +58,7 @@ module MindMap
               routing.get do
                 result = Service::GetInboxDocuments.new.call(inbox_url: inbox_url)
 
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
-                end
-
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
-
-                Representer::DocumentsList.new(
-                  result.value!.message
-                ).to_json
+                Representer::For.new(result).status_and_body(response)
               end
             end
 
@@ -95,32 +68,14 @@ module MindMap
                 routing.post do
                   result = Service::SaveInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
 
-                  if result.failure?
-                    failed = Representer::HttpResponse.new(result.failure)
-                    routing.halt failed.http_status_code, failed.to_json
-                  end
-
-                  http_response = Representer::HttpResponse.new(result.value!)
-                  response.status = http_response.http_status_code
-
-                  Representer::Document.new(
-                    result.value!.message
-                  ).to_json
+                  Representer::For.new(result).status_and_body(response)
                 end
 
                 # DELETE api/v1/inboxes/:inbox_url/suggestions/:suggestion_id
                 routing.delete do
                   result = Service::DeleteInboxSuggestion.new.call(suggestion_id: suggestion_id, inbox_url: inbox_url)
 
-                  if result.failure?
-                    failed = Representer::HttpResponse.new(result.failure)
-                    routing.halt failed.http_status_code, failed.to_json
-                  end
-
-                  http_response = Representer::HttpResponse.new(result.value!)
-                  response.status = http_response.http_status_code
-
-                  result.value!.message
+                  Representer::For.new(result).status_and_body(response)
                 end
               end
             end
@@ -130,17 +85,7 @@ module MindMap
               routing.get do
                 result = Service::GetInboxSubscriptions.new.call(inbox_url: inbox_url)
 
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
-                end
-
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
-
-                Representer::SubscriptionsList.new(
-                  result.value!.message
-                ).to_json
+                Representer::For.new(result).status_and_body(response)
               end
 
               # POST api/v1/inboxes/:inbox_url/subscriptions
@@ -149,16 +94,7 @@ module MindMap
 
                 result = Service::AddSubscription.new.call(params: params)
 
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
-                end
-
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
-
-                # Return the subscription the uses just created
-                Representer::Subscription.new(result.value!.message).to_json
+                Representer::For.new(result).status_and_body(response)
               end
 
               routing.on String do |subscription_id|
@@ -167,18 +103,9 @@ module MindMap
                   result = Service::DeleteInboxSubscription.new.call(inbox_url: inbox_url,
                                                                      subscription_id: subscription_id)
 
-                  if result.failure?
-                    failed = Representer::HttpResponse.new(result.failure)
-                    routing.halt failed.http_status_code, failed.to_json
-                  end
-
-                  http_response = Representer::HttpResponse.new(result.value!)
-                  response.status = http_response.http_status_code
-
-                  result.value!.message
+                  Representer::For.new(result).status_and_body(response)
                 end
               end
-
             end
 
             # GET api/v1/inboxes/:inbox_url
@@ -187,17 +114,7 @@ module MindMap
 
               result = Service::GetInbox.new.call(inbox_url: inbox_find)
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
-              end
-
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
-
-              Representer::Inbox.new(
-                result.value!.message
-              ).to_json
+              Representer::For.new(result).status_and_body(response)
             end
           end
         end
@@ -210,18 +127,7 @@ module MindMap
 
             result = Service::AddDocument.new.call(html_url: html_url)
 
-            if result.failure?
-              failed = Representer::HttpResponse.new(result.failure)
-              routing.halt failed.http_status_code, failed.to_json
-            end
-
-            http_response = Representer::HttpResponse.new(result.value!)
-            response.status = http_response.http_status_code
-
-            # Return the document the user just created
-            Representer::Document.new(
-              result.value!.message
-            ).to_json
+            Representer::For.new(result).status_and_body(response)
           end
 
           # GET api/v1/documents/:document_id
@@ -231,18 +137,7 @@ module MindMap
 
               result = MindMap::Service::GetDocument.new.call(document_id: document_id)
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
-              end
-
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
-
-              # Return the document the user requested
-              Representer::Document.new(
-                result.value!.message
-              ).to_json
+              Representer::For.new(result).status_and_body(response)
             end
           end
         end
