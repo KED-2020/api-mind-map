@@ -34,6 +34,17 @@ describe 'GetInbox integration tests' do
 
       saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
 
+      subscription = {
+        'name' => 'Test',
+        'description' => 'Test subscription',
+        'keywords' => MindMap::Request::EncodedKeywordList.to_encoded(GOOD_KEYWORDS_LIST),
+        'inbox_url' => GOOD_INBOX_URL
+      }
+
+      keywords = MindMap::Request::EncodedKeywordList.new(subscription)
+      params = MindMap::Request::AddSubscription.new(subscription)
+      MindMap::Service::AddSubscription.new.call(params: params, keywords: keywords)
+
       # WHEN: we request an inbox and its suggestions
       inbox_url = MindMap::Request::EncodedInboxId.new(saved_inbox.url)
       result = MindMap::Service::GetInbox.new.call(inbox_url: inbox_url)
@@ -44,6 +55,25 @@ describe 'GetInbox integration tests' do
       _(inbox_result.name).must_equal inbox.name
       _(inbox_result.description).must_equal inbox.description
       _(inbox_result.suggestions.count).must_equal 30
+    end
+
+    it 'SAD: should enforce adding subscriptions before an inbox can be loaded' do
+      # GIVEN: an an inbox that exists but have no subscriptions
+      inbox = MindMap::Entity::Inbox.new(id: nil,
+                                         name: 'test',
+                                         url: GOOD_INBOX_URL,
+                                         description: 'test',
+                                         suggestions: [],
+                                         documents: [],
+                                         subscriptions: [])
+      saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
+
+      # WHEN: we request an inbox and its suggestions
+      inbox_url = MindMap::Request::EncodedInboxId.new(saved_inbox.url)
+      result = MindMap::Service::GetInbox.new.call(inbox_url: inbox_url)
+
+      # Then: we should get failure
+      _(result.failure?).must_equal true
     end
 
     it 'SAD: should not return inbox if it does not exist' do

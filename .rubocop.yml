@@ -20,5 +20,10 @@ Metrics/ClassLength:
   Exclude:
     - app/application/controllers/app.rb
 
+Metrics:Layout/LineLength:
+  Enable: true
+  Exclude:
+    - app/domain/inboxes/lib/mnemonics_generator.rb
+
 Naming/RescuedExceptionsVariableName:
   Enabled: false
