@@ -11,6 +11,7 @@ module MindMap
       step :validate_params
       step :find_inbox
       step :create_subscription
+      step :verify_subscription
       step :store_subscription
 
       private
@@ -38,17 +39,32 @@ module MindMap
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
       def create_subscription(input)
-        # I think this needs to be done in a mapper
+        keywords = input[:params]['keywords'].map do |keyword|
+          Entity::Keyword.new(id: nil, name: keyword.downcase)
+        end
+
         subscription = Entity::Subscription.new(
           id: nil,
           name: input[:params]['name'],
           description: input[:params]['description'],
           inbox_id: input[:inbox].id,
-          created_at: nil
+          created_at: nil,
+          keywords: keywords
         )
 
         Success(input.merge(subscription: subscription))
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      def verify_subscription(input)
+        if input[:subscription].valid_keywords?
+          Success(input)
+        else
+          Failure(Response::ApiResult.new(status: :bad_request,
+                                          message: 'We need at least `1` keyword and a max of `5`.'))
+        end
       end
 
       def store_subscription(input)

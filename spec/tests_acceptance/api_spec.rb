@@ -250,12 +250,13 @@ describe 'Test API routes' do
       # Creates an inbox
       inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
                                                       'name' => 'test',
-                                                      'description' => 'test' })
+                                                      'description' => 'test'})
       MindMap::Service::AddInbox.new.call(params: inbox_params)
 
       subscription = {
         name: 'Test',
-        description: 'Test subscription'
+        description: 'Test subscription',
+        keywords: GOOD_KEYWORDS_LIST
       }
 
       post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions", subscription
@@ -267,10 +268,32 @@ describe 'Test API routes' do
       _(response['description']).must_equal subscription[:description]
     end
 
+    it 'should fail to create a subscription if there are too many keywords' do
+      # Creates an inbox
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test'})
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      subscription = {
+        name: 'Test',
+        description: 'Test subscription',
+        keywords: BAD_KEYWORDS_LIST
+      }
+
+      post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions", subscription
+
+      _(last_response.status).must_equal 400
+      response = JSON.parse(last_response.body)
+
+      _(response['message']).must_include 'We need at least `1` keyword and a max of `5`.'
+    end
+
     it 'should fail to create a subscription if the inbox does not exist' do
       subscription = {
         name: 'Test',
-        description: 'Test subscription'
+        description: 'Test subscription',
+        keywords: GOOD_KEYWORDS_LIST
       }
 
       post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions", subscription
@@ -305,7 +328,8 @@ describe 'Test API routes' do
 
       subscription_params = MindMap::Request::AddSubscription.new({ 'name' => 'test',
                                                                     'description' => 'test',
-                                                                    'inbox_url' => GOOD_INBOX_URL })
+                                                                    'inbox_url' => GOOD_INBOX_URL,
+                                                                    'keywords' => GOOD_KEYWORDS_LIST })
 
       subscription = MindMap::Service::AddSubscription.new.call(params: subscription_params).value!.message
 
@@ -341,7 +365,8 @@ describe 'Test API routes' do
       # Add subscriptions to inbox
       subscription_params = MindMap::Request::AddSubscription.new({ 'name' => 'test',
                                                                     'description' => 'test',
-                                                                    'inbox_url' => GOOD_INBOX_URL })
+                                                                    'inbox_url' => GOOD_INBOX_URL,
+                                                                    'keywords' => GOOD_KEYWORDS_LIST })
 
       MindMap::Service::AddSubscription.new.call(params: subscription_params)
       MindMap::Service::AddSubscription.new.call(params: subscription_params)
