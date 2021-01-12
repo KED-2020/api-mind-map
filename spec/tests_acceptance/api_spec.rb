@@ -95,6 +95,17 @@ describe 'Test API routes' do
                                              subscriptions: [])
       saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(new_inbox)
 
+      subscription = {
+        'name' => 'Test',
+        'description' => 'Test subscription',
+        'keywords' => MindMap::Request::EncodedKeywordList.to_encoded(GOOD_KEYWORDS_LIST),
+        'inbox_url' => GOOD_INBOX_URL
+      }
+
+      keywords = MindMap::Request::EncodedKeywordList.new(subscription)
+      params = MindMap::Request::AddSubscription.new(subscription)
+      MindMap::Service::AddSubscription.new.call(params: params, keywords: keywords)
+
       get "/api/v1/inboxes/#{saved_inbox.url}"
 
       _(last_response.status).must_equal 201
@@ -196,6 +207,17 @@ describe 'Test API routes' do
                                                       'description' => 'test' })
       MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
 
+      subscription = {
+        'name' => 'Test',
+        'description' => 'Test subscription',
+        'keywords' => MindMap::Request::EncodedKeywordList.to_encoded(GOOD_KEYWORDS_LIST),
+        'inbox_url' => GOOD_INBOX_URL
+      }
+
+      keywords = MindMap::Request::EncodedKeywordList.new(subscription)
+      params = MindMap::Request::AddSubscription.new(subscription)
+      MindMap::Service::AddSubscription.new.call(params: params, keywords: keywords)
+
       load_inbox = MindMap::Request::EncodedInboxId.new(GOOD_INBOX_URL)
       inbox = MindMap::Service::GetInbox.new.call(inbox_url: load_inbox).value!.message
 
@@ -219,6 +241,17 @@ describe 'Test API routes' do
                                                       'description' => 'test' })
       inbox_response = MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
 
+      subscription = {
+        'name' => 'Test',
+        'description' => 'Test subscription',
+        'keywords' => MindMap::Request::EncodedKeywordList.to_encoded(GOOD_KEYWORDS_LIST),
+        'inbox_url' => GOOD_INBOX_URL
+      }
+
+      keywords = MindMap::Request::EncodedKeywordList.new(subscription)
+      params = MindMap::Request::AddSubscription.new(subscription)
+      MindMap::Service::AddSubscription.new.call(params: params, keywords: keywords)
+
       load_inbox = MindMap::Request::EncodedInboxId.new(inbox_response.url)
       inbox = MindMap::Service::GetInbox.new.call(inbox_url: load_inbox)
 
@@ -234,6 +267,17 @@ describe 'Test API routes' do
                                                       'name' => 'test',
                                                       'description' => 'test' })
       inbox_response = MindMap::Service::AddInbox.new.call(params: inbox_params).value!.message
+
+      subscription = {
+        'name' => 'Test',
+        'description' => 'Test subscription',
+        'keywords' => MindMap::Request::EncodedKeywordList.to_encoded(GOOD_KEYWORDS_LIST),
+        'inbox_url' => GOOD_INBOX_URL
+      }
+
+      keywords = MindMap::Request::EncodedKeywordList.new(subscription)
+      params = MindMap::Request::AddSubscription.new(subscription)
+      MindMap::Service::AddSubscription.new.call(params: params, keywords: keywords)
 
       load_inbox = MindMap::Request::EncodedInboxId.new(inbox_response.url)
       inbox = MindMap::Service::GetInbox.new.call(inbox_url: load_inbox)
@@ -251,6 +295,17 @@ describe 'Test API routes' do
                                                       'name' => 'test',
                                                       'description' => 'test' })
       MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      subscription = {
+        'name' => 'Test',
+        'description' => 'Test subscription',
+        'keywords' => MindMap::Request::EncodedKeywordList.to_encoded(GOOD_KEYWORDS_LIST),
+        'inbox_url' => GOOD_INBOX_URL
+      }
+
+      keywords = MindMap::Request::EncodedKeywordList.new(subscription)
+      params = MindMap::Request::AddSubscription.new(subscription)
+      MindMap::Service::AddSubscription.new.call(params: params, keywords: keywords)
 
       subscription = {
         name: 'Test',

@@ -43,6 +43,7 @@ module MindMap
       def get_suggestions(input)
         if input[:inbox].can_request_suggestions?
           input[:suggestions] = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
+          Success(input)
         else
           Failure(Response::ApiResult.new(status: :forbidden, message: NO_SUGGESTIONS_MSG))
         end
