@@ -18,6 +18,7 @@ module MindMap
       NOT_FOUND_MSG = 'Could not find inbox with the given id.'
       DB_ERROR_MSG = 'Could not access database.'
       GH_ERROR_MSG = 'Having trouble receiving the suggestion.'
+      NO_SUGGESTIONS_MSG = 'You need to add a subscription before you can receive suggestions.'
 
       def validate_inbox_url(input)
         inbox_url = input[:inbox_url].call
@@ -40,9 +41,11 @@ module MindMap
       end
 
       def get_suggestions(input)
-        input[:suggestions] = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions || []
-
-        Success(input)
+        if input[:inbox].can_request_suggestions?
+          input[:suggestions] = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
+        else
+          Failure(Response::ApiResult.new(status: :forbidden, message: NO_SUGGESTIONS_MSG))
+        end
       rescue StandardError
         Failure(Response::ApiResult.new(status: :not_found, message: GH_ERROR_MSG))
       end
