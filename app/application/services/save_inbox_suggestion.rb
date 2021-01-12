@@ -48,22 +48,17 @@ module MindMap
 
         Repository::For.klass(Entity::Inbox).add_document(input[:inbox_url], document)
 
-        puts 'hi'
-
         Success(input.merge(document: document))
-      rescue StandardError => e
-        pp e
+      rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
       end
 
       def delete_suggestion(input)
-        pp input
         Repository::For.klass(Entity::Inbox)
                        .remove_suggestion(input[:inbox_url], input[:suggestion_id])
 
         Success(Response::ApiResult.new(status: :created, message: input[:document]))
-      rescue StandardError => e
-        pp e
+      rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
       end
     end
