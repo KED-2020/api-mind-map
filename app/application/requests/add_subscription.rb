@@ -12,7 +12,7 @@ module MindMap
       INBOX_URL_REGEX = /([a-zA-Z]+)-([a-zA-Z]+)-([a-zA-Z]+)/.freeze
 
       INVALID_ID = 'Unsupported inbox url format provided.'
-      MISSING_PARAMS = '`name` or `description` are required.'
+      MISSING_PARAMS = '`name` and `description` are required.'
 
       def initialize(params)
         @params = params

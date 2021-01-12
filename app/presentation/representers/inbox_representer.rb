@@ -4,6 +4,8 @@ require 'roar/decorator'
 require 'roar/json'
 
 require_relative 'suggestion_representer'
+require_relative 'document_representer'
+require_relative 'subscription_representer'
 
 module MindMap
   module Representer
@@ -17,7 +19,9 @@ module MindMap
       property :name
       property :description
       property :url
+      collection :documents, extend: Representer::Document, class: OpenStruct
       collection :suggestions, extend: Representer::Suggestion, class: OpenStruct
+      collection :subscriptions, extend: Representer::Subscription, class: OpenStruct
 
       link :self do
         "#{App.config.API_HOST}/api/v1/inboxes/#{represented.name}"

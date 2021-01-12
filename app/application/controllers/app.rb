@@ -106,9 +106,10 @@ module MindMap
 
               # POST api/v1/inboxes/:inbox_url/subscriptions
               routing.post do
+                keywords = Request::EncodedKeywordList.new(routing.params)
                 params = Request::AddSubscription.new(routing.params.merge!('inbox_url' => inbox_url))
 
-                result = Service::AddSubscription.new.call(params: params)
+                result = Service::AddSubscription.new.call(params: params, keywords: keywords)
 
                 Representer::For.new(result).status_and_body(response)
               end
