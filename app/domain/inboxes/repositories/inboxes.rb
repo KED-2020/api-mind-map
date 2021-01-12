@@ -28,9 +28,22 @@ module MindMap
         rebuild_entity(db_inbox)
       end
 
+      def self.add_subscriptions(inbox_url, subscriptions)
+        return unless inbox_url && subscriptions.count.positive?
+
+        db_inbox = PersistInboxSubscriptions.new(inbox_url, subscriptions).call
+
+        rebuild_entity(db_inbox)
+      end
+
       def self.remove_suggestion(inbox_url, suggestion_id)
         Database::InboxOrm.first(url: inbox_url)
                           .remove_suggestion(suggestion_id)
+      end
+
+      def self.remove_subscription(inbox_url, subscription_id)
+        Database::InboxOrm.first(url: inbox_url)
+                          .remove_subscription(subscription_id)
       end
 
       def self.add_document(inbox_url, document)
@@ -47,7 +60,8 @@ module MindMap
         Entity::Inbox.new(
           db_record.to_hash.merge(
             suggestions: Suggestions.rebuild_many(db_record.suggestions),
-            documents: Documents.rebuild_many(db_record.documents)
+            documents: Documents.rebuild_many(db_record.documents),
+            subscriptions: Subscriptions.rebuild_many(db_record.subscriptions)
           )
         )
       end
@@ -126,6 +140,28 @@ module MindMap
               saved_document = Documents.find_or_create_by_html_url(document)
 
               db_inbox.add_document(saved_document) if saved_document
+            end
+          end
+        end
+      end
+
+      # Helper class to add subscriptions to an existing inbox.
+      class PersistInboxSubscriptions
+        def initialize(inbox_url, subscriptions)
+          @inbox_url = inbox_url
+          @subscriptions = subscriptions
+        end
+
+        def find_inbox
+          Database::InboxOrm.first(url: @inbox_url)
+        end
+
+        def call
+          find_inbox.tap do |db_inbox|
+            @subscriptions.each do |subscription|
+              saved_subscription = Subscriptions.create(subscription)
+
+              db_inbox.add_subscription(saved_subscription) if saved_subscription
             end
           end
         end

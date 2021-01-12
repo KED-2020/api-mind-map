@@ -61,7 +61,9 @@ describe 'Test API routes' do
                                              url: INBOX[:url],
                                              description: 'A test inbox',
                                              suggestions: [],
-                                             documents: [])
+                                             documents: [],
+                                             subscriptions: [],
+                                            )
       MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(new_inbox)
 
       post 'api/v1/inboxes', INBOX
@@ -89,7 +91,9 @@ describe 'Test API routes' do
                                              url: GOOD_INBOX_URL,
                                              description: 'A test inbox',
                                              suggestions: [],
-                                             documents: [])
+                                             documents: [],
+                                             subscriptions: []
+                                            )
       saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(new_inbox)
 
       get "/api/v1/inboxes/#{saved_inbox.url}"
@@ -238,6 +242,118 @@ describe 'Test API routes' do
       delete "api/v1/inboxes/#{inbox.value!.message.url}/suggestions/#{inbox.value!.message.suggestions.first.id}"
 
       _(last_response.status).must_equal 204
+    end
+  end
+
+  describe 'Save subscription route' do
+    it 'should save a subscription' do
+      # Creates an inbox
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      subscription = {
+        name: 'Test',
+        description: 'Test subscription'
+      }
+
+      post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions", subscription
+
+      _(last_response.status).must_equal 201
+      response = JSON.parse(last_response.body)
+
+      _(response['name']).must_equal subscription[:name]
+      _(response['description']).must_equal subscription[:description]
+    end
+
+    it 'should fail to create a subscription if the inbox does not exist' do
+      subscription = {
+        name: 'Test',
+        description: 'Test subscription'
+      }
+
+      post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions", subscription
+
+      _(last_response.status).must_equal 404
+      response = JSON.parse(last_response.body)
+
+      _(response['message']).must_include 'No inbox with the given `url` exists.'
+    end
+
+    it 'should fail to create a subscription if required parameters are missing' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      post "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions"
+
+      _(last_response.status).must_equal 400
+      response = JSON.parse(last_response.body)
+
+      _(response['message']).must_include 'are required'
+    end
+  end
+
+  describe 'Delete a subscription route' do
+    it 'should delete a subscription' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      subscription_params = MindMap::Request::AddSubscription.new({ 'name' => 'test',
+                                                                    'description' => 'test',
+                                                                    'inbox_url' => GOOD_INBOX_URL })
+
+      subscription = MindMap::Service::AddSubscription.new.call(params: subscription_params).value!.message
+
+      delete "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions/#{subscription.id}"
+
+      _(last_response.status).must_equal 204
+    end
+  end
+
+  describe 'Get inbox subscriptions' do
+    it 'should return empty list if not subscriptions are available' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      get "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions"
+
+      _(last_response.status).must_equal 200
+      response = JSON.parse(last_response.body)
+
+      subscriptions = response['subscriptions']
+      _(subscriptions).must_be_kind_of Array
+      _(subscriptions.count).must_equal 0
+    end
+
+    it 'should return all the subscriptions' do
+      inbox_params = MindMap::Request::AddInbox.new({ 'url' => GOOD_INBOX_URL,
+                                                      'name' => 'test',
+                                                      'description' => 'test' })
+      MindMap::Service::AddInbox.new.call(params: inbox_params)
+
+      # Add subscriptions to inbox
+      subscription_params = MindMap::Request::AddSubscription.new({ 'name' => 'test',
+                                                                    'description' => 'test',
+                                                                    'inbox_url' => GOOD_INBOX_URL })
+
+      MindMap::Service::AddSubscription.new.call(params: subscription_params)
+      MindMap::Service::AddSubscription.new.call(params: subscription_params)
+
+      get "api/v1/inboxes/#{GOOD_INBOX_URL}/subscriptions"
+
+      _(last_response.status).must_equal 200
+      response = JSON.parse(last_response.body)
+
+      subscriptions = response['subscriptions']
+      _(subscriptions).must_be_kind_of Array
+      _(subscriptions.count).must_equal 2
     end
   end
 end

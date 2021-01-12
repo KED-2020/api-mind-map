@@ -34,7 +34,8 @@ describe 'Test Inboxes Mappers and Repository' do
       url: '12345',
       description: 'test',
       suggestions: [],
-      documents: []
+      documents: [],
+      subscriptions: []
     )
     saved_inbox = MindMap::Repository::For.klass(MindMap::Entity::Inbox).find_or_create(inbox)
 

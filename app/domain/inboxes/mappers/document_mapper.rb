@@ -28,7 +28,6 @@ module MindMap
           @data = data
         end
 
-        # rubocop:disable Metrics/MethodLength
         def build_entity
           return nil unless @data
 
@@ -41,7 +40,6 @@ module MindMap
             topics: topics
           )
         end
-        # rubocop:enable Metrics/MethodLength
 
         # To keep things a bit simple, we take the first result from
         # the search results. We will extend this later on to allow
