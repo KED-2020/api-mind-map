@@ -17,4 +17,4 @@ app_test:
   DB_FILENAME: app/infrastructure/database/local/test.db
 
 production:
-  # API_HOST: https://mind-map.herokuapp.com
+  API_HOST: https://mytest-api-mind-map.herokuapp.com
