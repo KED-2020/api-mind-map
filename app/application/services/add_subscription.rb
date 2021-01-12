@@ -8,6 +8,7 @@ module MindMap
     class AddSubscription
       include Dry::Transaction
 
+      step :validate_keywords
       step :validate_params
       step :find_inbox
       step :create_subscription
@@ -18,6 +19,16 @@ module MindMap
 
       INBOX_NOT_FOUND_MSG = 'No inbox with the given `url` exists.'
       DB_ERROR_MSG = 'Having trouble accessing the database.'
+
+      def validate_keywords(input)
+        keywords = input[:keywords].call
+
+        if keywords.success?
+          Success(input.merge(keywords: keywords.value!))
+        else
+          Failure(keywords.failure)
+        end
+      end
 
       def validate_params(input)
         params = input[:params].call
@@ -41,7 +52,7 @@ module MindMap
 
       # rubocop:disable Metrics/MethodLength
       def create_subscription(input)
-        keywords = input[:params]['keywords'].map do |keyword|
+        keywords = input[:keywords].map do |keyword|
           Entity::Keyword.new(id: nil, name: keyword.downcase)
         end
 

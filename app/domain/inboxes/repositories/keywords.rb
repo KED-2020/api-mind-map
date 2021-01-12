@@ -28,7 +28,7 @@ module MindMap
       end
 
       def self.find_or_create(keyword)
-        find_by_name(keyword.name) || Database::KeywordOrm.create(keyword.to_attr_hash)
+        Database::KeywordOrm.first(name: keyword.name) || Database::KeywordOrm.create(keyword.to_attr_hash)
       end
     end
   end

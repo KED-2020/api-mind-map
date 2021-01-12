@@ -12,14 +12,14 @@ module MindMap
       INBOX_URL_REGEX = /([a-zA-Z]+)-([a-zA-Z]+)-([a-zA-Z]+)/.freeze
 
       INVALID_ID = 'Unsupported inbox url format provided.'
-      MISSING_PARAMS = '`name`, `description`, and `keywords` are required.'
+      MISSING_PARAMS = '`name` and `description` are required.'
 
       def initialize(params)
         @params = params
       end
 
       def call
-        if @params['name'].nil? || @params['description'].nil? || @params['keywords'].nil?
+        if @params['name'].nil? || @params['description'].nil?
           return Failure(Response::ApiResult.new(status: :bad_request, message: MISSING_PARAMS))
         end
 
