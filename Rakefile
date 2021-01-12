@@ -53,6 +53,13 @@ namespace :rerack do
   end
 end
 
+desc "Scheduled Task"
+task :scheduled_task do
+  puts "\n\nThe SCHEDULED TASK is triggered at #{Time.now.strftime("%d/%m/%Y %H:%M")}..."
+  30.times { puts '......' }
+  puts "The SCHEDULED TASK is finished at #{Time.now.strftime("%d/%m/%Y %H:%M")}...\n\n\n"
+end
+
 namespace :console do
   desc 'Run application console (irb) in dev env'
   task :dev do
