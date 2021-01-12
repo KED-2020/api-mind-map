@@ -51,7 +51,7 @@ module MindMap
         # Don't add suggestions if they exist
         if input[:inbox].suggestions.count.zero?
           input[:inbox] = Repository::For.klass(Entity::Inbox)
-                                                .add_suggestions(input[:inbox], input[:suggestions])
+                                         .add_suggestions(input[:inbox], input[:suggestions])
         end
 
         Success(Response::ApiResult.new(status: :created, message: input[:inbox]))

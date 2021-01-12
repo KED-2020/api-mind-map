@@ -24,7 +24,7 @@ module MindMap
         db_suggestion = Database::DocumentOrm.left_join(
           :inboxes_suggestions,
           [[:document_id, suggestion_id], [:inbox_id, inbox.id]]
-        ).first
+        ).where(id: suggestion_id).first
 
         return nil unless db_suggestion
 

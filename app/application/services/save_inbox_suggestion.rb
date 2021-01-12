@@ -11,6 +11,7 @@ module MindMap
       step :find_inbox
       step :find_inbox_suggestion
       step :upgrade_suggestion_to_document
+      step :delete_suggestion
 
       private
 
@@ -47,8 +48,22 @@ module MindMap
 
         Repository::For.klass(Entity::Inbox).add_document(input[:inbox_url], document)
 
-        Success(Response::ApiResult.new(status: :created, message: document))
-      rescue StandardError
+        puts 'hi'
+
+        Success(input.merge(document: document))
+      rescue StandardError => e
+        pp e
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
+      end
+
+      def delete_suggestion(input)
+        pp input
+        Repository::For.klass(Entity::Inbox)
+                       .remove_suggestion(input[:inbox_url], input[:suggestion_id])
+
+        Success(Response::ApiResult.new(status: :created, message: input[:document]))
+      rescue StandardError => e
+        pp e
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
       end
     end
