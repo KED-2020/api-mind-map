@@ -8,6 +8,7 @@ module MindMap
     class Suggestion < Roar::Decorator
       include Roar::JSON
 
+      property :id
       property :name
       property :description
       property :html_url
