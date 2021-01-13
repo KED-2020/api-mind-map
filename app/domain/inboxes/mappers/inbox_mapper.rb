@@ -13,6 +13,18 @@ module MindMap
         # Mapper::GithubSuggestions.new(@gh_token).suggestions('transformers')
       end
 
+      def get_suggestions(inbox)
+        all = []
+
+        inbox.subscriptions.each do |sub|
+          sub.keywords.each do |keyword|
+            all.push(Mapper::GithubSuggestions.new(@gh_token).suggestions(keyword.name))
+          end
+        end
+
+        all.flatten
+      end
+
       def no_suggestions
         Mapper::GithubSuggestions.new(@gh_token).suggestions('1')
       end
