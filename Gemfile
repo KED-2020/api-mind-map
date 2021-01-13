@@ -33,6 +33,14 @@ gem 'dry-types', '~> 1.4'
 # Networking
 gem 'http', '~> 4.0'
 
+# Asynchronicity
+gem 'concurrent-ruby', '~> 1.1'
+gem 'aws-sdk-sqs', '~> 1'
+
+# WORKERS
+gem 'shoryuken', '~> 5'
+gem 'faye'
+
 # Database
 gem 'hirb', '~> 0.7'
 gem 'sequel', '~> 5.0'
