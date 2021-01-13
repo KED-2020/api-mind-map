@@ -54,7 +54,7 @@ module MindMap
         inbox = MindMap::Repository::For.klass(Entity::Inbox).find_or_create(input[:inbox])
 
         # Messaging::Queue
-        notify_workers(input)
+        # notify_workers(input)
 
         Success(Response::ApiResult.new(status: :created, message: inbox))
       rescue StandardError
