@@ -75,5 +75,6 @@ group :development, :test do
 end
 
 # UTILITIES
+gem 'mediawiki_api', git: 'git@github.com:eslywadan/wikimediapi.git'
 gem 'rack-test' # can also be used to diagnose production
 gem 'rake', '~> 13.0'

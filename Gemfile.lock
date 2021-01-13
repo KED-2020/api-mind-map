@@ -1,3 +1,12 @@
+GIT
+  remote: git@github.com:eslywadan/wikimediapi.git
+  revision: 30a54caa3aab22eecdbe05bb9b2515300382e145
+  specs:
+    mediawiki_api (0.7.2)
+      faraday (~> 0.9, >= 0.9.0)
+      faraday-cookie_jar (~> 0.0, >= 0.0.6)
+      faraday_middleware (~> 0.10, >= 0.10.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -74,6 +83,13 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5, >= 1.5.2)
     econfig (2.1.0)
+    faraday (0.17.3)
+      multipart-post (>= 1.2, < 3)
+    faraday-cookie_jar (0.0.7)
+      faraday (>= 0.8.0)
+      http-cookie (~> 1.0.0)
+    faraday_middleware (0.14.0)
+      faraday (>= 0.7.4, < 1.0)
     ffi (1.13.1)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
@@ -103,6 +119,7 @@ GEM
     minitest-rg (5.2.0)
       minitest (~> 5.0)
     multi_json (1.15.0)
+    multipart-post (2.1.1)
     parallel (1.20.1)
     parser (2.7.2.0)
       ast (~> 2.4.1)
@@ -194,6 +211,7 @@ DEPENDENCIES
   flog
   hirb (~> 0.7)
   http (~> 4.0)
+  mediawiki_api!
   minitest (~> 5.0)
   minitest-rg (~> 5.0)
   multi_json
