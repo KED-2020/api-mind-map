@@ -4,6 +4,18 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
+    aws-eventstream (1.1.0)
+    aws-partitions (1.416.0)
+    aws-sdk-core (3.111.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-sqs (1.35.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.2.2)
+      aws-eventstream (~> 1, >= 1.0.2)
     concurrent-ruby (1.1.7)
     crack (0.4.4)
     database_cleaner (1.8.5)
@@ -95,6 +107,7 @@ GEM
     http-parser (1.2.2)
       ffi-compiler
     ice_nine (0.11.2)
+    jmespath (1.4.0)
     kwalify (0.7.2)
     listen (3.3.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -183,6 +196,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk-sqs (~> 1)
+  concurrent-ruby (~> 1.1)
   database_cleaner (~> 1.8)
   debase (~> 0.2)
   dry-monads

@@ -53,9 +53,30 @@ module MindMap
       def store_inbox(input)
         inbox = MindMap::Repository::For.klass(Entity::Inbox).find_or_create(input[:inbox])
 
+        # Messaging::Queue
+        notify_workers(input)
+
         Success(Response::ApiResult.new(status: :created, message: inbox))
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
+      end
+
+      def inbox_request_json(input)
+        Response::Inbox.new(input[:inbox][:url])
+          .then { Representer::Inbox.new(_1) }
+          .then(&:to_json)
+      end
+
+      def notify_workers(input)
+        queues = [App.config.SCHEDULED_QUEUE_URL]
+
+        queues.each do |queue_url|
+          Concurrent::Promise.execute do
+            # Messaging::Queue.new(queue_url, App.config).send(inbox_request_json(input))
+            # puts "url = #{input[:inbox][:url]}"
+            Messaging::Queue.new(queue_url, App.config).send({url: input[:inbox][:url]}.to_json)
+          end
+        end
       end
     end
   end

@@ -100,6 +100,57 @@ namespace :quality do
   end
 end
 
+namespace :queues do
+  task :config do
+    require 'aws-sdk-sqs'
+    require_relative 'config/environment' # load config info
+    @api = MindMap::App
+
+    @sqs = Aws::SQS::Client.new(
+      access_key_id: @api.config.AWS_ACCESS_KEY_ID,
+      secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
+      region: @api.config.AWS_REGION
+    )
+  end
+
+  desc 'Create SQS queue for worker'
+  task :create => :config do
+    puts "Environment: #{@api.environment}"
+    @sqs.create_queue(queue_name: @api.config.SCHEDULED_QUEUE)
+
+    q_url = @sqs.get_queue_url(queue_name: @api.config.SCHEDULED_QUEUE).queue_url
+    puts 'Queue created:'
+    puts "  Name: #{@api.config.SCHEDULED_QUEUE}"
+    puts "  Region: #{@api.config.AWS_REGION}"
+    puts "  URL: #{q_url}"
+  rescue StandardError => e
+    puts "Error creating queue: #{e}"
+  end
+
+  desc 'Report status of queue for worker'
+  task :status => :config do
+    q_url = @sqs.get_queue_url(queue_name: @api.config.SCHEDULED_QUEUE).queue_url
+
+    puts "Environment: #{@api.environment}"
+    puts 'Queue info:'
+    puts "  Name: #{@api.config.SCHEDULED_QUEUE}"
+    puts "  Region: #{@api.config.AWS_REGION}"
+    puts "  URL: #{q_url}"
+  rescue StandardError => e
+    puts "Error finding queue: #{e}"
+  end
+
+  desc 'Purge messages in SQS queue for worker'
+  task :purge => :config do
+    q_url = @sqs.get_queue_url(queue_name: @api.config.SCHEDULED_QUEUE).queue_url
+    @sqs.purge_queue(queue_url: q_url)
+    puts "Queue #{@api.config.SCHEDULED_QUEUE} purged"
+  rescue StandardError => e
+    puts "Error purging queue: #{e}"
+  end
+end
+
+
 namespace :db do
   task :config do
     require 'sequel'
