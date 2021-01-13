@@ -10,7 +10,7 @@ module MindMap
 
       step :validate_inbox_url
       step :find_inbox
-      step :get_suggestions
+      step :request_suggestions
       step :add_suggestions_to_inbox
 
       private
@@ -40,10 +40,15 @@ module MindMap
         Failure(Response::ApiResult.new(status: :not_found, message: DB_ERROR_MSG))
       end
 
-      def get_suggestions(input)
+      def request_suggestions(input)
+        return Success(input) if input[:inbox].suggestions.count.positive?
+
         if input[:inbox].can_request_suggestions?
-          input[:suggestions] = Mapper::Inbox.new(App.config.GITHUB_TOKEN).suggestions
-          Success(input)
+          Messaging::Queue.new(App.config.SUGGESTIONS_QUEUE_URL, App.config)
+                          .send(suggestions_request_json(input))
+
+          Failure(Response::ApiResult.new(status: :processing,
+                                          message: { request_id: input[:request_id] }))
         else
           Failure(Response::ApiResult.new(status: :forbidden, message: NO_SUGGESTIONS_MSG))
         end
@@ -52,15 +57,21 @@ module MindMap
       end
 
       def add_suggestions_to_inbox(input)
-        # Don't add suggestions if they exist
-        if input[:inbox].suggestions.count.zero?
-          input[:inbox] = Repository::For.klass(Entity::Inbox)
-                                         .add_suggestions(input[:inbox], input[:suggestions])
-        end
+        # # Don't add suggestions if they exist
+        # if input[:inbox].suggestions.count.zero?
+        #   input[:inbox] = Repository::For.klass(Entity::Inbox)
+        #                                  .add_suggestions(input[:inbox], input[:suggestions])
+        # end
 
         Success(Response::ApiResult.new(status: :created, message: input[:inbox]))
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
+      end
+
+      def suggestions_request_json(input)
+        Response::CloneRequest.new(input[:inbox], input[:request_id])
+                              .then { Representer::SuggestionsRequest.new(_1) }
+                              .then(&:to_json)
       end
     end
   end

@@ -129,7 +129,9 @@ module MindMap
             routing.get do
               inbox_find = Request::EncodedInboxId.new(inbox_url)
 
-              result = Service::GetInbox.new.call(inbox_url: inbox_find)
+              request_id = [request.env, request.path, Time.now.to_f].hash
+
+              result = Service::GetInbox.new.call(inbox_url: inbox_find, request_id: request_id)
 
               Representer::For.new(result).status_and_body(response)
             end
