@@ -34,6 +34,9 @@ module MindMap
         if input[:inbox].nil?
           Failure(Response::ApiResult.new(status: :not_found, message: NOT_FOUND_MSG))
         else
+          # Messaging::Queue
+          notify_workers(input)
+
           Success(input)
         end
       rescue StandardError
@@ -63,6 +66,18 @@ module MindMap
         Success(Response::ApiResult.new(status: :created, message: input[:inbox]))
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR_MSG))
+      end
+
+      def notify_workers(input)
+        queues = [App.config.SCHEDULED_QUEUE_URL]
+
+        queues.each do |queue_url|
+          Concurrent::Promise.execute do
+            # Messaging::Queue.new(queue_url, App.config).send(inbox_request_json(input))
+            # puts "get_inbox_url = #{input[:inbox][:url]}"
+            Messaging::Queue.new(queue_url, App.config).send({get_inbox_url: input[:inbox][:url]}.to_json)
+          end
+        end
       end
     end
   end
