@@ -54,7 +54,7 @@ module MindMap
         inbox = MindMap::Repository::For.klass(Entity::Inbox).find_or_create(input[:inbox])
 
         # Messaging::Queue
-        # notify_workers(input)
+        notify_workers(input)
 
         Success(Response::ApiResult.new(status: :created, message: inbox))
       rescue StandardError
@@ -73,8 +73,8 @@ module MindMap
         queues.each do |queue_url|
           Concurrent::Promise.execute do
             # Messaging::Queue.new(queue_url, App.config).send(inbox_request_json(input))
-            # puts "url = #{input[:inbox][:url]}"
-            Messaging::Queue.new(queue_url, App.config).send({url: input[:inbox][:url]}.to_json)
+            # puts "add_inbox_url = #{input[:inbox][:url]}"
+            Messaging::Queue.new(queue_url, App.config).send({add_inbox_url: input[:inbox][:url]}.to_json)
           end
         end
       end
