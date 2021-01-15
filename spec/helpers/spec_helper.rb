@@ -32,7 +32,7 @@ SAD_INBOX_URL = 'wonderful-time-alone'
 BAD_INBOX_URL = 'foo123'
 SUGGESTION_NAMES = %w[tensorflow TensorFlow TensorFlow-Examples].freeze
 
-GOOD_KEYWORDS_LIST = %w[Bitcoin Python Crypto].freeze
+GOOD_KEYWORDS_LIST = %w[Bitcoin].freeze
 BAD_KEYWORDS_LIST = %w[Bitcoin Python Crypto Random Random Random].freeze
 
 PROJECT_OWNER = 'derrxb'
